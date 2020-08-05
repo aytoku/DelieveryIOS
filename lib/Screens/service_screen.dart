@@ -65,7 +65,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                             padding: EdgeInsets.only(
                                 top: 17, bottom: 17, right: 10),
                             child: SvgPicture.asset(
-                                'assets/svg_images/arrow_right.svg')
+                                'assets/svg_images/arrow_left.svg')
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
