@@ -1,4 +1,4 @@
-import 'package:flutter_app/models/food.dart';
+import 'food.dart';
 
 class Restaurant {
   final String name;

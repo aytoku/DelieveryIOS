@@ -1,6 +1,6 @@
 import 'dart:ffi';
-import 'package:flutter_app/models/ResponseData.dart';
 
+import 'ResponseData.dart';
 
 class NecessaryAddressData {
   List<DestinationPoints> destinationPoints;

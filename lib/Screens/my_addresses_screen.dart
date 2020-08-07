@@ -72,42 +72,46 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
   _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Stack(
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 7),
-            child: Center(
-              child: Container(
-                width: 67,
-                height: 7,
-                decoration: BoxDecoration(
-                    color: Color(0xFFEBEAEF),
-                    borderRadius: BorderRadius.all(Radius.circular(11))),
-              ),
-            ),
-          ),
-          Padding(
-              padding: EdgeInsets.only(bottom: 0, right: 15),
-              child: Stack(
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(
-                      left: 15,
-                      top: 33,
-                      bottom: 0,
+                    padding: EdgeInsets.only(top: 7),
+                    child: Center(
+                      child: Container(
+                        width: 67,
+                        height: 7,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFEBEAEF),
+                            borderRadius: BorderRadius.all(Radius.circular(11))),
+                      ),
                     ),
-                    child: SvgPicture.asset('assets/svg_images/home.svg'),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      left: 25,
-                      bottom: 22,
-                    ),
-                    child: AutoComplete(
-                        destinationPointsKey, 'Введите адрес дома'),
-                  ),
+                      padding: EdgeInsets.only(bottom: 0, right: 15),
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 15,
+                              top: 33,
+                              bottom: 0,
+                            ),
+                            child: SvgPicture.asset('assets/svg_images/home.svg'),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              left: 25,
+                              bottom: 22,
+                            ),
+                            child: AutoComplete(
+                                destinationPointsKey, 'Введите адрес дома'),
+                          ),
 //              Align(
 //                alignment: Alignment.topRight,
 //                child: Padding(
@@ -126,20 +130,24 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
 //                  child: Text('Карта'),
 //                ),
 //              )
+                        ],
+                      )),
+                  Padding(
+                    padding: EdgeInsets.only(top: 0),
+                    child: Divider(
+                      color: Color(0xFFEDEDED),
+                      height: 1,
+                      thickness: 1,
+                    ),
+                  ),
                 ],
-              )),
-          Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: Divider(
-              color: Color(0xFFEDEDED),
-              height: 1,
-              thickness: 1,
+              ),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: EdgeInsets.only(left: 10, top: 340),
+              padding: EdgeInsets.only(left: 10, bottom: 15),
               child: FlatButton(
                 child: Text(
                   "Далее",
@@ -154,7 +162,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 padding:
-                    EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
+                EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
                 onPressed: () async {
                   if (await Internet.checkConnection()) {
                     Navigator.push(

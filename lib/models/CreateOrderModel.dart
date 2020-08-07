@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:ffi';
-import 'package:flutter_app/Config/config.dart';
-import 'package:flutter_app/PostData/necessary_address_data_pass.dart';
-import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/AuthCode.dart';
-import 'package:flutter_app/models/CartDataModel.dart';
-import 'package:flutter_app/models/NecessaryAddressModel.dart';
-import 'package:flutter_app/models/ResponseData.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import '../Config/config.dart';
+import '../PostData/necessary_address_data_pass.dart';
+import '../data/data.dart';
+import 'AuthCode.dart';
+import 'CartDataModel.dart';
+import 'NecessaryAddressModel.dart';
+import 'ResponseData.dart';
 
 class CreateOrder {
   String address;

@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_app/models/order.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
+
+import 'order.dart';
 
 class CartDataModel {
   List<Order> cart = new List<Order>();

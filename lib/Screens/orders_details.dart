@@ -230,7 +230,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: EdgeInsets.only(left: 170, top: 15),
+                padding: EdgeInsets.only(left: 170, top: 15, right: 10),
                 child: RichText(
                   textAlign: TextAlign.start,
                   maxLines: 2,

@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:ffi';
-import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/AuthCode.dart';
-import 'package:flutter_app/models/CartDataModel.dart';
-import 'package:flutter_app/models/ResponseData.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
+import '../data/data.dart';
+import 'AuthCode.dart';
+import 'CartDataModel.dart';
+import 'ResponseData.dart';
 
 class CreateOrderTakeAway {
   String address;

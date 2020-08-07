@@ -6,6 +6,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/chat.dart';
 import 'package:flutter_app/PostData/orders_story_data.dart';
 import 'package:flutter_app/PostData/restaurant_data_pass.dart';
+import 'package:flutter_app/Screens/orders_details.dart';
 import 'package:flutter_app/Screens/profile_screen.dart';
 import 'package:flutter_app/Screens/restaurant_screen.dart';
 import 'package:flutter_app/Screens/service_screen.dart';
@@ -500,35 +501,35 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         child: ListView(
                           padding: EdgeInsets.zero,
                           children: <Widget>[
-//                            FutureBuilder<List<OrderChecking>>(
-//                              future: OrderChecking.getActiveOrder(),
-//                              builder: (BuildContext context,
-//                                  AsyncSnapshot<List<OrderChecking>> snapshot) {
-//                                if (snapshot.connectionState ==
-//                                        ConnectionState.done &&
-//                                    snapshot.data != null &&
-//                                    snapshot.data.length > 0) {
-//                                  orderList = snapshot.data;
-//                                  return (currentUser.isLoggedIn)
-//                                      ? Container(
-//                                    height: MediaQuery.of(context).size.height * 0.35,
-//                                    child: ListView(
-//                                      children: snapshot.data,
-//                                      scrollDirection: Axis.horizontal,
-//                                    ),
-//                                  ) : Container(
-//                                          height: 0,
-//                                        );
-//                                } else {
-//                                  orderList = null;
-//                                  return Center(
-//                                    child: Container(
-//                                      height: 0,
-//                                    ),
-//                                  );
-//                                }
-//                              },
-//                            ),
+                            FutureBuilder<List<OrderChecking>>(
+                              future: OrderChecking.getActiveOrder(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<OrderChecking>> snapshot) {
+                                if (snapshot.connectionState ==
+                                        ConnectionState.done &&
+                                    snapshot.data != null &&
+                                    snapshot.data.length > 0) {
+                                  orderList = snapshot.data;
+                                  return (currentUser.isLoggedIn)
+                                      ? Container(
+                                    height: MediaQuery.of(context).size.height * 0.35,
+                                    child: ListView(
+                                      children: snapshot.data,
+                                      scrollDirection: Axis.horizontal,
+                                    ),
+                                  ) : Container(
+                                          height: 0,
+                                        );
+                                } else {
+                                  orderList = null;
+                                  return Center(
+                                    child: Container(
+                                      height: 0,
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
                             SizedBox(
                               height: 10,
                             ),
@@ -738,350 +739,350 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
     );
   }
 
-//  @override
-//  Widget build(BuildContext context) {
-//    var processing = ['waiting_for_confirmation'];
-//    var cooking_state = [
-//      'cooking',
-//      'offer_offered',
-//      'smart_distribution',
-//      'finding_driver',
-//      'offer_rejected',
-//      'order_start',
-//      'on_place'
-//    ];
-//    var in_the_way = ['on_the_way'];
-//    var take = ['order_payment'];
-//    //return Text('Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),);
-//    if (!OrderChecking.state_array.contains(ordersStoryModelItem.state)) {
-//      return Container();
-//    }
-//    return Container(
-//        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-//        decoration: BoxDecoration(
-//            boxShadow: [
-//              BoxShadow(
-//                color: Colors.black12,
-//                blurRadius: 8.0, // soften the shadow
-//                spreadRadius: 3.0, //extend the shadow
-//              )
-//            ],
-//            color: Colors.white,
-//            borderRadius: BorderRadius.circular(17.0),
-//            border: Border.all(width: 1.0, color: Colors.grey[200])),
-//        child: Column(
-//          children: <Widget>[
-//            Expanded(
-//              child: Row(
-//                children: <Widget>[
-//                  Align(
-//                    alignment: Alignment.centerLeft,
-//                    child: Padding(
-//                      padding: EdgeInsets.only(left: 10),
-//                      child: Align(
-//                        child: Text(
-//                          'Ваш заказ из ' +
-//                              (ordersStoryModelItem.store != null
-//                                  ? ordersStoryModelItem.store.name
-//                                  : 'Пусто'),
-//                          style: TextStyle(
-//                              fontSize: 16.0, fontWeight: FontWeight.bold),
-//                          textAlign: TextAlign.start,
-//                          overflow: TextOverflow.ellipsis,
-//                        ),
-//                      ),
-//                    ),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.centerRight,
-//                    child: Padding(
-//                      padding: EdgeInsets.only(right: 10, left: 20, top: 0),
-//                      child: InkWell(
-//                        child: Container(
-//                          height: 30,
-//                          decoration: BoxDecoration(
-//                              borderRadius:
-//                                  BorderRadius.all(Radius.circular(44)),
-//                              color: Color(0xF6F6F6F6)),
-//                          child: Padding(
-//                              padding: EdgeInsets.only(
-//                                  left: 10, right: 10, top: 7, bottom: 0),
-//                              child: Text(
-//                                'Заказ',
-//                                style: TextStyle(
-//                                    color: Colors.black, fontSize: 13),
-//                              )),
-//                        ),
-//                        onTap: () {
-//                          Navigator.push(
-//                            context,
-//                            MaterialPageRoute(builder: (_) {
-//                              return OrdersDetailsScreen(
-//                                  ordersStoryModelItem: ordersStoryModelItem);
-//                            }),
-//                          );
-//                        },
-//                      ),
-//                    ),
-//                  )
-//                ],
-//              ),
-//            ),
-//            Align(
-//              alignment: Alignment.centerLeft,
-//              child: (in_the_way
-//                  .contains(ordersStoryModelItem.state)) ? Padding(
-//                padding: EdgeInsets.only(right: 170, bottom: 10),
-//                child: Text(ordersStoryModelItem.driver.color + ' ' + ordersStoryModelItem.driver.car + ' ' + ordersStoryModelItem.driver.reg_number,
-//                  style: TextStyle(color: Color(0xFF000000), fontSize: 16),),
-//              ) : Container(height: 0),
-//            ),
-//            Expanded(
-//              child: Padding(
-//                padding: EdgeInsets.only(left: 5, right: 10, bottom: 10),
-//                child: Row(
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.only(right: 5),
-//                      child: Container(
-//                        height: 70,
-//                        width: 70,
-//                        decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.circular(60)),
-//                            color: (processing
-//                                    .contains(ordersStoryModelItem.state))
-//                                ? Color(0xFF4DC3E9)
-//                                : Color(0xF6F6F6F6)),
-//                        child: Column(
-//                          children: <Widget>[
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 10),
-//                              child: (processing
-//                                      .contains(ordersStoryModelItem.state))
-//                                  ? SvgPicture.asset(
-//                                      'assets/svg_images/white_clock.svg')
-//                                  : SvgPicture.asset(
-//                                      'assets/svg_images/clock.svg'),
-//                            ),
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 5),
-//                              child: Text('Обработка',
-//                                  style: (processing
-//                                          .contains(ordersStoryModelItem.state))
-//                                      ? TextStyle(
-//                                          color: Colors.white, fontSize: 10)
-//                                      : TextStyle(
-//                                          color: Color(0x42424242),
-//                                          fontSize: 10)),
-//                            )
-//                          ],
-//                        ),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: EdgeInsets.only(right: 5),
-//                      child: Container(
-//                        height: 70,
-//                        width: 70,
-//                        decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.circular(60)),
-//                            color: (cooking_state
-//                                    .contains(ordersStoryModelItem.state))
-//                                ? Color(0xFF51ca64)
-//                                : Color(0xF6F6F6F6)),
-//                        child: Column(
-//                          children: <Widget>[
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 10),
-//                              child: (cooking_state
-//                                      .contains(ordersStoryModelItem.state))
-//                                  ? SvgPicture.asset(
-//                                      'assets/svg_images/white_bell.svg')
-//                                  : SvgPicture.asset(
-//                                      'assets/svg_images/bell.svg'),
-//                            ),
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 5),
-//                              child: Text('Готовится',
-//                                  style: (cooking_state
-//                                          .contains(ordersStoryModelItem.state))
-//                                      ? TextStyle(
-//                                          color: Colors.white, fontSize: 10)
-//                                      : TextStyle(
-//                                          color: Color(0x42424242),
-//                                          fontSize: 10)),
-//                            )
-//                          ],
-//                        ),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: EdgeInsets.only(right: 5),
-//                      child: Container(
-//                        height: 70,
-//                        width: 70,
-//                        decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.circular(60)),
-//                            color: Color(0xF6F6F6F6)),
-//                        child: Column(
-//                          children: <Widget>[
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 15),
-//                              child: (in_the_way
-//                                      .contains(ordersStoryModelItem.state))
-//                                  ? SvgPicture.asset(
-//                                      'assets/svg_images/light_car.svg')
-//                                  : SvgPicture.asset(
-//                                      'assets/svg_images/car.svg'),
-//                            ),
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 5),
-//                              child: Text('В пути',
-//                                  style: (in_the_way
-//                                          .contains(ordersStoryModelItem.state))
-//                                      ? TextStyle(
-//                                          color: Colors.black, fontSize: 10)
-//                                      : TextStyle(
-//                                          color: Color(0x42424242),
-//                                          fontSize: 10)),
-//                            ),
-//                          ],
-//                        ),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: EdgeInsets.only(right: 5),
-//                      child: Container(
-//                        height: 70,
-//                        width: 70,
-//                        decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.circular(60)),
-//                            color: (take.contains(ordersStoryModelItem.state))
-//                                ? Color(0xFFFE534F)
-//                                : Color(0xF6F6F6F6)),
-//                        child: Column(
-//                          children: <Widget>[
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 10),
-//                              child: (take.contains(ordersStoryModelItem.state))
-//                                  ? SvgPicture.asset(
-//                                      'assets/svg_images/white_ready.svg')
-//                                  : SvgPicture.asset(
-//                                      'assets/svg_images/ready.svg'),
-//                            ),
-//                            Padding(
-//                              padding: EdgeInsets.only(top: 5),
-//                              child: Text('Заберите',
-//                                  style: (take
-//                                          .contains(ordersStoryModelItem.state))
-//                                      ? TextStyle(
-//                                          color: Colors.white, fontSize: 10)
-//                                      : TextStyle(
-//                                          color: Color(0x42424242),
-//                                          fontSize: 10)),
-//                            )
-//                          ],
-//                        ),
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              ),
-//            ),
-//            Row(
-//              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//              children: <Widget>[
-//                Align(
-//                    alignment: Alignment.centerLeft,
-//                    child: GestureDetector(
-//                      child: Padding(
-//                        padding: EdgeInsets.only(
-//                            top: 10, bottom: 10, right: 30, left: 10),
-//                        child: (in_the_way.contains(ordersStoryModelItem.state))
-//                            ? Container(
-//                          decoration: BoxDecoration(
-//                              borderRadius:
-//                              BorderRadius.all(Radius.circular(11)),
-//                              border: Border.all(color: Colors.green),
-//                              color: Colors.white),
-//                          child: Padding(
-//                            padding: EdgeInsets.only(
-//                                top: 5, right: 10, bottom: 5, left: 10),
-//                            child: Row(
-//                              mainAxisAlignment:
-//                              MainAxisAlignment.spaceBetween,
-//                              children: <Widget>[
-//                                SvgPicture.asset(
-//                                    'assets/svg_images/phone.svg'),
-//                                Padding(
-//                                  padding: EdgeInsets.only(left: 10),
-//                                  child: Text(
-//                                    'Позвонить',
-//                                    style: TextStyle(
-//                                        fontWeight: FontWeight.bold,
-//                                        fontSize: 14),
-//                                  ),
-//                                )
-//                              ],
-//                            ),
-//                          ),
-//                        )
-//                            : Container(),
-//                      ),
-//                      onTap: () {
-//                        showAlertDialog(context);
-//                      },
-//                    )),
-//              Align(
-//                  alignment: Alignment.centerRight,
-//                  child: GestureDetector(
-//                    child: Padding(
-//                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
-//                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
-//                        width: 130,
-//                        decoration: BoxDecoration(
-//                            borderRadius: BorderRadius.all(Radius.circular(11)),
-//                            color: Colors.green),
-//                        child: Padding(
-//                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-//                          child: Row(
-//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                            children: <Widget>[
-//                              Padding(
-//                                padding: EdgeInsets.only(left: 25),
-//                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
-//                              ),
-//                              Padding(
-//                                padding: EdgeInsets.only(right: 25),
-//                                child: Text(
-//                                  'Чат',
-//                                  style: TextStyle(
-//                                      fontWeight: FontWeight.bold,
-//                                      fontSize: 14,
-//                                      color: Colors.white
-//                                  ),
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                        ),
-//                      ) : Container(),
-//                    ),
-//                    onTap: (){
-//                      Navigator.pushReplacement(
-//                        context,
-//                        new MaterialPageRoute(
-//                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
-//                        ),
-//                      );
-//                    },
-//                  )
-//              ),
-//              ],
-//            )
-//          ],
-//        ));
-//  }
+  @override
+  Widget build(BuildContext context) {
+    var processing = ['waiting_for_confirmation'];
+    var cooking_state = [
+      'cooking',
+      'offer_offered',
+      'smart_distribution',
+      'finding_driver',
+      'offer_rejected',
+      'order_start',
+      'on_place'
+    ];
+    var in_the_way = ['on_the_way'];
+    var take = ['order_payment'];
+    //return Text('Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),);
+    if (!OrderChecking.state_array.contains(ordersStoryModelItem.state)) {
+      return Container();
+    }
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 8.0, // soften the shadow
+                spreadRadius: 3.0, //extend the shadow
+              )
+            ],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(17.0),
+            border: Border.all(width: 1.0, color: Colors.grey[200])),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Align(
+                        child: Text(
+                          'Ваш заказ из ' +
+                              (ordersStoryModelItem.store != null
+                                  ? ordersStoryModelItem.store.name
+                                  : 'Пусто'),
+                          style: TextStyle(
+                              fontSize: 16.0, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 10, left: 20, top: 0),
+                      child: InkWell(
+                        child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(44)),
+                              color: Color(0xF6F6F6F6)),
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: 10, right: 10, top: 7, bottom: 0),
+                              child: Text(
+                                'Заказ',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 13),
+                              )),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) {
+                              return OrdersDetailsScreen(
+                                  ordersStoryModelItem: ordersStoryModelItem);
+                            }),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: (in_the_way
+                  .contains(ordersStoryModelItem.state)) ? Padding(
+                padding: EdgeInsets.only(right: 170, bottom: 10),
+                child: Text(ordersStoryModelItem.driver.color + ' ' + ordersStoryModelItem.driver.car + ' ' + ordersStoryModelItem.driver.reg_number,
+                  style: TextStyle(color: Color(0xFF000000), fontSize: 16),),
+              ) : Container(height: 0),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 5, right: 10, bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(60)),
+                            color: (processing
+                                    .contains(ordersStoryModelItem.state))
+                                ? Color(0xFF4DC3E9)
+                                : Color(0xF6F6F6F6)),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: (processing
+                                      .contains(ordersStoryModelItem.state))
+                                  ? SvgPicture.asset(
+                                      'assets/svg_images/white_clock.svg')
+                                  : SvgPicture.asset(
+                                      'assets/svg_images/clock.svg'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text('Обработка',
+                                  style: (processing
+                                          .contains(ordersStoryModelItem.state))
+                                      ? TextStyle(
+                                          color: Colors.white, fontSize: 10)
+                                      : TextStyle(
+                                          color: Color(0x42424242),
+                                          fontSize: 10)),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(60)),
+                            color: (cooking_state
+                                    .contains(ordersStoryModelItem.state))
+                                ? Color(0xFF51ca64)
+                                : Color(0xF6F6F6F6)),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: (cooking_state
+                                      .contains(ordersStoryModelItem.state))
+                                  ? SvgPicture.asset(
+                                      'assets/svg_images/white_bell.svg')
+                                  : SvgPicture.asset(
+                                      'assets/svg_images/bell.svg'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text('Готовится',
+                                  style: (cooking_state
+                                          .contains(ordersStoryModelItem.state))
+                                      ? TextStyle(
+                                          color: Colors.white, fontSize: 10)
+                                      : TextStyle(
+                                          color: Color(0x42424242),
+                                          fontSize: 10)),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(60)),
+                            color: Color(0xF6F6F6F6)),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 15),
+                              child: (in_the_way
+                                      .contains(ordersStoryModelItem.state))
+                                  ? SvgPicture.asset(
+                                      'assets/svg_images/light_car.svg')
+                                  : SvgPicture.asset(
+                                      'assets/svg_images/car.svg'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text('В пути',
+                                  style: (in_the_way
+                                          .contains(ordersStoryModelItem.state))
+                                      ? TextStyle(
+                                          color: Colors.black, fontSize: 10)
+                                      : TextStyle(
+                                          color: Color(0x42424242),
+                                          fontSize: 10)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(60)),
+                            color: (take.contains(ordersStoryModelItem.state))
+                                ? Color(0xFFFE534F)
+                                : Color(0xF6F6F6F6)),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(top: 10),
+                              child: (take.contains(ordersStoryModelItem.state))
+                                  ? SvgPicture.asset(
+                                      'assets/svg_images/white_ready.svg')
+                                  : SvgPicture.asset(
+                                      'assets/svg_images/ready.svg'),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 5),
+                              child: Text('Заберите',
+                                  style: (take
+                                          .contains(ordersStoryModelItem.state))
+                                      ? TextStyle(
+                                          color: Colors.white, fontSize: 10)
+                                      : TextStyle(
+                                          color: Color(0x42424242),
+                                          fontSize: 10)),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 10, right: 30, left: 10),
+                        child: (in_the_way.contains(ordersStoryModelItem.state))
+                            ? Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(11)),
+                              border: Border.all(color: Colors.green),
+                              color: Colors.white),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 5, right: 10, bottom: 5, left: 10),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                    'assets/svg_images/phone.svg'),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Позвонить',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                            : Container(),
+                      ),
+                      onTap: () {
+                        showAlertDialog(context);
+                      },
+                    )),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
+                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
+                        width: 130,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(11)),
+                            color: Colors.green),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(left: 25),
+                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 25),
+                                child: Text(
+                                  'Чат',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: Colors.white
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ) : Container(),
+                    ),
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
+                        ),
+                      );
+                    },
+                  )
+              ),
+              ],
+            )
+          ],
+        ));
+  }
 }
 
 class RestaurantsCategory extends StatefulWidget {
@@ -1149,422 +1150,422 @@ class RestaurantsCategoryState extends State<RestaurantsCategory> {
 }
 
 // ignore: must_be_immutable
-//class ChatScreen extends StatefulWidget {
-//  String order_uuid;
-//
-//  ChatScreen({Key key, this.order_uuid}) : super(key: key);
-//
-//  @override
-//  ChatScreenState createState() {
-//    return new ChatScreenState(order_uuid);
-//  }
-//}
-//
-//class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
-//  List<ChatMessageScreen> chatMessageList;
-//  String order_uuid;
-//
-//  ChatScreenState(this.order_uuid);
-//
-//  TextEditingController messageField = new TextEditingController();
-//  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    WidgetsBinding.instance.addObserver(this);
-//  }
-//
-//  @override
-//  void dispose() {
-//    WidgetsBinding.instance.removeObserver(this);
-//    super.dispose();
-//  }
-//
-//  @override
-//  void didChangeAppLifecycleState(AppLifecycleState state) {
-//    if(state == AppLifecycleState.resumed){
-//      setState(() {
-//
-//      });
-//    }
-//  }
-//
-//  noConnection(BuildContext context) {
-//    showDialog(
-//      context: context,
-//      builder: (BuildContext context) {
-//        Future.delayed(Duration(seconds: 1), () {
-//          Navigator.of(context).pop(true);
-//        });
-//        return Center(
-//          child: Dialog(
-//            shape: RoundedRectangleBorder(
-//                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-//            child: Container(
-//              height: 50,
-//              width: 100,
-//              child: Center(
-//                child: Text("Нет подключения к интернету"),
-//              ),
-//            ),
-//          ),
-//        );
-//      },
-//    );
-//  }
-//
-//  buildChat() {
-//    List<String> messagedUuid = new List<String>();
-//    chatMessageList.forEach((element) {
-//      if (element.chatMessage.to == 'client' &&
-//          element.chatMessage.ack == false) {
-//        element.chatMessage.ack = false;
-//        messagedUuid.add(element.chatMessage.uuid);
-//      }
-//    });
-//    if (messagedUuid.length > 0) {
-//      Chat.readMessage(messagedUuid);
-//    }
-//    return Scaffold(
-//        key: _scaffoldKey,
-//        resizeToAvoidBottomPadding: false,
-//        body: Column(
-//          children: <Widget>[
-//            Align(
-//              alignment: Alignment.topCenter,
-//              child: Stack(children: <Widget>[
-//                InkWell(
-//                  child: Align(
-//                      alignment: Alignment.topLeft,
-//                      child: Padding(
-//                          padding: EdgeInsets.only(left: 0, top: 30),
-//                          child: Container(
-//                              height: 40,
-//                              width: 60,
-//                              child: Padding(
-//                                padding: EdgeInsets.only(
-//                                    top: 12, bottom: 12, right: 10),
-//                                child: Image(image: AssetImage('assets/images/arrow_left.png'),),
-//                              )))),
-//                  onTap: () {
-//                    Navigator.pushReplacement(
-//                      context,
-//                      new MaterialPageRoute(
-//                        builder: (context) => new HomeScreen(),
-//                      ),
-//                    );
-//                  },
-//                ),
-//                Padding(
-//                    padding: EdgeInsets.only(top: 40, left: 0),
-//                    child: Align(
-//                      alignment: Alignment.topCenter,
-//                      child: Text(
-//                        'Чат с водителем',
-//                        style: TextStyle(
-//                            fontSize: 17, fontWeight: FontWeight.bold),
-//                      ),
-//                    ))
-//              ]),
-//            ),
-//            Align(
-//                alignment: Alignment.center,
-//                child: Container(
-//                  height: 450,
-//                  child: Padding(
-//                    padding: EdgeInsets.only(top: 20),
-//                    child: ListView.builder(
-//                      padding: EdgeInsets.zero,
-//                      scrollDirection: Axis.vertical,
-//                      itemCount: chatMessageList.length,
-//                      itemBuilder: (BuildContext context, int index) {
-//                        return chatMessageList[chatMessageList.length-1-index];
-//                      },
-//                      //chatMessageList
-//                    ),
-//                  ),
-//                )
-//            ),
-//            Align(
-//              alignment: Alignment.bottomCenter,
-//              child: Stack(
-//                children: <Widget>[
-//                  Container(
-//                    height: 60,
-//                    child: QuickMessageScreen(
-//                      messageField: messageField,
-//                    ),
-//                  ),
-//                  Padding(
-//                    padding: EdgeInsets.only(top: 60, bottom: 20, right: 15, left: 15),
-//                    child: Container(
-//                      height: 40,
-//                      child: TextField(
-//                        controller: messageField,
-//                        decoration: InputDecoration(
-//                          suffix: GestureDetector(
-////                            child: SvgPicture.asset(
-////                                'assets/svg_images/send_message.svg'),
-//                            onTap: () async {
-//                              if (await Internet.checkConnection()) {
-//                                var message = await Chat.sendMessage(
-//                                    order_uuid, messageField.text, 'driver');
-//                                chatMessagesStates.forEach((key, value) {
-//                                  print(
-//                                      key + ' ' + value.currentState.toString());
-//                                });
-//                                setState(() {
-//                                  GlobalKey<ChatMessageScreenState>
-//                                  chatMessageScreenStateKey =
-//                                  new GlobalKey<ChatMessageScreenState>();
-//                                  chatMessagesStates[message.uuid] =
-//                                      chatMessageScreenStateKey;
-//                                  chatMessageList.insert(
-//                                      0,
-//                                      new ChatMessageScreen(
-//                                          key: chatMessageScreenStateKey,
-//                                          chatMessage: message));
-//                                });
-//                              } else {
-//                                noConnection(context);
-//                              }
-//                            },
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  )
-//                ],
-//              ),
-//            ),
-//          ],
-//        ));
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    if (chatMessageList != null) {
-//      print(chatMessageList.length);
-//      return buildChat();
-//    }
-//    return FutureBuilder<ChatHistoryModel>(
-//      future: Chat.loadChatHistory(order_uuid, 'driver'),
-//      builder:
-//          (BuildContext context, AsyncSnapshot<ChatHistoryModel> snapshot) {
-//        print('tututuwapatututuwapa ' + order_uuid);
-//        if (snapshot.connectionState == ConnectionState.done &&
-//            snapshot.data != null) {
-//          chatMessagesStates.clear();
-//          chatMessageList = new List<ChatMessageScreen>();
-//          snapshot.data.chatMessageList.forEach((element) {
-//            GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
-//            new GlobalKey<ChatMessageScreenState>();
-//            chatMessagesStates[element.uuid] = chatMessageScreenStateKey;
-//            chatMessageList.add(new ChatMessageScreen(
-//                chatMessage: element, key: chatMessageScreenStateKey));
-//          });
-////          GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
-////              new GlobalKey<ChatMessageScreenState>();
-//          //chatMessagesStates['123'] = chatMessageScreenStateKey;
-////          chatMessageList.add(new ChatMessageScreen(
-////              key: chatMessageScreenStateKey,
-////              chatMessage: new ChatMessage(
-////                  message: 'halo',
-////                  ack: false,
-////                  uuid: '123',
-////                  from: 'driver',
-////                  to: 'client')
-////          ));
-//          return buildChat();
-//        } else {
-//          return Center(
-//            child: CircularProgressIndicator(),
-//          );
-//        }
-//      },
-//    );
-//  }
-//}
-//
-//// ignore: must_be_immutable
-//class ChatMessageScreen extends StatefulWidget {
-//  ChatMessage chatMessage;
-//
-//  ChatMessageScreen({Key key, this.chatMessage}) : super(key: key);
-//
-//  @override
-//  ChatMessageScreenState createState() {
-//    return new ChatMessageScreenState(chatMessage);
-//  }
-//}
-//
-//class ChatMessageScreenState extends State<ChatMessageScreen> {
-//  ChatMessage chatMessage;
-//
-//  ChatMessageScreenState(this.chatMessage);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Padding(
-//      padding: EdgeInsets.only(left: 15, right: 15),
-//      child: Column(
-//        children: <Widget>[
-//          (chatMessage.to == 'client')
-//              ? Padding(
-//            padding: EdgeInsets.only(right: 15),
-//            child: Align(
-//              alignment: Alignment.topLeft,
-//              child: Padding(
-//                padding: EdgeInsets.only(top: 10, bottom: 10),
-//                child: Container(
-//                    decoration: BoxDecoration(
-//                        color: Color(0xFFE5E6EA),
-//                        borderRadius: BorderRadius.circular(17.0),
-//                        border:
-//                        Border.all(width: 1.0, color: Color(0xFFE5E6EA))),
-//                    child: Padding(
-//                      padding: EdgeInsets.all(10),
-//                      child: Text(
-//                        chatMessage.message,
-//                        textAlign: TextAlign.left,
-//                        style: TextStyle(
-//                            color: Colors.black,
-//                            fontSize: 15,
-//                            decoration: TextDecoration.none),
-//                      ),
-//                    )),
-//              ),
-//            ),
-//          )
-//              : Padding(
-//            padding: EdgeInsets.only(left: 15),
-//            child: Align(
-//                alignment: Alignment.topRight,
-//                child: Padding(
-//                  padding: EdgeInsets.only(top: 10, bottom: 10),
-//                  child: Container(
-//                      decoration: BoxDecoration(
-//                          color: Color(0xFFFC5B58),
-//                          borderRadius: BorderRadius.circular(17.0),
-//                          border: Border.all(
-//                              width: 1.0, color: Color(0xFFFC5B58))),
-//                      child: Padding(
-//                        padding: EdgeInsets.all(10),
-//                        child: Text(
-//                          chatMessage.message,
-//                          textAlign: TextAlign.right,
-//                          style: TextStyle(
-//                              color: Colors.white,
-//                              fontSize: 13,
-//                              decoration: TextDecoration.none),
-//                        ),
-//                      )),
-//                )),
-//          ),
-//          (chatMessage.to != 'client') ?
-//          Padding(
-//            padding: EdgeInsets.only(left: 10),
-//            child: (chatMessage.ack ) ? Align(
-//              alignment: Alignment.centerRight,
-//              child: Text('Прочитано',
-//                style: TextStyle(fontSize: 11, color: Colors.grey),
-//              ),
-//            ): Align(
-//              alignment: Alignment.centerRight,
-//              child: Text('Доставлено',
-//                style: TextStyle(fontSize: 11, color: Colors.grey),
-//              ),
-//            ),
-//          ) :
-//          Container(height: 0,)
-//        ],
-//      ),
-//    );
-//  }
-//}
-//
-//class QuickMessageScreen extends StatefulWidget {
-//  TextEditingController messageField;
-//
-//  QuickMessageScreen({Key key, this.messageField}) : super(key: key);
-//
-//  @override
-//  QuickMessageScreenState createState() {
-//    return new QuickMessageScreenState(messageField: messageField);
-//  }
-//}
-//
-//class QuickMessageScreenState extends State<QuickMessageScreen> {
-//  TextEditingController messageField;
-//
-//  QuickMessageScreenState({this.messageField});
-//
-//  QuickMessageItem quickMessage;
-//  String quickTextMessage;
-//
-//  buildQuickMessages() {
-//    return ListView(
-//      scrollDirection: Axis.horizontal,
-//      children: List.generate(quickMessage.messages.length, (index) {
-//        return GestureDetector(
-//          child: Padding(
-//              padding: EdgeInsets.only(left: 15, right: 5, top: 10, bottom: 10),
-//              child: Container(
-//                decoration: BoxDecoration(
-//                    borderRadius: BorderRadius.all(Radius.circular(40)),
-//                    boxShadow: [
-//                      BoxShadow(
-//                        color: Colors.black12,
-//                        blurRadius: 5.0, // soften the shadow
-//                        spreadRadius: 2.0, //extend the shadow
-//                      )
-//                    ],
-//                    color: (quickMessage.messages[index] != quickTextMessage)
-//                        ? Colors.white
-//                        : Colors.redAccent),
-//                child: Padding(
-//                    padding: EdgeInsets.only(
-//                      left: 15,
-//                      right: 15,
-//                      top: 10,
-//                    ),
-//                    child: Text(
-//                      quickMessage.messages[index],
-//                      style: TextStyle(
-//                          color:
-//                          (quickMessage.messages[index] != quickTextMessage)
-//                              ? Color(0x99999999)
-//                              : Colors.white,
-//                          fontSize: 15),
-//                    )),
-//              )),
-//          onTap: () {
-//            setState(() {
-//              quickTextMessage = quickMessage.messages[index];
-//              messageField.text = quickTextMessage;
-//            });
-//          },
-//        );
-//      }),
-//    );
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    if (quickMessage != null) {
-//      return buildQuickMessages();
-//    }
-//    return FutureBuilder<QuickMessages>(
-//      future: Chat.getMessages(),
-//      builder: (BuildContext context, AsyncSnapshot<QuickMessages> snapshot) {
-//        if (snapshot.connectionState == ConnectionState.done) {
-//          quickMessage = snapshot.data.chatMessageList[0];
-//          return buildQuickMessages();
-//        } else {
-//          return Container();
-//        }
-//      },
-//    );
-//  }
-//}
+class ChatScreen extends StatefulWidget {
+  String order_uuid;
+
+  ChatScreen({Key key, this.order_uuid}) : super(key: key);
+
+  @override
+  ChatScreenState createState() {
+    return new ChatScreenState(order_uuid);
+  }
+}
+
+class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
+  List<ChatMessageScreen> chatMessageList;
+  String order_uuid;
+
+  ChatScreenState(this.order_uuid);
+
+  TextEditingController messageField = new TextEditingController();
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
+    }
+  }
+
+  noConnection(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Нет подключения к интернету"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  buildChat() {
+    List<String> messagedUuid = new List<String>();
+    chatMessageList.forEach((element) {
+      if (element.chatMessage.to == 'client' &&
+          element.chatMessage.ack == false) {
+        element.chatMessage.ack = false;
+        messagedUuid.add(element.chatMessage.uuid);
+      }
+    });
+    if (messagedUuid.length > 0) {
+      Chat.readMessage(messagedUuid);
+    }
+    return Scaffold(
+        key: _scaffoldKey,
+        resizeToAvoidBottomPadding: false,
+        body: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topCenter,
+              child: Stack(children: <Widget>[
+                InkWell(
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                          padding: EdgeInsets.only(left: 0, top: 30),
+                          child: Container(
+                              height: 40,
+                              width: 60,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 12, bottom: 12, right: 10),
+                                child: Image(image: AssetImage('assets/images/arrow_left.png'),),
+                              )))),
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new HomeScreen(),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                    padding: EdgeInsets.only(top: 40, left: 0),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        'Чат с водителем',
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                      ),
+                    ))
+              ]),
+            ),
+            Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 450,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      scrollDirection: Axis.vertical,
+                      itemCount: chatMessageList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return chatMessageList[chatMessageList.length-1-index];
+                      },
+                      //chatMessageList
+                    ),
+                  ),
+                )
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    height: 60,
+                    child: QuickMessageScreen(
+                      messageField: messageField,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 60, bottom: 20, right: 15, left: 15),
+                    child: Container(
+                      height: 40,
+                      child: TextField(
+                        controller: messageField,
+                        decoration: InputDecoration(
+                          suffix: GestureDetector(
+//                            child: SvgPicture.asset(
+//                                'assets/svg_images/send_message.svg'),
+                            onTap: () async {
+                              if (await Internet.checkConnection()) {
+                                var message = await Chat.sendMessage(
+                                    order_uuid, messageField.text, 'driver');
+                                chatMessagesStates.forEach((key, value) {
+                                  print(
+                                      key + ' ' + value.currentState.toString());
+                                });
+                                setState(() {
+                                  GlobalKey<ChatMessageScreenState>
+                                  chatMessageScreenStateKey =
+                                  new GlobalKey<ChatMessageScreenState>();
+                                  chatMessagesStates[message.uuid] =
+                                      chatMessageScreenStateKey;
+                                  chatMessageList.insert(
+                                      0,
+                                      new ChatMessageScreen(
+                                          key: chatMessageScreenStateKey,
+                                          chatMessage: message));
+                                });
+                              } else {
+                                noConnection(context);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (chatMessageList != null) {
+      print(chatMessageList.length);
+      return buildChat();
+    }
+    return FutureBuilder<ChatHistoryModel>(
+      future: Chat.loadChatHistory(order_uuid, 'driver'),
+      builder:
+          (BuildContext context, AsyncSnapshot<ChatHistoryModel> snapshot) {
+        print('tututuwapatututuwapa ' + order_uuid);
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.data != null) {
+          chatMessagesStates.clear();
+          chatMessageList = new List<ChatMessageScreen>();
+          snapshot.data.chatMessageList.forEach((element) {
+            GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
+            new GlobalKey<ChatMessageScreenState>();
+            chatMessagesStates[element.uuid] = chatMessageScreenStateKey;
+            chatMessageList.add(new ChatMessageScreen(
+                chatMessage: element, key: chatMessageScreenStateKey));
+          });
+//          GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
+//              new GlobalKey<ChatMessageScreenState>();
+          //chatMessagesStates['123'] = chatMessageScreenStateKey;
+//          chatMessageList.add(new ChatMessageScreen(
+//              key: chatMessageScreenStateKey,
+//              chatMessage: new ChatMessage(
+//                  message: 'halo',
+//                  ack: false,
+//                  uuid: '123',
+//                  from: 'driver',
+//                  to: 'client')
+//          ));
+          return buildChat();
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class ChatMessageScreen extends StatefulWidget {
+  ChatMessage chatMessage;
+
+  ChatMessageScreen({Key key, this.chatMessage}) : super(key: key);
+
+  @override
+  ChatMessageScreenState createState() {
+    return new ChatMessageScreenState(chatMessage);
+  }
+}
+
+class ChatMessageScreenState extends State<ChatMessageScreen> {
+  ChatMessage chatMessage;
+
+  ChatMessageScreenState(this.chatMessage);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        children: <Widget>[
+          (chatMessage.to == 'client')
+              ? Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Color(0xFFE5E6EA),
+                        borderRadius: BorderRadius.circular(17.0),
+                        border:
+                        Border.all(width: 1.0, color: Color(0xFFE5E6EA))),
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        chatMessage.message,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            decoration: TextDecoration.none),
+                      ),
+                    )),
+              ),
+            ),
+          )
+              : Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFFFC5B58),
+                          borderRadius: BorderRadius.circular(17.0),
+                          border: Border.all(
+                              width: 1.0, color: Color(0xFFFC5B58))),
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          chatMessage.message,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                              decoration: TextDecoration.none),
+                        ),
+                      )),
+                )),
+          ),
+          (chatMessage.to != 'client') ?
+          Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: (chatMessage.ack ) ? Align(
+              alignment: Alignment.centerRight,
+              child: Text('Прочитано',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ): Align(
+              alignment: Alignment.centerRight,
+              child: Text('Доставлено',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ),
+          ) :
+          Container(height: 0,)
+        ],
+      ),
+    );
+  }
+}
+
+class QuickMessageScreen extends StatefulWidget {
+  TextEditingController messageField;
+
+  QuickMessageScreen({Key key, this.messageField}) : super(key: key);
+
+  @override
+  QuickMessageScreenState createState() {
+    return new QuickMessageScreenState(messageField: messageField);
+  }
+}
+
+class QuickMessageScreenState extends State<QuickMessageScreen> {
+  TextEditingController messageField;
+
+  QuickMessageScreenState({this.messageField});
+
+  QuickMessageItem quickMessage;
+  String quickTextMessage;
+
+  buildQuickMessages() {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: List.generate(quickMessage.messages.length, (index) {
+        return GestureDetector(
+          child: Padding(
+              padding: EdgeInsets.only(left: 15, right: 5, top: 10, bottom: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 5.0, // soften the shadow
+                        spreadRadius: 2.0, //extend the shadow
+                      )
+                    ],
+                    color: (quickMessage.messages[index] != quickTextMessage)
+                        ? Colors.white
+                        : Colors.redAccent),
+                child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 15,
+                      right: 15,
+                      top: 10,
+                    ),
+                    child: Text(
+                      quickMessage.messages[index],
+                      style: TextStyle(
+                          color:
+                          (quickMessage.messages[index] != quickTextMessage)
+                              ? Color(0x99999999)
+                              : Colors.white,
+                          fontSize: 15),
+                    )),
+              )),
+          onTap: () {
+            setState(() {
+              quickTextMessage = quickMessage.messages[index];
+              messageField.text = quickTextMessage;
+            });
+          },
+        );
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (quickMessage != null) {
+      return buildQuickMessages();
+    }
+    return FutureBuilder<QuickMessages>(
+      future: Chat.getMessages(),
+      builder: (BuildContext context, AsyncSnapshot<QuickMessages> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          quickMessage = snapshot.data.chatMessageList[0];
+          return buildQuickMessages();
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+}

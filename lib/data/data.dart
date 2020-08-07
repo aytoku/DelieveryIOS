@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Screens/home_screen.dart';
+import 'package:flutter_app/Screens/tickets_chat_screen.dart';
 import 'package:flutter_app/models/Auth.dart';
 import 'package:flutter_app/models/AuthCode.dart';
 import 'package:flutter_app/models/RestaurantDataItems.dart';
@@ -9,13 +10,14 @@ import 'package:flutter_app/models/addCardScreen.dart';
 import 'package:flutter_app/models/user.dart';
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
-//Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
+Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();
+Map<String,GlobalKey<TicketsChatMessageScreenState>> ticketsChatMessagesStates = new Map<String,GlobalKey<TicketsChatMessageScreenState>>();
 GlobalKey<HomeScreenState>homeScreenKey = new GlobalKey<HomeScreenState>(debugLabel: 'homeScreenKey');
 var home  = new MaterialPageRoute(
   builder: (context) => new HomeScreen(),
 );
 RestaurantDataItems restaurantDataItems = null;
-//GlobalKey<ChatScreenState>chatKey = new GlobalKey<ChatScreenState>();
+GlobalKey<ChatScreenState>chatKey = new GlobalKey<ChatScreenState>();
 AuthCodeData authCodeData = null;
 AuthData authData = null;
 String FCMToken = '';

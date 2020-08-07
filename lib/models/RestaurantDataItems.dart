@@ -1,4 +1,4 @@
-import 'package:flutter_app/models/OrderStoryModel.dart';
+import 'OrderStoryModel.dart';
 
 class RestaurantDataItems{
   List<FoodRecords> records;

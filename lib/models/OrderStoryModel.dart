@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-import 'package:flutter_app/models/ResponseData.dart';
-import 'package:flutter_app/models/RestaurantDataItems.dart';
+import 'ResponseData.dart';
+import 'RestaurantDataItems.dart';
 
 class OrdersStoryModel{
   List<OrdersStoryModelItem> ordersStoryModelItems;

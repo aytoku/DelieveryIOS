@@ -1,7 +1,8 @@
-import 'package:flutter_app/models/ResponseData.dart';
 import 'dart:convert' as convert;
 
-import 'package:flutter_app/models/RestaurantDataItems.dart';
+import 'ResponseData.dart';
+import 'RestaurantDataItems.dart';
+
 class Order {
   Records restaurant;
   final FoodRecords food;
