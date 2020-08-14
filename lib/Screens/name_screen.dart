@@ -119,26 +119,26 @@ class NameScreenState extends State<NameScreen> {
                                       border: InputBorder.none,
                                       counterText: '',
                                     ),
-                                    onChanged: (String value) async {
-                                      //necessaryDataForAuth.name = value;
-                                      if (value.length > 0 &&
-                                          buttonStateKey.currentState.color !=
-                                              Color(0xFFFE534F)) {
-                                        buttonStateKey.currentState
-                                            .setState(() {
-                                          buttonStateKey.currentState.color =
-                                              Color(0xFFFE534F);
-                                        });
-                                      } else if (value.length == 0 &&
-                                          buttonStateKey.currentState.color !=
-                                              Color(0xFFF3F3F3)) {
-                                        buttonStateKey.currentState
-                                            .setState(() {
-                                          buttonStateKey.currentState.color =
-                                              Color(0xFFF3F3F3);
-                                        });
-                                      }
-                                    },
+//                                    onChanged: (String value) async {
+//                                      //necessaryDataForAuth.name = value;
+//                                      if (value.length > 0 &&
+//                                          buttonStateKey.currentState.color !=
+//                                              Color(0xFFFE534F)) {
+//                                        buttonStateKey.currentState
+//                                            .setState(() {
+//                                          buttonStateKey.currentState.color =
+//                                              Color(0xFFFE534F);
+//                                        });
+//                                      } else if (value.length == 0 &&
+//                                          buttonStateKey.currentState.color !=
+//                                              Color(0xFFF3F3F3)) {
+//                                        buttonStateKey.currentState
+//                                            .setState(() {
+//                                          buttonStateKey.currentState.color =
+//                                              Color(0xFFF3F3F3);
+//                                        });
+//                                      }
+//                                    },
                                   ),
                                 )),
                           ),
@@ -163,7 +163,7 @@ class NameScreenState extends State<NameScreen> {
                                 bottom: 20, left: 0, right: 0, top: 0),
                             child: Button(
                               key: buttonStateKey,
-                              color: Color(0xFFF3F3F3),
+                              color: Color(0xFFFE534F),
                               onTap: () async {
                                 if (await Internet.checkConnection()) {
                                   necessaryDataForAuth.name = nameFieldController.text;

@@ -87,15 +87,15 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
             Align(
-                alignment: Alignment.topCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 90),
-                  child: Text(
-                    'Ваш номер телефона',
-                    style: TextStyle(
-                        fontSize: 19, fontWeight: FontWeight.bold),
-                  ),
-                ),),
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(top: 90),
+                child: Text(
+                  'Ваш номер телефона',
+                  style: TextStyle(
+                      fontSize: 19, fontWeight: FontWeight.bold),
+                ),
+              ),),
             Align(
               alignment: Alignment.center,
               child: Padding(
@@ -122,16 +122,16 @@ class _AuthScreenState extends State<AuthScreen> {
                             autofocus: true,
                             controller: controller,
                             style: TextStyle(fontSize: 28),
-                            textAlign: TextAlign.start,
+                            textAlign: TextAlign.left,
                             maxLength: 16,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
                               hintStyle: TextStyle(
-                                color: Color(0xFFC0BFC6)
+                                  color: Color(0xFFC0BFC6),
                               ),
-                              contentPadding: EdgeInsets.only(left: 80),
                               hintText: '+79188888888',
                               counterText: '',
+                              contentPadding: EdgeInsets.only(left: 80),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Color(0xFFFD6F6D)),
                               ),
@@ -229,12 +229,18 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3),)),
-            ),
+            Positioned(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: MediaQuery.of(context).viewInsets.left,
+              right: MediaQuery.of(context).viewInsets.right,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3),)
+                ),
+              ),
+            )
           ],
         ));
   }

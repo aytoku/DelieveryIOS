@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/PostData/getTicketByFilter.dart';
-import 'package:flutter_app/Screens/service_orders_story.dart';
-import 'package:flutter_app/Screens/tickets_chat_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:intl/intl.dart';
 
+import '../Internet/check_internet.dart';
+import '../PostData/getTicketByFilter.dart';
 import '../data/data.dart';
 import '../data/data.dart';
 import '../models/ServiceModel.dart';
 import '../models/TicketModel.dart';
 import 'home_screen.dart';
+import 'service_orders_story.dart';
+import 'tickets_chat_screen.dart';
 
 class ServiceScreen extends StatefulWidget {
   @override
@@ -19,7 +20,6 @@ class ServiceScreen extends StatefulWidget {
 }
 
 class ServiceScreenState extends State<ServiceScreen> {
-  bool status1 = false;
 
   noConnection(BuildContext context) {
     showDialog(
@@ -102,189 +102,214 @@ class ServiceScreenState extends State<ServiceScreen> {
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 30, left: 16, bottom: 10),
-                  child: Text('Ваши вопросы',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFB9B9B9))),
-                ),
-              ),
-              Expanded(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeBottom: true,
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: <Widget>[
-                        ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child: Text(
-                              'Ошибка в заказе',
-                              style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child:
-                            SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                          ),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new ServiceOrdersStoryScreen(
-                                    ticketModel: new TicketModel(
-                                        title: 'Ошибка в заказе', description: ''),
+              Flexible(
+                flex: 1,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 30, left: 16, bottom: 10),
+                        child: Text('Ваши вопросы',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFB9B9B9))),
+                      ),
+                    ),
+                    Expanded(
+                        child: MediaQuery.removePadding(
+                          context: context,
+                          removeBottom: true,
+                          child: ListView(
+                            padding: EdgeInsets.zero,
+                            children: <Widget>[
+                              ListTile(
+                                leading: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child: Text(
+                                    'Ошибка в заказе',
+                                    style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
                                   ),
                                 ),
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                        ),
-                        Divider(height: 1.0, color: Color(0xFFEDEDED)),
-                        ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child: Text(
-                              'Ошибка стоимости',
-                              style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child:
-                            SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                          ),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new ServiceOrdersStoryScreen(
-                                      ticketModel: new TicketModel(
-                                          title: 'Ошибка в заказе', description: '')),
+                                trailing: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child:
+                                  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                                 ),
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                        ),
-                        Divider(height: 1.0, color: Color(0xFFEDEDED)),
-                        ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child: Text(
-                              'Ошибка программмы',
-                              style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child:
-                            SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                          ),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new ServiceOrdersStoryScreen(
-                                      ticketModel: new TicketModel(
-                                          title: 'Ошибка в заказе', description: '')),
-                                ),
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                        ),
-                        Divider(height: 1.0, color: Color(0xFFEDEDED)),
-                        ListTile(
-                          leading: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child: Text(
-                              'Другая причина',
-                              style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(bottom: 15, top: 15),
-                            child:
-                            SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                          ),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new ServiceOrdersStoryScreen(
-                                      ticketModel: new TicketModel(
-                                          title: 'Ошибка в заказе', description: '')),
-                                ),
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                        ),
-                        Divider(height: 1.0, color: Color(0xFFEDEDED)),
-                      ],
-                    ),
-                  )),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 30, left: 16, bottom: 10),
-                  child: Text('Мои обращения',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFB9B9B9))),
-                ),
-              ),
-              FutureBuilder<TicketsList>(
-                future:
-                getTicketsByFilter(1, 0, necessaryDataForAuth.phone_number),
-                builder:
-                    (BuildContext context, AsyncSnapshot<TicketsList> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.data != null) {
-                    return Expanded(
-                        child: ListView(
-                          children: List.generate(snapshot.data.recordsCount, (index) {
-                            return ListTile(
-                              leading: Text(snapshot.data.records[index].createdAtUnix
-                                  .toString()),
-                              trailing:
-                              SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-                              onTap: () async {
-                                if (await Internet.checkConnection()) {
-                                  Navigator.push(
+                                onTap: () async {
+                                  if (await Internet.checkConnection()) {
+                                    Navigator.push(
                                       context,
                                       new MaterialPageRoute(
-                                          builder: (context) =>
-                                          new TicketsChatScreen(order_uuid: snapshot.data.records[index].uuid,))
+                                        builder: (context) => new ServiceOrdersStoryScreen(
+                                          ticketModel: new TicketModel(
+                                              title: 'Ошибка в заказе', description: ''),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                },
+                              ),
+                              Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ListTile(
+                                leading: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child: Text(
+                                    'Ошибка стоимости',
+                                    style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
+                                  ),
+                                ),
+                                trailing: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child:
+                                  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                ),
+                                onTap: () async {
+                                  if (await Internet.checkConnection()) {
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                        builder: (context) => new ServiceOrdersStoryScreen(
+                                            ticketModel: new TicketModel(
+                                                title: 'Ошибка стоимости', description: '')),
+                                      ),
+                                    );
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                },
+                              ),
+                              Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ListTile(
+                                leading: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child: Text(
+                                    'Ошибка программмы',
+                                    style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
+                                  ),
+                                ),
+                                trailing: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child:
+                                  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                ),
+                                onTap: () async {
+                                  if (await Internet.checkConnection()) {
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                        builder: (context) => new ServiceOrdersStoryScreen(
+                                            ticketModel: new TicketModel(
+                                                title: 'Ошибка программмы', description: '')),
+                                      ),
+                                    );
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                },
+                              ),
+                              Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                              ListTile(
+                                leading: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child: Text(
+                                    'Другая причина',
+                                    style: TextStyle(fontSize: 17, color: Color(0xFF424242)),
+                                  ),
+                                ),
+                                trailing: Padding(
+                                  padding: EdgeInsets.only(bottom: 15, top: 15),
+                                  child:
+                                  SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                ),
+                                onTap: () async {
+                                  if (await Internet.checkConnection()) {
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                        builder: (context) => new ServiceOrdersStoryScreen(
+                                            ticketModel: new TicketModel(
+                                                title: 'Другая причина', description: '')),
+                                      ),
+                                    );
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                },
+                              ),
+                              Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                            ],
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 30, left: 16, bottom: 10),
+                        child: Text('Мои обращения',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFB9B9B9))),
+                      ),
+                    ),
+                    FutureBuilder<TicketsList>(
+                      future:
+                      getTicketsByFilter(1, 0, necessaryDataForAuth.phone_number),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<TicketsList> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.data != null) {
+                          return Expanded(
+                              child: ListView(
+                                padding: EdgeInsets.zero,
+                                children: List.generate(snapshot.data.recordsCount, (index) {
+                                  var format = new DateFormat('yy.MM.dd, HH:mm');
+                                  return Column(
+                                    children: <Widget>[
+                                      ListTile(
+                                        leading: Text(format.format(DateTime.fromMicrosecondsSinceEpoch(snapshot.data.records[index].createdAtUnix * 1000)),
+                                          style: TextStyle(
+                                              color: Color(0xFF424242),
+                                              fontSize: 17
+                                          ),
+                                        ),
+                                        trailing: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
+                                        onTap: () async {
+                                          if (await Internet.checkConnection()) {
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                    new TicketsChatScreen(order_uuid: snapshot.data.records[index].uuid,))
+                                            );
+                                          } else {
+                                            noConnection(context);
+                                          }
+                                          print('OYAOYA');
+                                        },
+                                      ),
+                                      Divider(height: 1.0, color: Color(0xFFEDEDED)),
+                                    ],
                                   );
-                                } else {
-                                  noConnection(context);
-                                }
-                                print('OYAOYA');
-                              },
-                            );
-                          }),
-                        ));
-                  }
-                  return Center(child: CircularProgressIndicator());
-                },
+                                }),
+                              ));
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
+                  ],
+                ),
               )
             ],
           ),

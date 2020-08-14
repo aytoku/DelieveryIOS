@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/chat.dart';
 import 'package:flutter_app/PostData/orders_story_data.dart';
@@ -47,6 +48,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     _color = true;
   }
 
@@ -62,6 +67,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

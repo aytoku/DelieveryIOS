@@ -98,7 +98,9 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                                 Center(
                                   child: Padding(
                                     padding: EdgeInsets.only(top: 20, bottom: 10),
-                                    child: SvgPicture.asset('assets/svg_images/faem_icon.svg'),
+                                    child: Image(
+                                      image: AssetImage('assets/images/faem_icon.png'),
+                                    )
                                   ),
                                 ),
                                 Padding(

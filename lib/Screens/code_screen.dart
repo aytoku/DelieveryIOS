@@ -136,7 +136,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                                 new TextEditingController(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 28),
-                                            keyboardType: TextInputType.phone,
+                                            keyboardType: TextInputType.number,
                                             maxLength: 1,
                                             decoration: new InputDecoration(
                                               enabledBorder:
@@ -165,7 +165,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                                 new TextEditingController(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 28),
-                                            keyboardType: TextInputType.phone,
+                                            keyboardType: TextInputType.number,
                                             maxLength: 1,
                                             decoration: new InputDecoration(
                                               enabledBorder:
@@ -197,7 +197,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                                 new TextEditingController(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 28),
-                                            keyboardType: TextInputType.phone,
+                                            keyboardType: TextInputType.number,
                                             maxLength: 1,
                                             decoration: new InputDecoration(
                                               enabledBorder:
@@ -234,7 +234,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                               new TextEditingController(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 28),
-                                          keyboardType: TextInputType.phone,
+                                          keyboardType: TextInputType.number,
                                           maxLength: 1,
                                           decoration: new InputDecoration(
                                             enabledBorder: UnderlineInputBorder(
