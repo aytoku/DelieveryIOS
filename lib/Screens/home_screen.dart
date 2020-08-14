@@ -521,7 +521,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                   orderList = snapshot.data;
                                   return (currentUser.isLoggedIn)
                                       ? Container(
-                                    height: MediaQuery.of(context).size.height * 0.35,
+                                    height: 200,
                                     child: ListView(
                                       children: snapshot.data,
                                       scrollDirection: Axis.horizontal,

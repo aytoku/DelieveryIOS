@@ -61,16 +61,11 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 15, left: 15),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(ordersStoryModelItem.routes[0].value,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
-                  ),
-                ),
+              Padding(
+                padding: EdgeInsets.only(top: 15, left: 15),
+                child: Text(ordersStoryModelItem.routes[0].value,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 14, color: Color(0xFF000000))),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 15),
