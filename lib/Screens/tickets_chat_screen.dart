@@ -153,56 +153,51 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                     ),
                   ),
                 )),
-            Positioned(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-              left: MediaQuery.of(context).viewInsets.left,
-              right: MediaQuery.of(context).viewInsets.right,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: 40, bottom: 0, right: 15, left: 15),
-                      child: Container(
-                        height: 40,
-                        child: TextField(
-                          controller: messageField,
-                          decoration: InputDecoration(
-                            suffix: GestureDetector(
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/send_message.svg'),
-                              onTap: () async {
-                                if (await Internet.checkConnection()) {
-                                  var message = await sendTicketMessage(
-                                    order_uuid,
-                                    messageField.text,
-                                  );
-                                  setState(() {
-                                    GlobalKey<TicketsChatMessageScreenState>
-                                    chatMessageScreenStateKey = new GlobalKey<
-                                        TicketsChatMessageScreenState>();
-                                    //ticketsChatMessagesStates[message.uuid] =
-                                    //    chatMessageScreenStateKey;
-                                    chatMessageList.add(
-                                        new TicketsChatMessageScreen(
-                                            key: chatMessageScreenStateKey,
-                                            comment: new Comment(
-                                                createdAtUnix: DateTime.now().microsecond,
-                                                message: messageField.text,
-                                                senderType: 'client')));
-                                  });
-                                } else {
-                                  noConnection(context);
-                                }
-                              },
-                            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 40, bottom: 0, right: 15, left: 15),
+                    child: Container(
+                      height: 40,
+                      child: TextField(
+                        controller: messageField,
+                        decoration: InputDecoration(
+                          suffix: GestureDetector(
+                            child: SvgPicture.asset(
+                                'assets/svg_images/send_message.svg'),
+                            onTap: () async {
+                              if (await Internet.checkConnection()) {
+                                var message = await sendTicketMessage(
+                                  order_uuid,
+                                  messageField.text,
+                                );
+                                setState(() {
+                                  GlobalKey<TicketsChatMessageScreenState>
+                                  chatMessageScreenStateKey = new GlobalKey<
+                                      TicketsChatMessageScreenState>();
+                                  //ticketsChatMessagesStates[message.uuid] =
+                                  //    chatMessageScreenStateKey;
+                                  chatMessageList.add(
+                                      new TicketsChatMessageScreen(
+                                          key: chatMessageScreenStateKey,
+                                          comment: new Comment(
+                                              createdAtUnix: DateTime.now().microsecond,
+                                              message: messageField.text,
+                                              senderType: 'client')));
+                                });
+                              } else {
+                                noConnection(context);
+                              }
+                            },
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             )
           ],
