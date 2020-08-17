@@ -97,28 +97,32 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
             Align(
               alignment: Alignment.topCenter,
               child: Stack(children: <Widget>[
-                InkWell(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                          padding: EdgeInsets.only(left: 0, top: 30),
-                          child: Container(
-                              height: 40,
-                              width: 60,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 12, bottom: 12, right: 10),
-                                child: SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg'),
-                              )))),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      new MaterialPageRoute(
-                        builder: (context) => new HomeScreen(),
-                      ),
-                    );
-                  },
+                Row(
+                  children: <Widget>[
+                    InkWell(
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                              padding: EdgeInsets.only(left: 0, top: 30),
+                              child: Container(
+                                  height: 40,
+                                  width: 60,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 12, bottom: 12, right: 10),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  )))),
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new HomeScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 Padding(
                     padding: EdgeInsets.only(top: 40, left: 0),
@@ -135,7 +139,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
             Align(
                 alignment: Alignment.center,
                 child: Container(
-                  height: 450,
+                  height: 470,
                   child: Padding(
                     padding: EdgeInsets.only(top: 20),
                     child: ListView.builder(
@@ -149,54 +153,58 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                     ),
                   ),
                 )),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 60, bottom: 20, right: 15, left: 15),
-                    child: Container(
-                      height: 40,
-                      child: TextField(
-                        controller: messageField,
-                        decoration: InputDecoration(
-                          suffix: GestureDetector(
-                            child: SvgPicture.asset(
-                                'assets/svg_images/send_message.svg'),
-                            onTap: () async {
-                              if (await Internet.checkConnection()) {
-                                var message = await sendTicketMessage(
-                                  order_uuid,
-                                  messageField.text,
-                                );
-                                setState(() {
-                                  GlobalKey<TicketsChatMessageScreenState>
-                                  chatMessageScreenStateKey = new GlobalKey<
-                                      TicketsChatMessageScreenState>();
-                                  //ticketsChatMessagesStates[message.uuid] =
-                                  //    chatMessageScreenStateKey;
-                                  chatMessageList.add(
-                                      new TicketsChatMessageScreen(
-                                          key: chatMessageScreenStateKey,
-                                          comment: new Comment(
-                                              createdAtUnix:
-                                              DateTime.now().microsecond,
-                                              message: messageField.text,
-                                              senderType: 'client')));
-                                });
-                              } else {
-                                noConnection(context);
-                              }
-                            },
+            Positioned(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: MediaQuery.of(context).viewInsets.left,
+              right: MediaQuery.of(context).viewInsets.right,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 40, bottom: 0, right: 15, left: 15),
+                      child: Container(
+                        height: 40,
+                        child: TextField(
+                          controller: messageField,
+                          decoration: InputDecoration(
+                            suffix: GestureDetector(
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/send_message.svg'),
+                              onTap: () async {
+                                if (await Internet.checkConnection()) {
+                                  var message = await sendTicketMessage(
+                                    order_uuid,
+                                    messageField.text,
+                                  );
+                                  setState(() {
+                                    GlobalKey<TicketsChatMessageScreenState>
+                                    chatMessageScreenStateKey = new GlobalKey<
+                                        TicketsChatMessageScreenState>();
+                                    //ticketsChatMessagesStates[message.uuid] =
+                                    //    chatMessageScreenStateKey;
+                                    chatMessageList.add(
+                                        new TicketsChatMessageScreen(
+                                            key: chatMessageScreenStateKey,
+                                            comment: new Comment(
+                                                createdAtUnix: DateTime.now().microsecond,
+                                                message: messageField.text,
+                                                senderType: 'client')));
+                                  });
+                                } else {
+                                  noConnection(context);
+                                }
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
+            )
           ],
         ));
   }
@@ -216,6 +224,11 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
             snapshot.data != null) {
           //ticketsChatMessagesStates.clear();
           chatMessageList = new List<TicketsChatMessageScreen>();
+          chatMessageList.add(new TicketsChatMessageScreen(comment: new Comment(
+              senderType: 'client',
+              message: snapshot.data.description,
+              createdAtUnix: snapshot.data.createdAtUnix
+          ),));
           if(snapshot.data.comments != null)
             snapshot.data.comments.forEach((element) {
               GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =

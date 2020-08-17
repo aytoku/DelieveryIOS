@@ -71,34 +71,384 @@ class PageState extends State<PageScreen> {
     );
   }
 
+  showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            child: Container(
+                height: 100,
+                width: 320,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                      child: Text(
+                        'Идет оплата',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
+                    ),
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
+  emptyFields(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.of(context).pop(true);
+        });
+        return Center(
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Container(
+              height: 50,
+              width: 100,
+              child: Center(
+                child: Text("Заполните все поля"),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  int selectedPageId = 0;
+  GlobalKey<TakeAwayState> takeAwayScreenKey = new GlobalKey<TakeAwayState>();
+  GlobalKey<AddressScreenState> addressScreenKey = new GlobalKey<AddressScreenState>();
+
+  String addressName = '';
+  int deliveryPrice = 134;
+
+  List<MyAddressesModel> myAddressesModelList;
+  MyAddressesModel myAddressesModel;
+
   @override
   Widget build(BuildContext context) {
+    FocusNode focusNode;
+    double totalPrice = 134;
+    currentUser.cartDataModel.cart.forEach(
+            (Order order) => totalPrice += order.quantity * order.food.price);
     print('suka');
-    var addressScreen = AddressScreen(restaurant: restaurant, pageState: this);
-    var takeAwayScreen = TakeAway(restaurant: restaurant, pageState: this);
-    return PageView(
-      scrollDirection: Axis.horizontal,
-      controller: _controller,
-      children: [addressScreen, takeAwayScreen],
+    var addressScreen = AddressScreen(restaurant: restaurant, key: addressScreenKey,);
+    var takeAwayScreen = TakeAway(restaurant: restaurant, key: takeAwayScreenKey,);
+    return Scaffold(
+      body: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 30, bottom: 10),
+                  child: Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 0),
+                          child: InkWell(
+                            onTap: () => Navigator.pop(context),
+                            child: Padding(
+                                padding: EdgeInsets.only(right: 0),
+                                child: Container(
+                                    height: 40,
+                                    width: 60,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 12, bottom: 12, right: 20),
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/arrow_left.svg'),
+                                    ))),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                            "Оформление заказа",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF000000)),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Divider(
+                    height: 1,
+                    color: Color(0xFFF5F5F5),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 1,
+                      child: SizedBox(
+                        height: 40,
+                        child: GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(40)),
+                                color: (selectedPageId == 0) ? Color(0xFFFE534F) : Colors.white,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 40, right: 40, top: 10),
+                                child: Text(
+                                  'Доставка',
+                                  style: TextStyle(
+                                      color: (selectedPageId == 0) ? Colors.white : Color(0xFF999999), fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: () async {
+                            if (await Internet.checkConnection()) {
+                              _controller.animateToPage(0,
+                                  duration: Duration(seconds: 1),
+                                  curve: Curves.elasticOut);
+                            } else {
+                              noConnection(context);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: SizedBox(
+                        height: 40,
+                        child: GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5, right: 5),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(40)),
+                                color: (selectedPageId == 1) ? Color(0xFFFE534F) : Colors.white,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 40, right: 40, top: 10),
+                                child: Text(
+                                  'Заберу сам',
+                                  style: TextStyle(
+                                      color: (selectedPageId == 1) ? Colors.white : Color(0xFF999999), fontSize: 15),
+                                ),
+                              ),
+                            ),
+                          ),
+                          onTap: () async {
+                            if (await Internet.checkConnection()) {
+                              _controller.animateToPage(1,
+                                  duration: Duration(seconds: 1),
+                                  curve: Curves.elasticOut);
+                            } else {
+                              noConnection(context);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: PageView(
+              scrollDirection: Axis.horizontal,
+              controller: _controller,
+              children: [addressScreen, takeAwayScreen],
+              onPageChanged: (int pageId) {
+                setState(() {
+                  selectedPageId = pageId;
+                });
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+              EdgeInsets.only(bottom: 8, left: 15, right: 15, top: 0),
+              child: FlatButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                        flex: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xFFE32636),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              '30 – 50 мин',
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )),
+                    Flexible(
+                        flex: 0,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 20, left: 5),
+                          child: Text('Оформить',
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white)),
+                        )),
+                    Flexible(
+                        flex: 0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xFFE32636),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(5)),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                                '${(totalPrice).toStringAsFixed(0)} \Р',
+                                style: TextStyle(
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white)),
+                          ),
+                        )),
+                  ],
+                ),
+                color: Color(0xFFFE534F),
+                splashColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.only(
+                    left: 10, top: 10, right: 10, bottom: 10),
+                onPressed: () async {
+                  if (await Internet.checkConnection()) {
+                    if (addressScreenKey.currentState.destinationPointsKey.currentState.searchTextField
+                        .textFieldConfiguration.controller.text.length >
+                        0) {
+                      Center(
+                        child: CircularProgressIndicator(),
+                      );
+                      showAlertDialog(context);
+                      if(selectedPageId == 0 && addressScreenKey.currentState != null) {
+                        CreateOrder createOrder = new CreateOrder(
+                          address: addressScreenKey.currentState
+                              .destinationPointsKey.currentState
+                              .searchTextField.textFieldConfiguration.controller
+                              .text,
+                          office: addressScreenKey.currentState.officeField
+                              .text,
+                          floor: addressScreenKey.currentState.floorField.text,
+                          entrance: addressScreenKey.currentState.entranceField
+                              .text,
+                          intercom: addressScreenKey.currentState.intercomField
+                              .text,
+                          comment: addressScreenKey.currentState.commentField
+                              .text,
+                          cartDataModel: currentUser.cartDataModel,
+                          restaurant: restaurant,
+                          payment_type: 'cash',
+                          door_to_door: addressScreenKey.currentState.status1,
+                        );
+                        await createOrder.sendData();
+                      } else if (takeAwayScreenKey.currentState != null) {
+                        CreateOrderTakeAway createOrderTakeAway =
+                        new CreateOrderTakeAway(
+                            comment: takeAwayScreenKey.currentState.comment,
+                            cartDataModel: currentUser.cartDataModel,
+                            restaurant: restaurant);
+                        createOrderTakeAway.sendData();
+                      }
+                      else{
+                        print('All go po pantsu');
+                      }
+                      currentUser.cartDataModel.cart.clear();
+                      currentUser.cartDataModel.saveData();
+                      homeScreenKey = new GlobalKey<HomeScreenState>();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false);
+                    } else {
+                      emptyFields(context);
+                    }
+                  } else {
+                    noConnection(context);
+                  }
+//                        final snackBar = SnackBar(
+//                          content: Text('Yay! A SnackBar!'),
+//                          action: SnackBarAction(
+//                            label: 'Undo',
+//                            onPressed: () {
+//                              // Some code to undo the change.
+//                            },
+//                          ),
+//                        );
+                },
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
 class AddressScreen extends StatefulWidget {
-  PageState pageState;
   MyAddressesModel myAddressesModel;
 
   AddressScreen(
-      {Key key, this.restaurant, this.myAddressesModel, this.pageState})
+      {Key key, this.restaurant, this.myAddressesModel})
       : super(key: key);
   final Records restaurant;
 
   @override
-  _AddressScreenState createState() =>
-      _AddressScreenState(restaurant, myAddressesModel, pageState);
+  AddressScreenState createState() =>
+      AddressScreenState(restaurant, myAddressesModel);
 }
 
-class _AddressScreenState extends State<AddressScreen>
+class AddressScreenState extends State<AddressScreen>
     with AutomaticKeepAliveClientMixin {
   String address = 'Адрес доставки';
   String office;
@@ -106,12 +456,11 @@ class _AddressScreenState extends State<AddressScreen>
   String comment;
   String delivery;
   final Records restaurant;
-  PageState pageState;
 
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
   bool _color;
 
-  _AddressScreenState(this.restaurant, this.myAddressesModel, this.pageState);
+  AddressScreenState(this.restaurant, this.myAddressesModel);
 
   @override
   bool get wantKeepAlive => true;
@@ -256,464 +605,328 @@ class _AddressScreenState extends State<AddressScreen>
     currentUser.cartDataModel.cart.forEach(
             (Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
-        key: _scaffoldStateKey,
-        resizeToAvoidBottomPadding: false,
-        body: Container(
-            color: Colors.white,
-            child: Stack(
+      key: _scaffoldStateKey,
+      resizeToAvoidBottomPadding: false,
+      body:                 Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(top: 10, bottom: 10),
+          child: Container(
+            child: Column(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 30, bottom: 10),
-                        child: Stack(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 0),
-                                child: InkWell(
-                                  onTap: () => Navigator.pop(context),
-                                  child: Padding(
-                                      padding: EdgeInsets.only(right: 0),
-                                      child: Container(
-                                          height: 40,
-                                          width: 60,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 12, bottom: 12, right: 20),
-                                            child: SvgPicture.asset(
-                                                'assets/svg_images/arrow_left.svg'),
-                                          ))),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text(
-                                  "Оформление заказа",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF000000)),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 20, left: 15),
+                      child: Row(
+                        children: <Widget>[
+                          //_buildTextFormField('Адрес доставки')
+                          Text(
+                            'Адрес доставки',
+                            style: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 11),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Divider(
-                          height: 1,
-                          color: Color(0xFFF5F5F5),
-                        ),
-                      ),
-                      Row(
+                    ),
+                    AutoComplete(destinationPointsKey, ''),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(
+                          height: 1.0, color: Color(0xFFEDEDED)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 15, left: 15, bottom: 5, right: 0),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: SizedBox(
-                              height: 40,
-                              child: GestureDetector(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                      color: Color(0xFFFE534F),
+                          Container(
+                            width: 150,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Подъезд',
+                                      style: TextStyle(
+                                          color: Color(0xFFB0B0B0),
+                                          fontSize: 13),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 40, right: 40, top: 10),
-                                      child: Text(
-                                        'Доставка',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                              ),
+                                Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: entranceField,
+                                        focusNode: focusNode,
+                                        decoration: new InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                        ),
+                                      ),
+                                    )),
+                              ],
                             ),
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: SizedBox(
-                              height: 40,
-                              child: GestureDetector(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                      color: Colors.white,
+                          Container(
+                            width: 150,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Этаж',
+                                      style: TextStyle(
+                                          color: Color(0xFFB0B0B0),
+                                          fontSize: 13),
                                     ),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 40, right: 40, top: 10),
-                                      child: Text(
-                                        'Заберу сам',
-                                        style: TextStyle(
-                                            color: Color(0xFF999999), fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
+                                  ],
                                 ),
-                                onTap: () async {
-                                  if (await Internet.checkConnection()) {
-                                    pageState._controller.animateToPage(1,
-                                        duration: Duration(seconds: 1),
-                                        curve: Curves.elasticOut);
-//                            {
-//                            Navigator.pushReplacement(
-//                              context,
-//                              new MaterialPageRoute(
-//                                builder: (context) => new TakeAway(restaurant: restaurant),
-//                              ),
-//                            );
-//                          }
-                                    setState(() {
-                                      _color = !_color;
-                                    });
-                                  } else {
-                                    noConnection(context);
-                                  }
-                                },
-                              ),
+                                Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: floorField,
+                                        focusNode: focusNode,
+                                        decoration: new InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                        ),
+                                      ),
+                                    )),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 70, bottom: 10),
-                      child: Container(
-                        height: 470,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 20, left: 15),
-                              child: Row(
-                                children: <Widget>[
-                                  //_buildTextFormField('Адрес доставки')
-                                  Text(
-                                    'Адрес доставки',
-                                    style: TextStyle(
-                                        color: Color(0xFFB0B0B0),
-                                        fontSize: 11),
-                                  )
-                                ],
-                              ),
-                            ),
-                            AutoComplete(destinationPointsKey, ''),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              child: Divider(
-                                  height: 1.0, color: Color(0xFFEDEDED)),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 15, left: 15, bottom: 5, right: 0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(
-                                    width: 150,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Подъезд',
-                                              style: TextStyle(
-                                                  color: Color(0xFFB0B0B0),
-                                                  fontSize: 13),
-                                            ),
-                                          ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(
+                          height: 1.0, color: Color(0xFFEDEDED)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 15, left: 15, bottom: 5, right: 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Кв./офис',
+                                      style: TextStyle(
+                                          color: Color(0xFFB0B0B0),
+                                          fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only( bottom: 0, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: officeField,
+                                        focusNode: focusNode,
+                                        decoration: new InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
                                         ),
-                                        Padding(
-                                            padding: EdgeInsets.only( bottom: 0, top: 5),
-                                            child: Container(
-                                              height: 20,
-                                              child: TextField(
-                                                textCapitalization: TextCapitalization.sentences,
-                                                controller: entranceField,
-                                                focusNode: focusNode,
-                                                decoration: new InputDecoration(
-                                                  border: InputBorder.none,
-                                                  counterText: '',
-                                                ),
-                                              ),
-                                            )),
-                                      ],
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: 150,
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'Домофон',
+                                      style: TextStyle(
+                                          color: Color(0xFFB0B0B0),
+                                          fontSize: 13),
                                     ),
-                                  ),
-                                  Container(
-                                    width: 150,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Этаж',
-                                              style: TextStyle(
-                                                  color: Color(0xFFB0B0B0),
-                                                  fontSize: 13),
-                                            ),
-                                          ],
+                                  ],
+                                ),
+                                Padding(
+                                    padding: EdgeInsets.only( bottom: 5, top: 5),
+                                    child: Container(
+                                      height: 20,
+                                      child: TextField(
+                                        textCapitalization: TextCapitalization.sentences,
+                                        controller: entranceField,
+                                        focusNode: focusNode,
+                                        decoration: new InputDecoration(
+                                          border: InputBorder.none,
+                                          counterText: '',
                                         ),
-                                        Padding(
-                                            padding: EdgeInsets.only( bottom: 0, top: 5),
-                                            child: Container(
-                                              height: 20,
-                                              child: TextField(
-                                                textCapitalization: TextCapitalization.sentences,
-                                                controller: floorField,
-                                                focusNode: focusNode,
-                                                decoration: new InputDecoration(
-                                                  border: InputBorder.none,
-                                                  counterText: '',
-                                                ),
-                                              ),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                      ),
+                                    )),
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              child: Divider(
-                                  height: 1.0, color: Color(0xFFEDEDED)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(
+                          height: 1.0, color: Color(0xFFEDEDED)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 15, left: 15, bottom: 5),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Комментарий к заказу',
+                            style: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 13),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 15, bottom: 5),
+                        child: Container(
+                          height: 20,
+                          child: TextField(
+                            textCapitalization: TextCapitalization.sentences,
+                            controller: commentField,
+                            decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              counterText: '',
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 15, left: 15, bottom: 5, right: 0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Container(
-                                    width: 150,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Кв./офис',
-                                              style: TextStyle(
-                                                  color: Color(0xFFB0B0B0),
-                                                  fontSize: 13),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                            padding: EdgeInsets.only( bottom: 0, top: 5),
-                                            child: Container(
-                                              height: 20,
-                                              child: TextField(
-                                                textCapitalization: TextCapitalization.sentences,
-                                                controller: officeField,
-                                                focusNode: focusNode,
-                                                decoration: new InputDecoration(
-                                                  border: InputBorder.none,
-                                                  counterText: '',
-                                                ),
-                                              ),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 150,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              'Домофон',
-                                              style: TextStyle(
-                                                  color: Color(0xFFB0B0B0),
-                                                  fontSize: 13),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                            padding: EdgeInsets.only( bottom: 5, top: 5),
-                                            child: Container(
-                                              height: 20,
-                                              child: TextField(
-                                                textCapitalization: TextCapitalization.sentences,
-                                                controller: intercomField,
-                                                focusNode: focusNode,
-                                                decoration: new InputDecoration(
-                                                  border: InputBorder.none,
-                                                  counterText: '',
-                                                ),
-                                              ),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          ),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(
+                          height: 1.0, color: Color(0xFFEDEDED)),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 15, left: 15, bottom: 5),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'Доставка',
+                            style: TextStyle(
+                                color: Color(0xFFB0B0B0),
+                                fontSize: 13),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, bottom: 5),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            '30 – 50 мин',
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 13),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 10,
+                      color: Color(0xFAFAFAFA),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 10, left: 15, right: 15, bottom: 10),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Доставка до двери',
+                            style: TextStyle(
+                                color: Color(0xFF3F3F3F),
+                                fontSize: 15),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 0),
+                            child: FlutterSwitch(
+                              width: 55.0,
+                              height: 25.0,
+                              inactiveColor: Color(0xD6D6D6D6),
+                              activeColor: Colors.red,
+                              valueFontSize: 12.0,
+                              toggleSize: 18.0,
+                              value: status1,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              child: Divider(
-                                  height: 1.0, color: Color(0xFFEDEDED)),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 15, left: 15, bottom: 5),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Комментарий к заказу',
-                                    style: TextStyle(
-                                        color: Color(0xFFB0B0B0),
-                                        fontSize: 13),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 15, bottom: 5),
-                                child: Container(
-                                  height: 20,
-                                  child: TextField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    controller: commentField,
-                                    decoration: new InputDecoration(
-                                      border: InputBorder.none,
-                                      counterText: '',
-                                    ),
-                                  ),
-                                )),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              child: Divider(
-                                  height: 1.0, color: Color(0xFFEDEDED)),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 15, left: 15, bottom: 5),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Доставка',
-                                    style: TextStyle(
-                                        color: Color(0xFFB0B0B0),
-                                        fontSize: 13),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, bottom: 5),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    '30 – 50 мин',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 13),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 10,
-                              color: Color(0xFAFAFAFA),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10, left: 15, right: 15, bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    'Доставка до двери',
-                                    style: TextStyle(
-                                        color: Color(0xFF3F3F3F),
-                                        fontSize: 15),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 0),
-                                    child: FlutterSwitch(
-                                      width: 55.0,
-                                      height: 25.0,
-                                      inactiveColor: Color(0xD6D6D6D6),
-                                      activeColor: Colors.red,
-                                      valueFontSize: 12.0,
-                                      toggleSize: 18.0,
-                                      value: status1,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 10,
-                              color: Color(0xFAFAFAFA),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10, bottom: 5, left: 20),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    "Способ оплаты",
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFFB0B0B0)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Row(
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      height: 10,
+                      color: Color(0xFAFAFAFA),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 10, bottom: 5, left: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            "Способ оплаты",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFB0B0B0)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20, bottom: 20),
+                            child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                GestureDetector(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20, bottom: 20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            SvgPicture.asset(image),
-                                            Padding(
-                                              padding:
-                                              EdgeInsets.only(left: 15),
-                                              child: Text(
-                                                title,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                Row(
+                                  children: <Widget>[
+                                    SvgPicture.asset(image),
+                                    Padding(
+                                      padding:
+                                      EdgeInsets.only(left: 15),
+                                      child: Text(
+                                        title,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
+                                    ),
+                                  ],
+                                ),
 //                                            Align(
 //                                              alignment: Alignment.centerRight,
 //                                              child: Padding(
@@ -721,134 +934,19 @@ class _AddressScreenState extends State<AddressScreen>
 //                                                child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
 //                                              ),
 //                                            )
-                                      ],
-                                    ),
-                                  ),
-                                )
                               ],
                             ),
-                          ],
-                        ),
-                      )
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding:
-                    EdgeInsets.only(bottom: 8, left: 15, right: 15, top: 0),
-                    child: FlatButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                              flex: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFE32636),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                    '30 – 50 мин',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )),
-                          Flexible(
-                              flex: 0,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 20, left: 5),
-                                child: Text('Оформить',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white)),
-                              )),
-                          Flexible(
-                              flex: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFE32636),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                      '${(totalPrice).toStringAsFixed(0)} \Р',
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white)),
-                                ),
-                              )),
-                        ],
-                      ),
-                      color: Color(0xFFFE534F),
-                      splashColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.only(
-                          left: 10, top: 10, right: 10, bottom: 10),
-                      onPressed: () async {
-                        if (await Internet.checkConnection()) {
-                          if (destinationPointsKey.currentState.searchTextField
-                              .textFieldConfiguration.controller.text.length >
-                              0) {
-                            Center(
-                              child: CircularProgressIndicator(),
-                            );
-                            CreateOrder createOrder = new CreateOrder(
-                              address: destinationPointsKey.currentState
-                                  .searchTextField.textFieldConfiguration.controller.text,
-                              office: officeField.text,
-                              floor: floorField.text,
-                              entrance: entranceField.text,
-                              intercom: intercomField.text,
-                              comment: commentField.text,
-                              cartDataModel: currentUser.cartDataModel,
-                              restaurant: restaurant,
-                              payment_type: 'cash',
-                              door_to_door: status1,
-                            );
-                            showAlertDialog(context);
-                            await createOrder.sendData();
-                            currentUser.cartDataModel.cart.clear();
-                            currentUser.cartDataModel.saveData();
-                            homeScreenKey = new GlobalKey<HomeScreenState>();
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => HomeScreen()),
-                                    (Route<dynamic> route) => false);
-                          } else {
-                            emptyFields(context);
-                          }
-                        } else {
-                          noConnection(context);
-                        }
-//                        final snackBar = SnackBar(
-//                          content: Text('Yay! A SnackBar!'),
-//                          action: SnackBarAction(
-//                            label: 'Undo',
-//                            onPressed: () {
-//                              // Some code to undo the change.
-//                            },
-//                          ),
-//                        );
-                      },
+                          ),
+                        )
+                      ],
                     ),
-                  ),
+                  ],
                 )
               ],
-            )));
+            ),
+          ),
+        ),
+      ),);
   }
 
   void _onPress() {
@@ -988,17 +1086,15 @@ class _AddressScreenState extends State<AddressScreen>
 }
 
 class TakeAway extends StatefulWidget {
-  PageState pageState;
-
-  TakeAway({Key key, this.restaurant, this.pageState}) : super(key: key);
+  TakeAway({Key key, this.restaurant}) : super(key: key);
   final Records restaurant;
   String name = '';
 
   @override
-  _TakeAwayState createState() => _TakeAwayState(restaurant, pageState);
+  TakeAwayState createState() => TakeAwayState(restaurant);
 }
 
-class _TakeAwayState extends State<TakeAway>
+class TakeAwayState extends State<TakeAway>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -1009,7 +1105,6 @@ class _TakeAwayState extends State<TakeAway>
   String delivery;
   final Records restaurant;
   String name = '';
-  PageState pageState;
   bool _color;
 
   noConnection(BuildContext context) {
@@ -1036,7 +1131,7 @@ class _TakeAwayState extends State<TakeAway>
     );
   }
 
-  _TakeAwayState(this.restaurant, this.pageState);
+  TakeAwayState(this.restaurant);
 
   @override
   void initState() {
@@ -1065,140 +1160,140 @@ class _TakeAwayState extends State<TakeAway>
             color: Colors.white,
             child: Stack(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 30, bottom: 10),
-                        child: Stack(
-                          children: <Widget>[
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 0),
-                                child: InkWell(
-                                  onTap: () => Navigator.pop(context),
-                                  child: Padding(
-                                      padding: EdgeInsets.only(right: 0),
-                                      child: Container(
-                                          height: 40,
-                                          width: 60,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 12, bottom: 12, right: 20),
-                                            child: SvgPicture.asset(
-                                                'assets/svg_images/arrow_left.svg'),
-                                          ))),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text(
-                                  "Оформление заказа",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF000000)),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5, bottom: 5),
-                        child: Divider(
-                          height: 1,
-                          color: Color(0xFFF5F5F5),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: SizedBox(
-                              height: 40,
-                              child: GestureDetector(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                      color: Colors.white,
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 40, right: 40, top: 10),
-                                      child: Text(
-                                        'Доставка',
-                                        style: TextStyle(
-                                            color: Color(0xFF999999), fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                onTap: () async {
-                                  if (await Internet.checkConnection()) {
-                                    pageState._controller.animateToPage(0,
-                                        duration: Duration(seconds: 1),
-                                        curve: Curves.elasticOut);
-                                    //pageState._controller.jumpToPage(0);
-//                            setState(() {
-//                              {
-//                                Navigator.pushReplacement(
-//                                  context,
-//                                  new MaterialPageRoute(
-//                                    builder: (context) => new AddressScreen(restaurant: restaurant),
+//                Align(
+//                  alignment: Alignment.topLeft,
+//                  child: Column(
+//                    children: [
+//                      Padding(
+//                        padding: EdgeInsets.only(top: 30, bottom: 10),
+//                        child: Stack(
+//                          children: <Widget>[
+//                            Align(
+//                              alignment: Alignment.topLeft,
+//                              child: Padding(
+//                                padding: EdgeInsets.only(left: 0),
+//                                child: InkWell(
+//                                  onTap: () => Navigator.pop(context),
+//                                  child: Padding(
+//                                      padding: EdgeInsets.only(right: 0),
+//                                      child: Container(
+//                                          height: 40,
+//                                          width: 60,
+//                                          child: Padding(
+//                                            padding: EdgeInsets.only(
+//                                                top: 12, bottom: 12, right: 20),
+//                                            child: SvgPicture.asset(
+//                                                'assets/svg_images/arrow_left.svg'),
+//                                          ))),
+//                                ),
+//                              ),
+//                            ),
+//                            Align(
+//                              alignment: Alignment.topCenter,
+//                              child: Padding(
+//                                padding: EdgeInsets.only(top: 10),
+//                                child: Text(
+//                                  "Оформление заказа",
+//                                  style: TextStyle(
+//                                      fontSize: 16,
+//                                      fontWeight: FontWeight.bold,
+//                                      color: Color(0xFF000000)),
+//                                ),
+//                              ),
+//                            )
+//                          ],
+//                        ),
+//                      ),
+//                      Padding(
+//                        padding: EdgeInsets.only(top: 5, bottom: 5),
+//                        child: Divider(
+//                          height: 1,
+//                          color: Color(0xFFF5F5F5),
+//                        ),
+//                      ),
+//                      Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Flexible(
+//                            flex: 1,
+//                            child: SizedBox(
+//                              height: 40,
+//                              child: GestureDetector(
+//                                child: Padding(
+//                                  padding: EdgeInsets.only(left: 5, right: 5),
+//                                  child: Container(
+//                                    decoration: BoxDecoration(
+//                                      borderRadius:
+//                                      BorderRadius.all(Radius.circular(40)),
+//                                      color: Colors.white,
+//                                    ),
+//                                    child: Padding(
+//                                      padding: EdgeInsets.only(
+//                                          left: 40, right: 40, top: 10),
+//                                      child: Text(
+//                                        'Доставка',
+//                                        style: TextStyle(
+//                                            color: Color(0xFF999999), fontSize: 15),
+//                                      ),
+//                                    ),
 //                                  ),
-//                                );}
-//                            });
-                                  } else {
-                                    noConnection(context);
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 1,
-                            child: SizedBox(
-                              height: 40,
-                              child: GestureDetector(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(40)),
-                                      color: Color(0xFFFE534F),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 40, right: 40, top: 10),
-                                      child: Text(
-                                        'Заберу сам',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+//                                ),
+//                                onTap: () async {
+//                                  if (await Internet.checkConnection()) {
+//                                    pageState._controller.animateToPage(0,
+//                                        duration: Duration(seconds: 1),
+//                                        curve: Curves.elasticOut);
+//                                    //pageState._controller.jumpToPage(0);
+////                            setState(() {
+////                              {
+////                                Navigator.pushReplacement(
+////                                  context,
+////                                  new MaterialPageRoute(
+////                                    builder: (context) => new AddressScreen(restaurant: restaurant),
+////                                  ),
+////                                );}
+////                            });
+//                                  } else {
+//                                    noConnection(context);
+//                                  }
+//                                },
+//                              ),
+//                            ),
+//                          ),
+//                          Flexible(
+//                            flex: 1,
+//                            child: SizedBox(
+//                              height: 40,
+//                              child: GestureDetector(
+//                                child: Padding(
+//                                  padding: EdgeInsets.only(left: 5, right: 5),
+//                                  child: Container(
+//                                    decoration: BoxDecoration(
+//                                      borderRadius:
+//                                      BorderRadius.all(Radius.circular(40)),
+//                                      color: Color(0xFFFE534F),
+//                                    ),
+//                                    child: Padding(
+//                                      padding: EdgeInsets.only(
+//                                          left: 40, right: 40, top: 10),
+//                                      child: Text(
+//                                        'Заберу сам',
+//                                        style: TextStyle(
+//                                            color: Colors.white, fontSize: 15),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ],
+//                  ),
+//                ),
                 Padding(
-                  padding: EdgeInsets.only(top: 120),
+                  padding: EdgeInsets.only(top: 10),
                   child: Align(
                       alignment: Alignment.center,
                       child: Container(
@@ -1368,93 +1463,93 @@ class _TakeAwayState extends State<TakeAway>
                       )
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding:
-                    EdgeInsets.only(bottom: 8, left: 15, right: 15, top: 9),
-                    child: FlatButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                              flex: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFE32636),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                    '30 – 50 мин',
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )),
-                          Flexible(
-                              flex: 0,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 15, left: 5),
-                                child: Text('Оформить',
-                                    style: TextStyle(
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white)),
-                              )),
-                          Flexible(
-                              flex: 0,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFE32636),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Text(
-                                      '${totalPrice.toStringAsFixed(0)} \Р',
-                                      style: TextStyle(
-                                          fontSize: 14.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.white)),
-                                ),
-                              )),
-                        ],
-                      ),
-                      color: Color(0xFFFE534F),
-                      splashColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: EdgeInsets.only(
-                          left: 10, top: 10, right: 10, bottom: 10),
-                      onPressed: () async {
-                        if (await Internet.checkConnection()) {
-                          CreateOrderTakeAway createOrderTakeAway =
-                          new CreateOrderTakeAway(
-                              comment: comment,
-                              cartDataModel: currentUser.cartDataModel,
-                              restaurant: restaurant);
-                          createOrderTakeAway.sendData();
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (context) => new HomeScreen(),
-                            ),
-                          );
-                        } else {
-                          noConnection(context);
-                        }
-                      },
-                    ),
-                  ),
-                ),
+//                Align(
+//                  alignment: Alignment.bottomCenter,
+//                  child: Padding(
+//                    padding:
+//                    EdgeInsets.only(bottom: 8, left: 15, right: 15, top: 9),
+//                    child: FlatButton(
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Flexible(
+//                              flex: 0,
+//                              child: Container(
+//                                decoration: BoxDecoration(
+//                                  color: Color(0xFFE32636),
+//                                  borderRadius:
+//                                  BorderRadius.all(Radius.circular(5)),
+//                                ),
+//                                child: Padding(
+//                                  padding: EdgeInsets.all(10),
+//                                  child: Text(
+//                                    '30 – 50 мин',
+//                                    style: TextStyle(
+//                                      fontSize: 14.0,
+//                                      fontWeight: FontWeight.w600,
+//                                      color: Colors.white,
+//                                    ),
+//                                  ),
+//                                ),
+//                              )),
+//                          Flexible(
+//                              flex: 0,
+//                              child: Padding(
+//                                padding: EdgeInsets.only(right: 15, left: 5),
+//                                child: Text('Оформить',
+//                                    style: TextStyle(
+//                                        fontSize: 14.0,
+//                                        fontWeight: FontWeight.w600,
+//                                        color: Colors.white)),
+//                              )),
+//                          Flexible(
+//                              flex: 0,
+//                              child: Container(
+//                                decoration: BoxDecoration(
+//                                  color: Color(0xFFE32636),
+//                                  borderRadius:
+//                                  BorderRadius.all(Radius.circular(5)),
+//                                ),
+//                                child: Padding(
+//                                  padding: EdgeInsets.all(10),
+//                                  child: Text(
+//                                      '${totalPrice.toStringAsFixed(0)} \Р',
+//                                      style: TextStyle(
+//                                          fontSize: 14.0,
+//                                          fontWeight: FontWeight.w600,
+//                                          color: Colors.white)),
+//                                ),
+//                              )),
+//                        ],
+//                      ),
+//                      color: Color(0xFFFE534F),
+//                      splashColor: Colors.redAccent,
+//                      shape: RoundedRectangleBorder(
+//                        borderRadius: BorderRadius.circular(10),
+//                      ),
+//                      padding: EdgeInsets.only(
+//                          left: 10, top: 10, right: 10, bottom: 10),
+//                      onPressed: () async {
+//                        if (await Internet.checkConnection()) {
+//                          CreateOrderTakeAway createOrderTakeAway =
+//                          new CreateOrderTakeAway(
+//                              comment: comment,
+//                              cartDataModel: currentUser.cartDataModel,
+//                              restaurant: restaurant);
+//                          createOrderTakeAway.sendData();
+//                          Navigator.push(
+//                            context,
+//                            new MaterialPageRoute(
+//                              builder: (context) => new HomeScreen(),
+//                            ),
+//                          );
+//                        } else {
+//                          noConnection(context);
+//                        }
+//                      },
+//                    ),
+//                  ),
+//                ),
               ],
             )));
   }

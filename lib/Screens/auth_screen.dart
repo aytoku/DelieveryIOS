@@ -127,7 +127,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
                               hintStyle: TextStyle(
-                                  color: Color(0xFFC0BFC6),
+                                color: Color(0xFFC0BFC6),
                               ),
                               hintText: '+79188888888',
                               counterText: '',
