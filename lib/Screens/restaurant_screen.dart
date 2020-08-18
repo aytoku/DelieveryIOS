@@ -123,13 +123,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           bottomLeft: Radius.circular(15),
                           bottomRight: Radius.circular(15)),
                       child: Hero(
-                          tag: restaurantDataItems.name,
-                          child: Image.network(
-                            restaurantDataItems.image,
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.height,
-                            width: MediaQuery.of(context).size.width,
-                          ))),
+                        tag: restaurantDataItems.name,
+                        child: Image.network(
+                          restaurantDataItems.image,
+                          fit: BoxFit.cover,
+                          height: 190,
+                          width: MediaQuery.of(context).size.width,
+                        ),)),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
