@@ -122,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             autofocus: true,
                             controller: controller,
                             style: TextStyle(fontSize: 28),
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.center,
                             maxLength: 16,
                             keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
@@ -131,7 +131,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               hintText: '+79188888888',
                               counterText: '',
-                              contentPadding: EdgeInsets.only(left: 80),
+                              //contentPadding: EdgeInsets.only(left: 80),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Color(0xFFFD6F6D)),
                               ),
@@ -336,7 +336,8 @@ class ButtonState extends State<Button> {
             } else {
               print(necessaryDataForAuth.refresh_token);
               //print();
-              if (await NecessaryDataForAuth.refreshToken(necessaryDataForAuth.refresh_token) == null) {
+              String refresh_token_oppai = await NecessaryDataForAuth.refreshToken(necessaryDataForAuth.refresh_token);
+              if (refresh_token_oppai == null) {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
@@ -345,6 +346,7 @@ class ButtonState extends State<Button> {
                 );
               }
               else {
+                necessaryDataForAuth.refresh_token = refresh_token_oppai;
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => HomeScreen()),
