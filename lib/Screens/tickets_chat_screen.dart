@@ -155,49 +155,71 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                 )),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: 40, bottom: 0, right: 15, left: 15),
-                    child: Container(
-                      height: 40,
-                      child: TextField(
-                        controller: messageField,
-                        decoration: InputDecoration(
-                          suffix: GestureDetector(
-                            child: SvgPicture.asset(
-                                'assets/svg_images/send_message.svg'),
-                            onTap: () async {
-                              if (await Internet.checkConnection()) {
-                                var message = await sendTicketMessage(
-                                  order_uuid,
-                                  messageField.text,
-                                );
-                                setState(() {
-                                  GlobalKey<TicketsChatMessageScreenState>
-                                  chatMessageScreenStateKey = new GlobalKey<
-                                      TicketsChatMessageScreenState>();
-                                  //ticketsChatMessagesStates[message.uuid] =
-                                  //    chatMessageScreenStateKey;
-                                  chatMessageList.add(
-                                      new TicketsChatMessageScreen(
-                                          key: chatMessageScreenStateKey,
-                                          comment: new Comment(
-                                              createdAtUnix: DateTime.now().microsecond,
-                                              message: messageField.text,
-                                              senderType: 'client')));
-                                });
-                              } else {
-                                noConnection(context);
-                              }
-                            },
+              child: Padding(
+                padding: EdgeInsets.only(top: 40),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        height: 40,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 15, left: 15),
+                          child: TextField(
+                            controller: messageField,
+                            decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(bottom: 5, left: 10, right: 15),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(15.0),
+                                  ),
+                                  borderSide: BorderSide(
+                                      color: Color(0xFFC8C7CC)
+                                  )
+                              ),
+                              border: new OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(15.0),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        )
                       ),
                     ),
-                  )
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: GestureDetector(
+                        child: SvgPicture.asset(
+                            'assets/svg_images/send_message.svg'),
+                        onTap: () async {
+                          if (await Internet.checkConnection()) {
+                            var message = await sendTicketMessage(
+                              order_uuid,
+                              messageField.text,
+                            );
+                            setState(() {
+                              GlobalKey<TicketsChatMessageScreenState>
+                              chatMessageScreenStateKey = new GlobalKey<
+                                  TicketsChatMessageScreenState>();
+                              //ticketsChatMessagesStates[message.uuid] =
+                              //    chatMessageScreenStateKey;
+                              chatMessageList.add(
+                                  new TicketsChatMessageScreen(
+                                      key: chatMessageScreenStateKey,
+                                      comment: new Comment(
+                                          createdAtUnix: DateTime.now().microsecond,
+                                          message: messageField.text,
+                                          senderType: 'client')));
+                              messageField.clear();
+                            });
+                          } else {
+                            noConnection(context);
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],

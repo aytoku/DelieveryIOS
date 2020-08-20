@@ -767,7 +767,7 @@ class AddressScreenState extends State<AddressScreen>
                                 height: 20,
                                 child: TextField(
                                   textCapitalization: TextCapitalization.sentences,
-                                  controller: entranceField,
+                                  controller: intercomField,
                                   focusNode: focusNode,
                                   decoration: new InputDecoration(
                                     border: InputBorder.none,

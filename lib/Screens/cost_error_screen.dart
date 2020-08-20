@@ -118,7 +118,7 @@ class CostErrorScreenState extends State<CostErrorScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(top: 15),
                         child: Text(
-                          "Ошибка стоимости",
+                          ticketModel.title,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
