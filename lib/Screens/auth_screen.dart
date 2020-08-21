@@ -141,6 +141,9 @@ class _AuthScreenState extends State<AuthScreen> {
                               if(value == '+7 8'){
                                 controller.text = '+7';
                               }
+                              if(value.length == 16){
+                                FocusScope.of(context).requestFocus(new FocusNode());
+                              }
                               currentUser.phone = value;
                               if (value.length > 0 &&
                                   buttonStateKey.currentState.color !=
@@ -229,18 +232,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-              left: MediaQuery.of(context).viewInsets.left,
-              right: MediaQuery.of(context).viewInsets.right,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3),)
-                ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Button(key: buttonStateKey, color: Color(0xF3F3F3F3),)
               ),
-            )
+            ),
           ],
         ));
   }

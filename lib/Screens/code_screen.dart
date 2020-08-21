@@ -228,6 +228,9 @@ class _CodeScreenState extends State<CodeScreen> {
                                             if(value.isEmpty){
                                               code3.focusNode.requestFocus();
                                             }
+                                            if(value.length != 0){
+                                              FocusScope.of(context).requestFocus(new FocusNode());
+                                            }
                                           },
                                           focusNode: new FocusNode(),
                                           controller:
