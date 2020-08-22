@@ -636,6 +636,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
 
   OrderCheckingState(this.ordersStoryModelItem);
 
+
   noConnection(BuildContext context) {
     showDialog(
       context: context,
@@ -1012,7 +1013,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           decoration: BoxDecoration(
                               borderRadius:
                               BorderRadius.all(Radius.circular(11)),
-                              border: Border.all(color: Colors.green),
+                              border: Border.all(color: Color(0xFF45C64E)),
                               color: Colors.white),
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -1051,27 +1052,46 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         width: 130,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(11)),
-                            color: Colors.green),
+                            color: Color(0xFF45C64E)),
                         child: Padding(
                           padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Stack(
                             children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 25),
-                                child: SvgPicture.asset('assets/svg_images/chat.svg'),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 15),
+                                  child: SvgPicture.asset('assets/svg_images/chat.svg'),
+                                ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 25),
-                                child: Text(
-                                  'Чат',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: Colors.white
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(right: 20, top: 2),
+                                  child: Text(
+                                    'Чат',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Colors.white
+                                    ),
                                   ),
                                 ),
-                              )
+                              ),
+                              FutureBuilder(future: ordersStoryModelItem.hasNewMessage(),
+                              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                if(snapshot.connectionState == ConnectionState.done && snapshot.data){
+                                  return Align(
+                                    alignment: Alignment.topRight,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(right: 65, bottom: 2),
+                                      child: SvgPicture.asset('assets/svg_images/chat_circle.svg'),
+                                    ),
+                                  );
+                                }
+                                return Container(height: 0);
+                              },
+                              ),
                             ],
                           ),
                         ),
@@ -1229,7 +1249,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
     chatMessageList.forEach((element) {
       if (element.chatMessage.to == 'client' &&
           element.chatMessage.ack == false) {
-        element.chatMessage.ack = false;
+        element.chatMessage.ack = true;
         messagedUuid.add(element.chatMessage.uuid);
       }
     });
@@ -1370,9 +1390,16 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                         )
                                     )
                                 ),
-                                GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/send_message.svg'),
+                                InkWell(
+                                  child: Container(
+                                    height: 40,
+                                    width: 40,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(6),
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/send_message.svg'),
+                                    )
+                                  ),
                                   onTap: () async {
                                     if (await Internet.checkConnection()) {
                                       var message = await Chat.sendMessage(

@@ -1,5 +1,8 @@
 import 'dart:collection';
 
+import 'package:flutter_app/PostData/chat.dart';
+import 'package:flutter_app/models/ChatHistoryModel.dart';
+
 import 'ResponseData.dart';
 import 'RestaurantDataItems.dart';
 
@@ -51,6 +54,8 @@ class OrdersStoryModelItem{
     this.driver
   });
 
+
+
   factory OrdersStoryModelItem.fromJson(Map<String, dynamic> parsedJson){
 
     var routes_list = parsedJson['routes'] as List;
@@ -86,11 +91,23 @@ class OrdersStoryModelItem{
       driver: Driver.fromJson(parsedJson['driver'])
     );
   }
+
+  Future<bool> hasNewMessage() async{
+    bool result = false;
+    ChatHistoryModel chatHistory = await Chat.loadChatHistory(uuid, 'driver');
+    chatHistory.chatMessageList.forEach((message) {
+      if(message.to == 'client' && !message.ack){
+        result = true;
+        return;
+      }
+    });
+    return result;
+  }
 }
 
 class FoodRecordsStory{
   String uuid;
-  int weight;
+  var weight;
   String name;
   String comment;
   bool available;

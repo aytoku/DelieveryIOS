@@ -85,7 +85,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '${ordersStoryModelItem.price} \Р',
+                  '${ordersStoryModelItem.price  + 134} \Р',
                   style: TextStyle(
                     fontSize: 14,
                     color: Color(0xFFB0B0B0),
@@ -110,23 +110,25 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
           ordersStoryModelItem.created_at_unix * 1000);
       var time = '';
       time = format.format(date);
-      restaurantList.add(
-        InkWell(
-            child: column(ordersStoryModelItem),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) {
-                    return OrdersDetailsScreen(
-                        ordersStoryModelItem: ordersStoryModelItem);
-                  }),
-                );
-              } else {
-                noConnection(context);
-              }
-            }),
-      );
+      if(ordersStoryModelItem.products!= null && ordersStoryModelItem.products.length > 0){
+        restaurantList.add(
+          InkWell(
+              child: column(ordersStoryModelItem),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) {
+                      return OrdersDetailsScreen(
+                          ordersStoryModelItem: ordersStoryModelItem);
+                    }),
+                  );
+                } else {
+                  noConnection(context);
+                }
+              }),
+        );
+      }
       i++;
     });
 

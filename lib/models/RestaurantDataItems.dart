@@ -28,7 +28,7 @@ class RestaurantDataItems{
 
 class FoodRecords{
   String uuid;
-  int weight;
+  var weight;
   String name;
   String comment;
   bool available;

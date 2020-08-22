@@ -2,24 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/PostData/getTicketByUuid.dart';
 import 'package:flutter_app/PostData/sendTicketMessage.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../Internet/check_internet.dart';
-import '../PostData/chat.dart';
-import '../data/data.dart';
-import '../data/data.dart';
-import '../models/ChatHistoryModel.dart';
-import '../models/TicketModel.dart';
 import '../models/TicketModel.dart';
 import 'home_screen.dart';
 
 class TicketsChatScreen extends StatefulWidget {
   String order_uuid;
+  String time;
 
-  TicketsChatScreen({Key key, this.order_uuid}) : super(key: key);
+  TicketsChatScreen({Key key, this.order_uuid, this.time}) : super(key: key);
 
   @override
   TicketsChatScreenState createState() {
-    return new TicketsChatScreenState(order_uuid);
+    return new TicketsChatScreenState(order_uuid, time);
   }
 }
 
@@ -27,8 +22,9 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
     with WidgetsBindingObserver {
   List<TicketsChatMessageScreen> chatMessageList;
   String order_uuid;
+  String time;
 
-  TicketsChatScreenState(this.order_uuid);
+  TicketsChatScreenState(this.order_uuid, this.time);
 
   TextEditingController messageField = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
@@ -77,18 +73,6 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
   }
 
   buildChat() {
-    //TicketsList ticketsList;
-    /*List<String> messagedUuid = new List<String>();
-    chatMessageList.forEach((element) {
-      if (element.comment.to == 'client' &&
-          element.comment.ack == false) {
-        element.comment.ack = false;
-        messagedUuid.add(element.comment.uuid);
-      }
-    });
-    if (messagedUuid.length > 0) {
-      Chat.readMessage(messagedUuid);
-    }*/
     return Scaffold(
       backgroundColor: Colors.white,
         key: _scaffoldKey,
@@ -100,9 +84,9 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
             child: Padding(
               padding: EdgeInsets.only(right: 20),
               child: Text(
-                'Обращение',
+                'Обращение ' + time,
                 style: TextStyle(
-                    fontSize: 17, fontWeight: FontWeight.bold, color: Color(0xFF424242)),
+                    fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF424242)),
               ),
             )
           ),
@@ -126,48 +110,6 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
         ),
         body: Stack(
           children: <Widget>[
-//            Align(
-//              alignment: Alignment.topCenter,
-//              child: Stack(children: <Widget>[
-//                Row(
-//                  children: <Widget>[
-//                    InkWell(
-//                      child: Align(
-//                          alignment: Alignment.topLeft,
-//                          child: Padding(
-//                              padding: EdgeInsets.only(left: 0, top: 30),
-//                              child: Container(
-//                                  height: 40,
-//                                  width: 60,
-//                                  child: Padding(
-//                                    padding: EdgeInsets.only(
-//                                        top: 12, bottom: 12, right: 10),
-//                                    child: SvgPicture.asset(
-//                                        'assets/svg_images/arrow_left.svg'),
-//                                  )))),
-//                      onTap: () {
-//                        Navigator.pushReplacement(
-//                          context,
-//                          new MaterialPageRoute(
-//                            builder: (context) => new HomeScreen(),
-//                          ),
-//                        );
-//                      },
-//                    ),
-//                  ],
-//                ),
-//                Padding(
-//                    padding: EdgeInsets.only(top: 40, left: 0),
-//                    child: Align(
-//                      alignment: Alignment.topCenter,
-//                      child: Text(
-//                        'Обращение',
-//                        style: TextStyle(
-//                            fontSize: 17, fontWeight: FontWeight.bold),
-//                      ),
-//                    ))
-//              ]),
-//            ),
             Positioned(
               bottom: MediaQuery.of(context).viewInsets.bottom,
               left: MediaQuery.of(context).viewInsets.left,
@@ -230,9 +172,16 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(right: 15),
-                                  child: GestureDetector(
-                                    child: SvgPicture.asset(
-                                        'assets/svg_images/send_message.svg'),
+                                  child: InkWell(
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(6),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/send_message.svg'),
+                                      ),
+                                    ),
                                     onTap: () async {
                                       if (await Internet.checkConnection()) {
                                         var message = await sendTicketMessage(

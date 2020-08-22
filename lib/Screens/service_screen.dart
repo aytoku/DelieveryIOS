@@ -291,7 +291,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                                                 context,
                                                 new MaterialPageRoute(
                                                     builder: (context) =>
-                                                    new TicketsChatScreen(order_uuid: snapshot.data.records[index].uuid,))
+                                                    new TicketsChatScreen(order_uuid: snapshot.data.records[index].uuid, time: format.format(DateTime.fromMicrosecondsSinceEpoch(snapshot.data.records[index].createdAtUnix * 1000)),))
                                             );
                                           } else {
                                             noConnection(context);

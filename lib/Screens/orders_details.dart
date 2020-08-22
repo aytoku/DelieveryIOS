@@ -126,11 +126,95 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     );
   }
 
+  List<Widget> _buildListItems(){
+    double totalPrice = 134;
+    List<Widget> result = new List<Widget>();
+    ordersStoryModelItem.products.forEach((product) {
+      totalPrice += product.price;
+      result.add(Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        '${product.number}',
+                        style: TextStyle(
+                            color: Color(0xFF000000), fontSize: 14),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: SvgPicture.asset(
+                          'assets/svg_images/cross.svg'),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: Text(
+                          product.name,
+                          style: TextStyle(
+                              color: Color(0xFF000000), fontSize: 14),
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Text(
+                        '${product.price} \Р',
+                        style: TextStyle(
+                            color: Color(0xFFB0B0D0), fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Divider(height: 1.0, color: Color(0xFFF5F5F5)),
+              ),
+            ],
+          )));
+    });
+
+    result.add(Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: Text(
+            'Итого',
+            style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF000000)),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(right: 15),
+          child: Text('${totalPrice.toStringAsFixed(0)} \Р',
+              style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF000000))),
+        )
+      ],
+    ),);
+
+    return result;
+  }
+
   bool status1 = false;
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 0;
+    double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
         (Order order) => totalPrice += order.quantity * order.food.price);
     var format = new DateFormat('HH:mm');
@@ -331,61 +415,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
         Expanded(
           child: ListView(
             padding: EdgeInsets.zero,
-            children: List.generate(
-                (ordersStoryModelItem.products != null)
-                    ? ordersStoryModelItem.products.length
-                    : 0, (index) {
-              return Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
-                                '${ordersStoryModelItem.products[index].number}',
-                                style: TextStyle(
-                                    color: Color(0xFF000000), fontSize: 14),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 15),
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/cross.svg'),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                child: Text(
-                                  ordersStoryModelItem.products[index].name,
-                                  style: TextStyle(
-                                      color: Color(0xFF000000), fontSize: 14),
-                                  textAlign: TextAlign.start,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(right: 15),
-                              child: Text(
-                                '${ordersStoryModelItem.products[index].price} \Р',
-                                style: TextStyle(
-                                    color: Color(0xFFB0B0D0), fontSize: 14),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Divider(height: 1.0, color: Color(0xFFF5F5F5)),
-                      )
-                    ],
-                  ));
-            }),
+            children: _buildListItems(),
           ),
         ),
         Stack(
@@ -454,7 +484,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           noConnection(context);
                         }
                       },
-                    ) : GestureDetector(
+                    ) : (!not_cancel_state.contains(ordersStoryModelItem.state)) ?  GestureDetector(
                       child: Container(
                           height: 50,
                           width: 200,
@@ -473,10 +503,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           )),
                       onTap: () async {
                         if (await Internet.checkConnection()) {
-                          if(not_cancel_state.contains(ordersStoryModelItem.state)){
-                            showNoCancelAlertDialog(context);
-                            return;
-                          }
+//                          if(not_cancel_state.contains(ordersStoryModelItem.state)){
+//                            showNoCancelAlertDialog(context);
+//                            return;
+//                          }
                           showAlertDialog(context);
                           await loadOrderCancel(ordersStoryModelItem.uuid);
                           homeScreenKey = new GlobalKey();
@@ -488,7 +518,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           noConnection(context);
                         }
                       },
-                    ),
+                    ): Container(),
                   )),
             )
           ],
