@@ -1,8 +1,5 @@
-import 'dart:collection';
-
 import 'package:flutter_app/PostData/chat.dart';
 import 'package:flutter_app/models/ChatHistoryModel.dart';
-
 import 'ResponseData.dart';
 import 'RestaurantDataItems.dart';
 

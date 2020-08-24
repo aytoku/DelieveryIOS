@@ -5,7 +5,6 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'address_screen.dart';
 import 'auth_screen.dart';
 import 'home_screen.dart';
@@ -145,7 +144,8 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                   Padding(
                     padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
-                    child: Image(image: AssetImage('assets/images/cross.png')),
+                    child: SvgPicture.asset(
+                        'assets/svg_images/cross.svg'),
                   ),
                   Expanded(
                     child: Padding(

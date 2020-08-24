@@ -8,9 +8,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/Auth.dart';
 import 'package:flutter_app/models/firebase_notification_handler.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'dart:async';
-
 import 'home_screen.dart';
 import 'name_screen.dart';
 

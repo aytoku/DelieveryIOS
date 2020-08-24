@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class DeliveryResponseData {
   List<Records> records;
   int records_count;

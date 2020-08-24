@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'add_my_address_screen.dart';
 import 'auto_complete.dart';
 import 'home_screen.dart';

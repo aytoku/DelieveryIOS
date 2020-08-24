@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class GlobalState{
   final Map<dynamic , dynamic> _data = <dynamic , dynamic>{};
 

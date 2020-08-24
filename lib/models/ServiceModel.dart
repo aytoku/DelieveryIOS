@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ServiceModel {
   String message;
   String title;

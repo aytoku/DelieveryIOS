@@ -1,11 +1,8 @@
-import 'dart:developer';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/chat.dart';
-import 'package:flutter_app/PostData/orders_story_data.dart';
+import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/orders_story_data.dart';
 import 'package:flutter_app/PostData/restaurant_data_pass.dart';
 import 'package:flutter_app/Screens/orders_details.dart';
 import 'package:flutter_app/Screens/profile_screen.dart';
@@ -16,11 +13,8 @@ import 'package:flutter_app/models/ChatHistoryModel.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_app/models/QuickMessagesModel.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_app/models/ResponseData.dart';
-import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'auth_screen.dart';
 import 'infromation_screen.dart';
 import 'my_addresses_screen.dart';
@@ -695,8 +689,8 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                             padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
                             child: Row(
                               children: <Widget>[
-//                                SvgPicture.asset(
-//                                    'assets/svg_images/call_to_restaurant.svg'),
+                                SvgPicture.asset(
+                                    'assets/svg_images/call_to_restaurant.svg'),
                                 Padding(
                                   padding: EdgeInsets.only(left: 15),
                                   child: Text(
@@ -723,8 +717,8 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                             padding: EdgeInsets.only(top: 20, bottom: 20, left: 15),
                             child: Row(
                               children: <Widget>[
-//                                SvgPicture.asset(
-//                                    'assets/svg_images/call_to_driver.svg'),
+                                SvgPicture.asset(
+                                    'assets/svg_images/call_to_driver.svg'),
                                 Padding(
                                   padding: EdgeInsets.only(left: 15),
                                   child: Text(
@@ -1206,18 +1200,18 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   }
 
   @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if(state == AppLifecycleState.resumed){
       setState(() {
 
       });
     }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   noConnection(BuildContext context) {
@@ -1537,10 +1531,31 @@ class ChatMessageScreen extends StatefulWidget {
   }
 }
 
-class ChatMessageScreenState extends State<ChatMessageScreen> {
+class ChatMessageScreenState extends State<ChatMessageScreen> with WidgetsBindingObserver {
   ChatMessage chatMessage;
 
   ChatMessageScreenState(this.chatMessage);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed){
+      setState(() {
+
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1633,7 +1648,7 @@ class QuickMessageScreen extends StatefulWidget {
   }
 }
 
-class QuickMessageScreenState extends State<QuickMessageScreen> {
+class QuickMessageScreenState extends State<QuickMessageScreen> with WidgetsBindingObserver{
   TextEditingController messageField;
 
   QuickMessageScreenState({this.messageField});

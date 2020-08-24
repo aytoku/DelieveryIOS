@@ -1,6 +1,3 @@
-import 'dart:math';
-
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
@@ -11,7 +8,6 @@ import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-
 import 'auto_complete.dart';
 import 'home_screen.dart';
 

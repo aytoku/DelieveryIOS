@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/OwnersModel.dart';
-import 'package:intl/intl.dart';
 
 class PartnerScreen extends StatefulWidget {
   final OwnersModel owner;

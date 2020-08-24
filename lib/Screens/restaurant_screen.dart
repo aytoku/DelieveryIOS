@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/restaurant_items_data_pass.dart';
 import 'package:flutter_app/data/data.dart';
@@ -10,10 +7,6 @@ import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:flutter_app/models/food.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
-
 import 'cart_screen.dart';
 import 'home_screen.dart';
 

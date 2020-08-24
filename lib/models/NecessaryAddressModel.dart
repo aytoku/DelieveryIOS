@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'ResponseData.dart';
 
 class NecessaryAddressData {

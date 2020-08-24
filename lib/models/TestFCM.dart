@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class TestFCM {
   int code;
   String message;

@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:intl/intl.dart';
 
 class AboutAppScreen extends StatefulWidget {
   @override
@@ -199,7 +197,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 10, left: 15),
                   child: Text(
-                    'Таким образом новая модель организационной\nдеятельности представляет собой интересный\nэксперимент проверки. \n@ 2011-2019 ООО «Faem.Taxi»',
+                    '@ 2011-2020 ООО «Faem.Taxi»',
                     style: TextStyle(color: Color(0x97979797), fontSize: 15),
                   ),
                 ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:device_id/device_id.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/AuthCode.dart';

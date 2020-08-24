@@ -7,7 +7,6 @@ import 'package:flutter_app/Screens/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AuthScreen extends StatefulWidget {

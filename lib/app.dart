@@ -2,7 +2,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/device_id_screen.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class App extends StatelessWidget {
   FirebaseAnalytics analytics = FirebaseAnalytics();

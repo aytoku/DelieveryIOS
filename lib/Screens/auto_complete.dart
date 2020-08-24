@@ -1,12 +1,9 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/PostData/necessary_address_data_pass.dart';
 import 'package:flutter_app/models/NecessaryAddressModel.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class AutoComplete extends StatefulWidget {
   String hint;

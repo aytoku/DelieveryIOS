@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:intl/intl.dart';
-
 import '../Internet/check_internet.dart';
-import '../PostData/getTicketByFilter.dart';
+import '../GetData/getTicketByFilter.dart';
 import '../data/data.dart';
-import '../data/data.dart';
-import '../models/ServiceModel.dart';
 import '../models/TicketModel.dart';
 import 'home_screen.dart';
 import 'service_orders_story.dart';

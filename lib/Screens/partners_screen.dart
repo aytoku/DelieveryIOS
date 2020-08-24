@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/PostData/owners.dart';
+import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/owners.dart';
 import 'package:flutter_app/Screens/partner_screen.dart';
 import 'package:flutter_app/models/OwnersModel.dart';
-import 'package:intl/intl.dart';
 
 class PartnersScreen extends StatefulWidget {
-
-
   @override
   PartnersScreenState createState() => PartnersScreenState();
 }

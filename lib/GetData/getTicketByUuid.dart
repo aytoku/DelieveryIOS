@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CreateOrderModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
 import '../models/TicketModel.dart';
 
 Future<TicketsListRecord> getTicketByUuid(String uuid) async {

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class AuthData {
   int code;
   String message;

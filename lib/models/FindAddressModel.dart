@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class FindAddressData {
   String unrestricted_value;
   String value;

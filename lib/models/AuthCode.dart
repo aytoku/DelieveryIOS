@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class AuthCodeData {
   int client_id;
   String token;

@@ -1,5 +1,3 @@
-import 'dart:convert' as convert;
-
 import 'ResponseData.dart';
 import 'RestaurantDataItems.dart';
 

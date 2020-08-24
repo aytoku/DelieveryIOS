@@ -1,15 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'package:flutter_app/PostData/orders_story_data.dart';
+import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/orders_story_data.dart';
 import 'package:flutter_app/Screens/restaurant_screen.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_app/models/TicketModel.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-
-import 'cart_screen.dart';
 import 'cost_error_screen.dart';
 
 class ServiceOrdersStoryScreen extends StatefulWidget {

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Owners{
   List<OwnersModel>ownersModelList;
 

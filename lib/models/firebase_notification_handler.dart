@@ -1,15 +1,10 @@
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/PostData/fcm.dart';
 import 'package:flutter_app/Screens/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/models/OrderStoryModel.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
 import 'ChatHistoryModel.dart';
 
 class FirebaseNotifications {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'my_addresses_screen.dart';
 
 // ignore: must_be_immutable

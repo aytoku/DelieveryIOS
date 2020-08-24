@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'about_app_screen.dart';
 import 'home_screen.dart';
 

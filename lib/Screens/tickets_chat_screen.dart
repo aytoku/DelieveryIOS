@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/PostData/getTicketByUuid.dart';
-import 'package:flutter_app/PostData/sendTicketMessage.dart';
+import 'package:flutter_app/GetData/getTicketByUuid.dart';
+import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/PutData/sendTicketMessage.dart';
 import 'package:flutter_svg/svg.dart';
 import '../Internet/check_internet.dart';
 import '../models/TicketModel.dart';

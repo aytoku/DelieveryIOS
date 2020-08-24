@@ -1,14 +1,14 @@
-import 'dart:convert';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CreateOrderModel.dart';
-import 'package:flutter_app/models/OwnersModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import '../models/TicketModel.dart';
 
-Future<Owners> getOwners() async {
-  Owners owners = null;
+Future<TicketsList> getTicketsByFilter(int page, int limit, String clientPhone) async {
+
+  TicketsList serviceModel = null;
   await CreateOrder.sendRefreshToken();
-  var url = 'https://crm.apis.stage.faem.pro/api/v2/owners';
+  var url = 'https://crm.apis.stage.faem.pro/api/v2/tickets/filter?page=$page&limit=$limit&clientphone=$clientPhone';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
@@ -16,11 +16,13 @@ Future<Owners> getOwners() async {
     'Authorization':'Bearer ' + authCodeData.token
   });
   if (response.statusCode == 200) {
+
+    print(response.body);
     var jsonResponse = convert.jsonDecode(response.body);
-    owners = Owners.fromJson(jsonResponse);
+    serviceModel = TicketsList.fromJson(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
   print(response.body);
-  return owners;
+  return serviceModel;
 }
