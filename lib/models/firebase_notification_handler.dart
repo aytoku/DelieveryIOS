@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/PostData/fcm.dart';
 import 'package:flutter_app/Screens/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -74,7 +75,13 @@ class FirebaseNotifications {
                 chatKey.currentState.chatMessageList.insert(0, new ChatMessageScreen(chatMessage: message, key: new ObjectKey(message)));
               });
             }
-            //OrderCheckingUpdater(order_uuid, order_state);
+            String order_uuid = message.order_uuid;
+            if(orderCheckingStates.containsKey(order_uuid)) {
+              if(orderCheckingStates[order_uuid].currentState != null) {
+                orderCheckingStates[order_uuid].currentState.setState(() {
+                });
+              }
+            }
             break;
 
           case 'chat_messages_read' :
