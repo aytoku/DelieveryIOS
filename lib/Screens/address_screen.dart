@@ -84,7 +84,7 @@ class PageState extends State<PageScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
                       child: Text(
-                        'Идет оплата',
+                        'Отправляем ваш заказ в систему',
                         style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.bold,

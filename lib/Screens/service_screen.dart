@@ -43,6 +43,8 @@ class ServiceScreenState extends State<ServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var timestamp = 1598355600;
+    var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     // TODO: implement build
     return Scaffold(
         body: Container(
@@ -244,6 +246,7 @@ class ServiceScreenState extends State<ServiceScreen> {
                   ],
                 ),
               ),
+//              Text(DateFormat.yMMMd().format(snapshot.data.records[index].createdAtUnix * 1000)),
               Flexible(
                 flex: 1,
                 child: Column(
@@ -270,11 +273,11 @@ class ServiceScreenState extends State<ServiceScreen> {
                               child: ListView(
                                 padding: EdgeInsets.zero,
                                 children: List.generate(snapshot.data.recordsCount, (index) {
-                                  var format = new DateFormat('yy.MM.dd, HH:mm');
+                                  var format = new DateFormat('dd.MM.yy, HH:mm');
                                   return Column(
                                     children: <Widget>[
                                       ListTile(
-                                        leading: Text(format.format(DateTime.fromMicrosecondsSinceEpoch(snapshot.data.records[index].createdAtUnix * 1000)),
+                                        leading: Text(format.format(DateTime.fromMillisecondsSinceEpoch(snapshot.data.records[index].createdAtUnix * 1000)),
                                           style: TextStyle(
                                               color: Color(0xFF424242),
                                               fontSize: 17

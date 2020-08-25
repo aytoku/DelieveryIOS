@@ -215,11 +215,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
         (Order order) => totalPrice += order.quantity * order.food.price);
-    var format = new DateFormat('HH:mm');
-    var date = new DateTime.fromMicrosecondsSinceEpoch(
-        ordersStoryModelItem.created_at_unix * 1000);
-    var time = '';
-    time = format.format(date);
+    var format = new DateFormat('HH:mm, dd.MM.yy');
     var state_array = [
       'waiting_for_confirmation',
       'cooking',
@@ -304,7 +300,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.only(left: 15, top: 35),
                 child: Text(
-                  time,
+                  format.format(DateTime.fromMillisecondsSinceEpoch( ordersStoryModelItem.created_at_unix * 1000)),
                   style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                 ),
               ),

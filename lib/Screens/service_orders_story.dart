@@ -52,11 +52,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
   }
 
   column(OrdersStoryModelItem ordersStoryModelItem) {
-    var format = new DateFormat('HH:mm, dd-MM-yy');
-    var date = new DateTime.fromMicrosecondsSinceEpoch(
-        ordersStoryModelItem.created_at_unix * 1000);
-    var time = '';
-    time = format.format(date);
+    var format = new DateFormat('HH:mm, dd.MM.yy');
     return Column(
       children: <Widget>[
         GestureDetector(
@@ -74,7 +70,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
               Padding(
                 padding: EdgeInsets.only(left: 15, top: 10, right: 15),
                 child: Text(
-                  time,
+                  format.format(DateTime.fromMillisecondsSinceEpoch( ordersStoryModelItem.created_at_unix * 1000)),
                   style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),
                 ),
               ),

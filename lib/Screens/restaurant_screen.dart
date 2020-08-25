@@ -249,7 +249,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Container(
-                height: 222,
+                height: 242,
                 width: 300,
                 child: Column(
                   children: <Widget>[
@@ -268,7 +268,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     InkWell(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: Padding(
+                        child: Padding( 
                           padding: EdgeInsets.only(top: 20, bottom: 20),
                           child: Center(
                             child: Text(

@@ -130,7 +130,6 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                               hintText: '+79188888888',
                               counterText: '',
-                              //contentPadding: EdgeInsets.only(left: 80),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Color(0xFFFD6F6D)),
                               ),
@@ -160,7 +159,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 });
                               }
                             },
-                          ),
+                          )
                         ),
                       ),
                       Flexible(
