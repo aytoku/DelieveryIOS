@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/GetData/getImage.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/restaurant_items_data_pass.dart';
 import 'package:flutter_app/data/data.dart';
@@ -118,7 +119,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       child: Hero(
                         tag: restaurantDataItems.name,
                         child: Image.network(
-                          restaurantDataItems.image,
+                          getImage(restaurantDataItems.image),
                           fit: BoxFit.cover,
                           height: 190,
                           width: MediaQuery.of(context).size.width,
@@ -367,9 +368,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             Hero(
                                 tag: restaurantDataItems.name,
                                 child: Image.network(
-                                  restaurantDataItems.image,
+                                  getImage(restaurantDataItems.image),
                                   fit: BoxFit.cover,
-                                  height: 300.0,
+                                  height: 320.0,
                                   width: MediaQuery.of(context).size.width,
                                 )),
                             Align(
@@ -486,7 +487,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             padding: EdgeInsets.only(left: 5),
                             child: (restaurantDataItems.weight != null)
                                 ? Text(
-                              restaurantDataItems.weight.toString() +
+                              restaurantDataItems.weight +
                                   ' г',
                               style: TextStyle(
                                   fontSize: 12.0,
@@ -916,9 +917,9 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
               )),
         ),
       )
-          : (restaurantDataItems.weight != null)
+          : (restaurantDataItems.weight != null || restaurantDataItems.weight != ' ')
           ? Text(
-        restaurantDataItems.weight.toString() + ' г',
+        restaurantDataItems.weight + ' г',
         style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 12),
       )
           : Container(),
@@ -1013,7 +1014,7 @@ class CounterState extends State<Counter> {
               ),
             ),
           ),
-          SizedBox(width: 20.0),
+          SizedBox(width: 19.0),
           Padding(
             padding: EdgeInsets.only(right: 20),
             child: Text(

@@ -50,6 +50,28 @@ class FirebaseNotifications {
   }
 
   static void messageHandler(Map<String, dynamic> message) async {
+
+    //ios fix
+    print(message);
+    if(!message.containsKey('data') && (message.containsKey('payload') || message.containsKey('tag'))){
+      print('arturia saber');
+      message['data'] = new Map<String, dynamic>();
+      if(message.containsKey('payload')){
+        message['data']['payload'] = message['payload'];
+        print('arturia lancer');
+      }
+      if(message.containsKey('tag')){
+        message['data']['tag'] = message['tag'];
+        print('arturia kartyojnik');
+      }
+      if(message.containsKey('notification_message')){
+        message['data']['notification_message'] = message['notification_message'];
+        print('arturia gopnik');
+      }
+    }
+    print(message);
+
+
     if (message.containsKey('data')) {
       var data =  message['data'];
       if(data.containsKey('tag')) {

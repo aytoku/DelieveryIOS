@@ -104,7 +104,7 @@ class OrdersStoryModelItem{
 
 class FoodRecordsStory{
   String uuid;
-  var weight;
+  String weight;
   String name;
   String comment;
   bool available;

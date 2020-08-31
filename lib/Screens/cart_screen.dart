@@ -123,8 +123,7 @@ class _CartScreenState extends State<CartScreen> {
             children: <Widget>[
               Flexible(
                 flex: 3,
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   !order.isSelected
                       ? Padding(
                           padding:

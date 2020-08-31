@@ -43,8 +43,7 @@ class ServiceScreenState extends State<ServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var timestamp = 1598355600;
-    var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    var format1 = new DateFormat('dd.MM.yy, HH:mm');
     // TODO: implement build
     return Scaffold(
         body: Container(
@@ -290,7 +289,10 @@ class ServiceScreenState extends State<ServiceScreen> {
                                                 context,
                                                 new MaterialPageRoute(
                                                     builder: (context) =>
-                                                    new TicketsChatScreen(order_uuid: snapshot.data.records[index].uuid, time: format.format(DateTime.fromMicrosecondsSinceEpoch(snapshot.data.records[index].createdAtUnix * 1000)),))
+                                                    new TicketsChatScreen(
+                                                      order_uuid: snapshot.data.records[index].uuid,
+                                                      time: format.format(DateTime.fromMillisecondsSinceEpoch(snapshot.data.records[index].createdAtUnix * 1000)),
+                                                    ))
                                             );
                                           } else {
                                             noConnection(context);

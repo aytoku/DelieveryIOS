@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/GetData/getTicketByUuid.dart';
 import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/PutData/sendTicketMessage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import '../Internet/check_internet.dart';
 import '../models/TicketModel.dart';
 import 'home_screen.dart';
@@ -99,12 +100,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                       'assets/svg_images/arrow_left.svg'),
                 )),
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new HomeScreen(),
-                ),
-              );
+              Navigator.pop(context);
             },
           )
         ),

@@ -121,21 +121,21 @@ class _AuthScreenState extends State<AuthScreen> {
                             autofocus: true,
                             controller: controller,
                             style: TextStyle(fontSize: 28),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             maxLength: 16,
                             keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
+                              contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2),
                               hintStyle: TextStyle(
                                 color: Color(0xFFC0BFC6),
                               ),
-                              hintText: '+79188888888',
+                              hintText: '+7918 888-88-88',
                               counterText: '',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Color(0xFFFD6F6D)),
                               ),
                             ),
                             onChanged: (String value) {
-                              print(value);
                               if(value == '+7 8'){
                                 controller.text = '+7';
                               }

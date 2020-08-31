@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/GetData/getImage.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/chat.dart';
 import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/orders_story_data.dart';
@@ -97,7 +98,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     child: Hero(
                         tag: restaurant.uuid,
                         child: Image.network(
-                          restaurant.image,
+                          getImage(restaurant.image),
                           height: 200.0,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,

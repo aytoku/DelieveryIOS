@@ -85,7 +85,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '${ordersStoryModelItem.price} \Р',
+                  '${ordersStoryModelItem.price + 134} \Р',
                   style: TextStyle(
                     fontSize: 14,
                     color: Color(0xFFB0B0B0),
@@ -95,7 +95,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
             )
           ],
         ),
-        Divider(height: 1.0, color: Colors.grey),
+        Divider(height: 1.0, color: Color(0xFFF5F5F5)),
       ],
     );
   }
@@ -110,23 +110,25 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
           ordersStoryModelItem.created_at_unix * 1000);
       var time = '';
       time = format.format(date);
-      restaurantList.add(
-        InkWell(
-            child: column(ordersStoryModelItem),
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                ticketModel.uuid = ordersStoryModelItem.uuid;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) {
-                    return CostErrorScreen(ticketModel: ticketModel);
-                  }),
-                );
-              } else {
-                noConnection(context);
-              }
-            }),
-      );
+      if(ordersStoryModelItem.products != null && ordersStoryModelItem.products.length > 0){
+        restaurantList.add(
+          InkWell(
+              child: column(ordersStoryModelItem),
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  ticketModel.uuid = ordersStoryModelItem.uuid;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) {
+                      return CostErrorScreen(ticketModel: ticketModel);
+                    }),
+                  );
+                } else {
+                  noConnection(context);
+                }
+              }),
+        );
+      }
       i++;
     });
 
@@ -411,7 +413,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                         ],
                       ),
                     ),
-                    Divider(height: 1.0, color: Colors.grey),
+                    Divider(height: 1.0, color: Color(0xFFF5F5F5)),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

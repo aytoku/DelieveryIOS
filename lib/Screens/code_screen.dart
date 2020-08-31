@@ -271,8 +271,7 @@ class _CodeScreenState extends State<CodeScreen> {
                       ),
                     ),
                   ),
-                  Flexible(
-                    flex: 1,
+                  Expanded(
                     child: Align(
                         alignment: Alignment.bottomCenter,
                         child: Column(
