@@ -193,16 +193,29 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             )),
         context: context,
         builder: (context) {
-          return Container(
-            height: 500,
-            child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
-            decoration: BoxDecoration(
-                color: Theme.of(context).canvasColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(12),
-                  topRight: const Radius.circular(12),
-                )),
-          );
+          if(food.comment != "" && food.comment != null){
+            return Container(
+              height: 500,
+              child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(12),
+                    topRight: const Radius.circular(12),
+                  )),
+            );
+          }else{
+            return Container(
+              height: 440,
+              child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(12),
+                    topRight: const Radius.circular(12),
+                  )),
+            );
+          }
         });
   }
 
@@ -1263,8 +1276,16 @@ class VariantsSelectorState extends State<VariantsSelector> {
         ),
       );
     });
-    return Column(
-      children: widgetsList,
+    return Container(
+      color: Colors.white,
+      child: ScrollConfiguration(
+        behavior: new ScrollBehavior(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: widgetsList,
+          ),
+        ),
+      ),
     );
   }
 }
@@ -1291,8 +1312,16 @@ class ToppingsSelectorState extends State<ToppingsSelector> {
           topping: element,
           title: element.name));
     });
-    return Column(
-      children: widgetsList,
+    return Container(
+      color: Colors.white,
+      child: ScrollConfiguration(
+        behavior: new ScrollBehavior(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: widgetsList,
+          ),
+        ),
+      ),
     );
   }
 

@@ -88,6 +88,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
             child: searchTextField = TypeAheadField(
               textFieldConfiguration: TextFieldConfiguration(
                 controller: controller,
+                cursorColor: Color(0xFFFD6F6D),
                 textCapitalization: TextCapitalization.sentences,
                 //autofocus: true,
                 focusNode: node,

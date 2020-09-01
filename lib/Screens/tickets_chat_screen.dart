@@ -83,7 +83,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
           title: Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: EdgeInsets.only(right: 20),
+              padding: EdgeInsets.only(right: 0),
               child: Text(
                 'Обращение ' + time,
                 style: TextStyle(
