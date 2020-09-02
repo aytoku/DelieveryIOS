@@ -73,7 +73,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => HomeScreen()),
-                                (Route<dynamic> route) => false);
+                                    (Route<dynamic> route) => false);
                           } else {
                             noConnection(context);
                           }
@@ -104,7 +104,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding:
-                              EdgeInsets.only(left: 30, top: 0, bottom: 10),
+                          EdgeInsets.only(left: 30, top: 0, bottom: 10),
                           child: Text(
                             'Ваше имя',
                             style: TextStyle(
@@ -117,7 +117,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                           height: 30,
                           child: Padding(
                             padding:
-                                EdgeInsets.only(left: 30, right: 0, bottom: 10),
+                            EdgeInsets.only(left: 30, right: 0, bottom: 10),
                             child: TextField(
                               textCapitalization: TextCapitalization.sentences,
                               style: TextStyle(
@@ -144,7 +144,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding:
-                              EdgeInsets.only(left: 30, top: 20, bottom: 15),
+                          EdgeInsets.only(left: 30, top: 20, bottom: 15),
                           child: Text(
                             'Номер телефона',
                             style: TextStyle(
@@ -155,7 +155,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                             padding:
-                                EdgeInsets.only(left: 30, right: 0, bottom: 10),
+                            EdgeInsets.only(left: 30, right: 0, bottom: 10),
                             child: GestureDetector(
                               child: Text(
                                 necessaryDataForAuth.phone_number,
@@ -196,6 +196,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       onTap: () async {
                         if (await Internet.checkConnection()) {
                           necessaryDataForAuth.refresh_token = null;
+                          NecessaryDataForAuth.saveData();
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) => DeviceIdScreen()),

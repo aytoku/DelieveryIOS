@@ -837,7 +837,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
               alignment: Alignment.centerLeft,
               child: (in_the_way
                   .contains(ordersStoryModelItem.state)) ? Padding(
-                padding: EdgeInsets.only(right: 170, bottom: 10),
+                padding: EdgeInsets.only(right: 170, bottom: 8),
                 child: Text(ordersStoryModelItem.driver.color + ' ' + ordersStoryModelItem.driver.car + ' ' + ordersStoryModelItem.driver.reg_number,
                   style: TextStyle(color: Color(0xFF000000), fontSize: 16),),
               ) : Container(height: 0),

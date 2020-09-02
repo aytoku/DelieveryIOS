@@ -116,50 +116,50 @@ class _AuthScreenState extends State<AuthScreen> {
                       Flexible(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: TextField(
-                            autofocus: true,
-                            controller: controller,
-                            style: TextStyle(fontSize: 28),
-                            textAlign: TextAlign.start,
-                            maxLength: 16,
-                            keyboardType: TextInputType.number,
-                            decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2),
-                              hintStyle: TextStyle(
-                                color: Color(0xFFC0BFC6),
+                            padding: EdgeInsets.only(top: 20),
+                            child: TextField(
+                              autofocus: true,
+                              controller: controller,
+                              style: TextStyle(fontSize: 28),
+                              textAlign: TextAlign.start,
+                              maxLength: 16,
+                              keyboardType: TextInputType.number,
+                              decoration: new InputDecoration(
+                                contentPadding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2),
+                                hintStyle: TextStyle(
+                                  color: Color(0xFFC0BFC6),
+                                ),
+                                hintText: '+7918 888-88-88',
+                                counterText: '',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFFFD6F6D)),
+                                ),
                               ),
-                              hintText: '+7918 888-88-88',
-                              counterText: '',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Color(0xFFFD6F6D)),
-                              ),
-                            ),
-                            onChanged: (String value) {
-                              if(value == '+7 8'){
-                                controller.text = '+7';
-                              }
-                              if(value.length == 16){
-                                FocusScope.of(context).requestFocus(new FocusNode());
-                              }
-                              currentUser.phone = value;
-                              if (value.length > 0 &&
-                                  buttonStateKey.currentState.color !=
-                                      Color(0xFFFE534F)) {
-                                buttonStateKey.currentState.setState(() {
-                                  buttonStateKey.currentState.color =
-                                      Color(0xFFFE534F);
-                                });
-                              } else if (value.length == 0 &&
-                                  buttonStateKey.currentState.color !=
-                                      Color(0xF3F3F3F3)) {
-                                buttonStateKey.currentState.setState(() {
-                                  buttonStateKey.currentState.color =
-                                      Color(0xF3F3F3F3);
-                                });
-                              }
-                            },
-                          )
+                              onChanged: (String value) {
+                                if(value == '+7 8'){
+                                  controller.text = '+7';
+                                }
+                                if(value.length == 16){
+                                  FocusScope.of(context).requestFocus(new FocusNode());
+                                }
+                                currentUser.phone = value;
+                                if (value.length > 0 &&
+                                    buttonStateKey.currentState.color !=
+                                        Color(0xFFFE534F)) {
+                                  buttonStateKey.currentState.setState(() {
+                                    buttonStateKey.currentState.color =
+                                        Color(0xFFFE534F);
+                                  });
+                                } else if (value.length == 0 &&
+                                    buttonStateKey.currentState.color !=
+                                        Color(0xF3F3F3F3)) {
+                                  buttonStateKey.currentState.setState(() {
+                                    buttonStateKey.currentState.color =
+                                        Color(0xF3F3F3F3);
+                                  });
+                                }
+                              },
+                            )
                         ),
                       ),
                       Flexible(
@@ -323,6 +323,7 @@ class ButtonState extends State<Button> {
             }
             if (currentUser.phone != necessaryDataForAuth.phone_number) {
               necessaryDataForAuth.name = '';
+              currentUser.isLoggedIn = false;
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -331,9 +332,9 @@ class ButtonState extends State<Button> {
               );
             } else {
               print(necessaryDataForAuth.refresh_token);
-              //print();
               String refresh_token_oppai = await NecessaryDataForAuth.refreshToken(necessaryDataForAuth.refresh_token);
               if (refresh_token_oppai == null) {
+                currentUser.isLoggedIn = false;
                 Navigator.push(
                   context,
                   new MaterialPageRoute(
@@ -343,6 +344,7 @@ class ButtonState extends State<Button> {
               }
               else {
                 necessaryDataForAuth.refresh_token = refresh_token_oppai;
+                currentUser.isLoggedIn = true;
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => HomeScreen()),

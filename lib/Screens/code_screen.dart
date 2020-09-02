@@ -25,6 +25,14 @@ class _CodeScreenState extends State<CodeScreen> {
   TextField code3;
   TextField code4;
   String error = '';
+  TextEditingController controller1 = new TextEditingController();
+  TextEditingController controller2 = new TextEditingController();
+  TextEditingController controller3 = new TextEditingController();
+  TextEditingController controller4 = new TextEditingController();
+  String temp1 = '';
+  String temp2 = '';
+  String temp3 = '';
+  String temp4 = '';
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
 
   noConnection(BuildContext context) {
@@ -70,12 +78,69 @@ class _CodeScreenState extends State<CodeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    controller1.addListener(() {
+      if(controller1.text.length > 1){
+        if(controller1.text[0] == temp1){
+          temp1 = controller1.text[1];
+          controller1.text = controller1.text[1];
+        }else{
+          temp1 = controller1.text[0];
+          controller1.text = controller1.text[0];
+        }
+      }
+      else
+        temp1 = controller1.text;
+    });
+    controller2.addListener(() {
+      if(controller2.text.length > 1){
+        if(controller2.text[0] == temp2){
+          temp2 = controller2.text[1];
+          controller2.text = controller2.text[1];
+        }else{
+          temp2 = controller2.text[0];
+          controller2.text = controller2.text[0];
+        }
+      }
+      else
+        temp2 = controller2.text;
+    });
+    controller3.addListener(() {
+      if(controller3.text.length > 1){
+        if(controller3.text[0] == temp3){
+          temp3 = controller3.text[1];
+          controller3.text = controller3.text[1];
+        }else{
+          temp3 = controller3.text[0];
+          controller3.text = controller3.text[0];
+        }
+      }
+      else
+        temp3 = controller3.text;
+    });
+    controller4.addListener(() {
+      if(controller4.text.length > 1){
+        if(controller4.text[0] == temp4){
+          temp4 = controller4.text[1];
+          controller4.text = controller4.text[1];
+        }else{
+          temp4 = controller4.text[0];
+          controller4.text = controller4.text[0];
+        }
+      }
+      else
+        temp4 = controller4.text;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: FutureBuilder<AuthData>(
           future:
-              loadAuthData(necessaryDataForAuth.device_id, currentUser.phone),
+          loadAuthData(necessaryDataForAuth.device_id, currentUser.phone),
           builder: (BuildContext context, AsyncSnapshot<AuthData> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return Column(
@@ -127,19 +192,18 @@ class _CodeScreenState extends State<CodeScreen> {
                                       flex: 1,
                                       child: Padding(
                                         padding:
-                                            EdgeInsets.only(left: 7, right: 7),
+                                        EdgeInsets.only(left: 7, right: 7),
                                         child: code1 = TextField(
                                             autofocus: true,
                                             focusNode: new FocusNode(),
-                                            controller:
-                                                new TextEditingController(),
+                                            controller: controller1,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 28),
                                             keyboardType: TextInputType.number,
-                                            maxLength: 1,
+                                            maxLength: 2,
                                             decoration: new InputDecoration(
                                               enabledBorder:
-                                                  UnderlineInputBorder(
+                                              UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Color(0xFFFD6F6D)),
                                               ),
@@ -157,18 +221,17 @@ class _CodeScreenState extends State<CodeScreen> {
                                       flex: 1,
                                       child: Padding(
                                         padding:
-                                            EdgeInsets.only(left: 7, right: 7),
+                                        EdgeInsets.only(left: 7, right: 7),
                                         child: code2 = TextField(
                                             focusNode: new FocusNode(),
-                                            controller:
-                                                new TextEditingController(),
+                                            controller: controller2,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 28),
                                             keyboardType: TextInputType.number,
-                                            maxLength: 1,
+                                            maxLength: 2,
                                             decoration: new InputDecoration(
                                               enabledBorder:
-                                                  UnderlineInputBorder(
+                                              UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Color(0xFFFD6F6D)),
                                               ),
@@ -189,18 +252,17 @@ class _CodeScreenState extends State<CodeScreen> {
                                       flex: 1,
                                       child: Padding(
                                         padding:
-                                            EdgeInsets.only(left: 7, right: 7),
+                                        EdgeInsets.only(left: 7, right: 7),
                                         child: code3 = TextField(
                                             focusNode: new FocusNode(),
-                                            controller:
-                                                new TextEditingController(),
+                                            controller: controller3,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(fontSize: 28),
                                             keyboardType: TextInputType.number,
-                                            maxLength: 1,
+                                            maxLength: 2,
                                             decoration: new InputDecoration(
                                               enabledBorder:
-                                                  UnderlineInputBorder(
+                                              UnderlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Color(0xFFFD6F6D)),
                                               ),
@@ -221,7 +283,7 @@ class _CodeScreenState extends State<CodeScreen> {
                                       flex: 1,
                                       child: Padding(
                                         padding:
-                                            EdgeInsets.only(left: 7, right: 7),
+                                        EdgeInsets.only(left: 7, right: 7),
                                         child: code4 = TextField(
                                           onChanged: (String value){
                                             if(value.isEmpty){
@@ -232,12 +294,11 @@ class _CodeScreenState extends State<CodeScreen> {
                                             }
                                           },
                                           focusNode: new FocusNode(),
-                                          controller:
-                                              new TextEditingController(),
+                                          controller: controller4,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 28),
                                           keyboardType: TextInputType.number,
-                                          maxLength: 1,
+                                          maxLength: 2,
                                           decoration: new InputDecoration(
                                             enabledBorder: UnderlineInputBorder(
                                               borderSide: BorderSide(
@@ -372,8 +433,8 @@ class TimerCountDownState extends State<TimerCountDown> {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
-      (Timer timer) => setState(
-        () {
+          (Timer timer) => setState(
+            () {
           if (_start < 1) {
             timer.cancel();
             _timer.cancel();
@@ -398,22 +459,22 @@ class TimerCountDownState extends State<TimerCountDown> {
     }
     return _start != 0
         ? Center(
-            child: Text('Получить новый код можно через $_start c',
-                style: TextStyle(
-                  color: Color(0x97979797),
-                  fontSize: 13.0,
-                  letterSpacing: 1.2,
-                )),
-          )
+      child: Text('Получить новый код можно через $_start c',
+          style: TextStyle(
+            color: Color(0x97979797),
+            fontSize: 13.0,
+            letterSpacing: 1.2,
+          )),
+    )
         : GestureDetector(
-            child: Text(
-              'Отпарвить код повторно',
-              style: TextStyle(),
-            ),
-            onTap: () {
-              codeScreenState.setState(() {});
-            },
-          );
+      child: Text(
+        'Отпарвить код повторно',
+        style: TextStyle(),
+      ),
+      onTap: () {
+        codeScreenState.setState(() {});
+      },
+    );
   }
 }
 

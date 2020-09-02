@@ -393,7 +393,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 padding: EdgeInsets.only(left: 15, top: 90, bottom: 10),
                 child: Text(
                   (ordersStoryModelItem.store != null)
-                      ? ordersStoryModelItem.routes[0].street +
+                      ? ordersStoryModelItem.routes[0].street + ' ' +
                           ordersStoryModelItem.routes[0].house
                       : 'Пусто',
                   style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),

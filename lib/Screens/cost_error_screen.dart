@@ -196,6 +196,7 @@ class CostErrorScreenState extends State<CostErrorScreen> {
                               minLines: 1,
                               maxLines: 100,
                               controller: descField,
+                              textCapitalization: TextCapitalization.sentences,
                               textAlign: TextAlign.start,
                               style: TextStyle(fontSize: 14),
                               keyboardType: TextInputType.text,
