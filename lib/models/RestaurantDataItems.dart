@@ -84,7 +84,7 @@ class FoodRecords{
       store_uuid: foodItem.store_uuid,
       toppings: foodItem.toppings,
       category: null,
-      variants: foodItem.variants,
+      variants: [foodItem.selectedVariant],
       created_at_unix: null,
     );
   }

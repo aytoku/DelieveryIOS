@@ -65,7 +65,7 @@ class CartDataModel {
   void addItem(Order orderItem){
     bool flag = false;
     cart.forEach((element) {
-      if(element.food.uuid == orderItem.food.uuid && element.food.variants == orderItem.food.variants){
+      if(element.food.uuid == orderItem.food.uuid && element.food.variants == orderItem.food.variants && element.food.toppings == orderItem.food.toppings){
         element.quantity += orderItem.quantity;
         flag = true;
       }

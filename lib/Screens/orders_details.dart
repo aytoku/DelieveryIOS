@@ -128,7 +128,18 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
     double totalPrice = 134;
     List<Widget> result = new List<Widget>();
     ordersStoryModelItem.products.forEach((product) {
-      totalPrice += product.price;
+      if(product.selectedVariant != null && product.selectedVariant.price != null){
+        totalPrice += product.number * (product.price + product.selectedVariant.price);
+      }else{
+        totalPrice += product.number * product.price;
+      }
+      double toppingsCost = 0;
+      if(product.toppings != null){
+        product.toppings.forEach((element) {
+          toppingsCost += product.number * element.price;
+        });
+        totalPrice += toppingsCost;
+      }
       result.add(Padding(
           padding: EdgeInsets.only(top: 10),
           child: Column(
@@ -153,19 +164,71 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Text(
-                          product.name,
-                          style: TextStyle(
-                              color: Color(0xFF000000), fontSize: 14),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
+                          padding: EdgeInsets.only(left: 15, top: 15),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(right: 165),
+                                  child: Text(
+                                    product.name,
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF000000)),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                                (product.selectedVariant != null)
+                                    ? Padding(
+                                  padding: EdgeInsets.only(right: 203),
+                                  child: Text(
+                                    product.selectedVariant .name,
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF000000)),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                )
+                                    : Text(''),
+                                (product.toppings != null)
+                                    ? Column(
+                                  children: List.generate(
+                                      product.toppings.length,
+                                          (index) => Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                          EdgeInsets.only(bottom: 5, left: 2),
+                                          child: Text(
+                                            product.toppings[index]
+                                                .name,
+                                            style: TextStyle(
+                                                decoration:
+                                                TextDecoration.none,
+                                                fontSize: 10.0,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                color: Color(0xFF000000)),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      )),
+                                )
+                                    : Text(''),
+                              ],
+                            ),
+                          )),
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: 15),
                       child: Text(
-                        '${product.price} \Р',
+                        '${(product.selectedVariant != null  && product.selectedVariant.price != null) ?
+                        (product.number * (product.price + product.selectedVariant.price) + toppingsCost).toStringAsFixed(0) :
+                        (product.number * product.price + toppingsCost).toStringAsFixed(0)} \Р',
                         style: TextStyle(
                             color: Color(0xFFB0B0D0), fontSize: 14),
                       ),
@@ -185,7 +248,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 15),
+          padding: EdgeInsets.only(left: 15, bottom: 20),
           child: Text(
             'Итого',
             style: TextStyle(
@@ -195,7 +258,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(right: 15),
+          padding: EdgeInsets.only(right: 15, bottom: 20),
           child: Text('${totalPrice.toStringAsFixed(0)} \Р',
               style: TextStyle(
                   fontSize: 14.0,
@@ -214,7 +277,21 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   Widget build(BuildContext context) {
     double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
-        (Order order) => totalPrice += order.quantity * order.food.price);
+            (Order order) {
+          if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
+            totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
+          }else{
+            totalPrice += order.quantity * order.food.price;
+          }
+          double toppingsCost = 0;
+          if(order.food.toppings != null){
+            order.food.toppings.forEach((element) {
+              toppingsCost += order.quantity * element.price;
+            });
+            totalPrice += toppingsCost;
+          }
+        }
+    );
     var format = new DateFormat('HH:mm, dd.MM.yy');
     var state_array = [
       'waiting_for_confirmation',
@@ -432,7 +509,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 //              ),
             Center(
               child: Padding(
-                  padding: EdgeInsets.only(left: 0, bottom: 20, right: 0),
+                  padding: EdgeInsets.only(top: 20, bottom: 20, right: 0),
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: (!state_array.contains(ordersStoryModelItem.state)) ? GestureDetector(

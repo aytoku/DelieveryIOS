@@ -113,7 +113,7 @@ class FoodRecordsStory{
   String store_uuid;
   List<Toppings>toppings;
   int number;
-  List<Variants>variants;
+  Variants selectedVariant;
 
   FoodRecordsStory( {
     this.uuid,
@@ -126,7 +126,7 @@ class FoodRecordsStory{
     this.store_uuid,
     this.toppings,
     this.number,
-    this.variants,
+    this.selectedVariant,
   });
 
   factory FoodRecordsStory.fromJson(Map<String, dynamic> parsedJson){
@@ -156,7 +156,7 @@ class FoodRecordsStory{
       number: parsedJson['number'],
       store_uuid: parsedJson['store_uuid'],
       toppings: toppingsList,
-      variants: variantsList,
+      selectedVariant: Variants.fromJson(parsedJson['selected_variant']),
     );
   }
 }

@@ -146,7 +146,21 @@ class PageState extends State<PageScreen> {
     FocusNode focusNode;
     double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
-            (Order order) => totalPrice += order.quantity * order.food.price);
+            (Order order) {
+          if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
+            totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
+          }else{
+            totalPrice += order.quantity * order.food.price;
+          }
+          double toppingsCost = 0;
+          if(order.food.toppings != null){
+            order.food.toppings.forEach((element) {
+              toppingsCost += order.quantity * element.price;
+            });
+            totalPrice += toppingsCost;
+          }
+        }
+    );
     print('suka');
     var addressScreen = AddressScreen(restaurant: restaurant, key: addressScreenKey,);
     var takeAwayScreen = TakeAway(restaurant: restaurant, key: takeAwayScreenKey,);
@@ -659,7 +673,21 @@ class AddressScreenState extends State<AddressScreen>
     FocusNode focusNode;
     double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
-            (Order order) => totalPrice += order.quantity * order.food.price);
+            (Order order) {
+          if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
+            totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
+          }else{
+            totalPrice += order.quantity * order.food.price;
+          }
+          double toppingsCost = 0;
+          if(order.food.toppings != null){
+            order.food.toppings.forEach((element) {
+              toppingsCost += order.quantity * element.price;
+            });
+            totalPrice += toppingsCost;
+          }
+        }
+    );
     return Scaffold(
       key: _scaffoldStateKey,
       resizeToAvoidBottomPadding: false,

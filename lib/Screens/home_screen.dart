@@ -43,10 +43,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     _color = true;
   }
 
@@ -450,10 +450,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                       height: 40,
                                       width: 60,
                                       child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 0),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/menu.svg')
+                                          padding: EdgeInsets.only(
+                                              top: 12, bottom: 12, right: 0),
+                                          child: SvgPicture.asset(
+                                              'assets/svg_images/menu.svg')
                                       )),
                                   onTap: () {
                                     _scaffoldKey.currentState.openDrawer();
@@ -510,7 +510,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                               builder: (BuildContext context,
                                   AsyncSnapshot<List<OrderChecking>> snapshot) {
                                 if (snapshot.connectionState ==
-                                        ConnectionState.done &&
+                                    ConnectionState.done &&
                                     snapshot.data != null &&
                                     snapshot.data.length > 0) {
                                   orderList = snapshot.data;
@@ -522,8 +522,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                       scrollDirection: Axis.horizontal,
                                     ),
                                   ) : Container(
-                                          height: 0,
-                                        );
+                                    height: 0,
+                                  );
                                 } else {
                                   orderList = null;
                                   return Center(
@@ -807,7 +807,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                           height: 30,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(44)),
+                              BorderRadius.all(Radius.circular(44)),
                               color: Color(0xF6F6F6F6)),
                           child: Padding(
                               padding: EdgeInsets.only(
@@ -855,7 +855,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(60)),
                             color: (processing
-                                    .contains(ordersStoryModelItem.state))
+                                .contains(ordersStoryModelItem.state))
                                 ? Color(0xFF4DC3E9)
                                 : Color(0xF6F6F6F6)),
                         child: Column(
@@ -863,22 +863,22 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                             Padding(
                               padding: EdgeInsets.only(top: 10),
                               child: (processing
-                                      .contains(ordersStoryModelItem.state))
+                                  .contains(ordersStoryModelItem.state))
                                   ? SvgPicture.asset(
-                                      'assets/svg_images/white_clock.svg')
+                                  'assets/svg_images/white_clock.svg')
                                   : SvgPicture.asset(
-                                      'assets/svg_images/clock.svg'),
+                                  'assets/svg_images/clock.svg'),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text('Обработка',
                                   style: (processing
-                                          .contains(ordersStoryModelItem.state))
+                                      .contains(ordersStoryModelItem.state))
                                       ? TextStyle(
-                                          color: Colors.white, fontSize: 10)
+                                      color: Colors.white, fontSize: 10)
                                       : TextStyle(
-                                          color: Color(0x42424242),
-                                          fontSize: 10)),
+                                      color: Color(0x42424242),
+                                      fontSize: 10)),
                             )
                           ],
                         ),
@@ -892,7 +892,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(60)),
                             color: (cooking_state
-                                    .contains(ordersStoryModelItem.state))
+                                .contains(ordersStoryModelItem.state))
                                 ? Color(0xFF51ca64)
                                 : Color(0xF6F6F6F6)),
                         child: Column(
@@ -900,22 +900,22 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                             Padding(
                               padding: EdgeInsets.only(top: 10),
                               child: (cooking_state
-                                      .contains(ordersStoryModelItem.state))
+                                  .contains(ordersStoryModelItem.state))
                                   ? SvgPicture.asset(
-                                      'assets/svg_images/white_bell.svg')
+                                  'assets/svg_images/white_bell.svg')
                                   : SvgPicture.asset(
-                                      'assets/svg_images/bell.svg'),
+                                  'assets/svg_images/bell.svg'),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text('Готовится',
                                   style: (cooking_state
-                                          .contains(ordersStoryModelItem.state))
+                                      .contains(ordersStoryModelItem.state))
                                       ? TextStyle(
-                                          color: Colors.white, fontSize: 10)
+                                      color: Colors.white, fontSize: 10)
                                       : TextStyle(
-                                          color: Color(0x42424242),
-                                          fontSize: 10)),
+                                      color: Color(0x42424242),
+                                      fontSize: 10)),
                             )
                           ],
                         ),
@@ -934,22 +934,22 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                             Padding(
                               padding: EdgeInsets.only(top: 15),
                               child: (in_the_way
-                                      .contains(ordersStoryModelItem.state))
+                                  .contains(ordersStoryModelItem.state))
                                   ? SvgPicture.asset(
-                                      'assets/svg_images/light_car.svg')
+                                  'assets/svg_images/light_car.svg')
                                   : SvgPicture.asset(
-                                      'assets/svg_images/car.svg'),
+                                  'assets/svg_images/car.svg'),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text('В пути',
                                   style: (in_the_way
-                                          .contains(ordersStoryModelItem.state))
+                                      .contains(ordersStoryModelItem.state))
                                       ? TextStyle(
-                                          color: Colors.black, fontSize: 10)
+                                      color: Colors.black, fontSize: 10)
                                       : TextStyle(
-                                          color: Color(0x42424242),
-                                          fontSize: 10)),
+                                      color: Color(0x42424242),
+                                      fontSize: 10)),
                             ),
                           ],
                         ),
@@ -971,20 +971,20 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                               padding: EdgeInsets.only(top: 10),
                               child: (take.contains(ordersStoryModelItem.state))
                                   ? SvgPicture.asset(
-                                      'assets/svg_images/white_ready.svg')
+                                  'assets/svg_images/white_ready.svg')
                                   : SvgPicture.asset(
-                                      'assets/svg_images/ready.svg'),
+                                  'assets/svg_images/ready.svg'),
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text('Заберите',
                                   style: (take
-                                          .contains(ordersStoryModelItem.state))
+                                      .contains(ordersStoryModelItem.state))
                                       ? TextStyle(
-                                          color: Colors.white, fontSize: 10)
+                                      color: Colors.white, fontSize: 10)
                                       : TextStyle(
-                                          color: Color(0x42424242),
-                                          fontSize: 10)),
+                                      color: Color(0x42424242),
+                                      fontSize: 10)),
                             )
                           ],
                         ),
@@ -1038,70 +1038,70 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                         showAlertDialog(context);
                       },
                     )),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
-                      child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
-                        width: 130,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(11)),
-                            color: Color(0xFF45C64E)),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-                          child: Stack(
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment.topLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 15),
-                                  child: SvgPicture.asset('assets/svg_images/chat.svg'),
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
+                        child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
+                          width: 130,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(11)),
+                              color: Color(0xFF45C64E)),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
+                            child: Stack(
+                              children: <Widget>[
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: SvgPicture.asset('assets/svg_images/chat.svg'),
+                                  ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 20, top: 2),
-                                  child: Text(
-                                    'Чат',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        color: Colors.white
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 20, top: 2),
+                                    child: Text(
+                                      'Чат',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                          color: Colors.white
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              FutureBuilder(future: ordersStoryModelItem.hasNewMessage(),
-                              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                if(snapshot.connectionState == ConnectionState.done && snapshot.data){
-                                  return Align(
-                                    alignment: Alignment.topRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(right: 65, bottom: 2),
-                                      child: SvgPicture.asset('assets/svg_images/chat_circle.svg'),
-                                    ),
-                                  );
-                                }
-                                return Container(height: 0);
-                              },
-                              ),
-                            ],
+                                FutureBuilder(future: ordersStoryModelItem.hasNewMessage(),
+                                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                    if(snapshot.connectionState == ConnectionState.done && snapshot.data){
+                                      return Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(right: 65, bottom: 2),
+                                          child: SvgPicture.asset('assets/svg_images/chat_circle.svg'),
+                                        ),
+                                      );
+                                    }
+                                    return Container(height: 0);
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ) : Container(),
-                    ),
-                    onTap: (){
-                      Navigator.pushReplacement(
-                        context,
-                        new MaterialPageRoute(
-                          builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
-                        ),
-                      );
-                    },
-                  )
-              ),
+                        ) : Container(),
+                      ),
+                      onTap: (){
+                        Navigator.pushReplacement(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new ChatScreen(order_uuid: ordersStoryModelItem.uuid, key: chatKey),
+                          ),
+                        );
+                      },
+                    )
+                ),
               ],
             )
           ],
@@ -1300,7 +1300,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   child: Column(
                     children: [
                       Container(
-                        height: 450,
+                        height: MediaQuery.of(context).size.height * 0.6,
                         child: Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: ListView.builder(
@@ -1387,13 +1387,13 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                 ),
                                 InkWell(
                                   child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(6),
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/send_message.svg'),
-                                    )
+                                      height: 40,
+                                      width: 40,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(6),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/send_message.svg'),
+                                      )
                                   ),
                                   onTap: () async {
                                     if (await Internet.checkConnection()) {

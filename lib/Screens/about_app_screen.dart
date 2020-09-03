@@ -86,7 +86,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                 alignment: Alignment.center,
                 child: Container(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 60),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
                     child: Column(
                       children: <Widget>[
                         Flexible(

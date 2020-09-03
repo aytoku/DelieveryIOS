@@ -35,7 +35,21 @@ class _CartScreenState extends State<CartScreen> {
   _buildList() {
     double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
-        (Order order) => totalPrice += order.quantity * order.food.price);
+        (Order order) {
+          if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
+            totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
+          }else{
+            totalPrice += order.quantity * order.food.price;
+          }
+          double toppingsCost = 0;
+          if(order.food.toppings != null){
+            order.food.toppings.forEach((element) {
+              toppingsCost += order.quantity * element.price;
+            });
+            totalPrice += toppingsCost;
+          }
+        }
+    );
     return Expanded(
       child: ListView.separated(
         padding: EdgeInsets.zero,
@@ -114,6 +128,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   _buildCartItem(Order order) {
+    double toppingsCost = 0;
+    if(order.food.toppings != null){
+      order.food.toppings.forEach((element) {
+        toppingsCost += order.quantity * element.price;
+      });
+    }
     GlobalKey<CounterState> counterKey = new GlobalKey();
     return Container(
         padding: EdgeInsets.all(5.0),
@@ -209,7 +229,9 @@ class _CartScreenState extends State<CartScreen> {
                   flex: 1,
                   child: Padding(
                     padding: EdgeInsets.only(right: 15),
-                    child: Text('${order.quantity * order.food.price} \Р',
+                    child: Text('${(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null) ?
+                    (order.quantity * (order.food.price + order.food.variants[0].price) + toppingsCost).toStringAsFixed(0) :
+                    (order.quantity * order.food.price + toppingsCost).toStringAsFixed(0)} \Р',
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 14.0,
@@ -317,7 +339,21 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     double totalPrice = 134;
     currentUser.cartDataModel.cart.forEach(
-        (Order order) => totalPrice += order.quantity * order.food.price);
+            (Order order) {
+          if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
+            totalPrice += order.quantity * (order.food.price + order.food.variants[0].price);
+          }else{
+            totalPrice += order.quantity * order.food.price;
+          }
+          double toppingsCost = 0;
+          if(order.food.toppings != null){
+            order.food.toppings.forEach((element) {
+              toppingsCost += order.quantity * element.price;
+            });
+            totalPrice += toppingsCost;
+          }
+        }
+    );
     Order bloc;
     return new Scaffold(
       key: _scaffoldStateKey,

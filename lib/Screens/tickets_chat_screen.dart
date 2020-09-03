@@ -118,7 +118,7 @@ class TicketsChatScreenState extends State<TicketsChatScreen>
                       children: [
                         Container(
                           color: Colors.white,
-                          height: 470,
+                          height: MediaQuery.of(context).size.height * 0.9,
                           child: Padding(
                             padding: EdgeInsets.only(top: 20),
                             child: ListView.builder(
