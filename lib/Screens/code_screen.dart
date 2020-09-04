@@ -35,30 +35,6 @@ class _CodeScreenState extends State<CodeScreen> {
   String temp4 = '';
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
 
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   void buttonColor() {
     String code = code1.controller.text +
         code2.controller.text +
@@ -500,30 +476,6 @@ class ButtonState extends State<Button> {
   final AsyncCallback onTap;
 
   ButtonState(this.color, this.onTap);
-
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

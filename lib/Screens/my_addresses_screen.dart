@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
@@ -17,30 +15,6 @@ class MyAddressesScreen extends StatefulWidget {
 class MyAddressesScreenState extends State<MyAddressesScreen> {
   List<MyAddressesModel> myAddressesModelList;
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
-
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   void _deleteButton(MyAddressesModel myAddressesModel) {
     showModalBottomSheet(

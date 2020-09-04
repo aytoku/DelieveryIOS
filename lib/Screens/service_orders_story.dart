@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/orders_story_data.dart';
+import 'package:flutter_app/GetData/orders_story_data.dart';
 import 'package:flutter_app/Screens/restaurant_screen.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_app/models/TicketModel.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,30 +27,6 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
   final TicketModel ticketModel;
 
   ServiceOrdersStoryScreenState({this.ticketModel});
-
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   column(OrdersStoryModelItem ordersStoryModelItem) {
     var format = new DateFormat('HH:mm, dd.MM.yy');
@@ -370,10 +347,10 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
               print(snapshot.connectionState);
               if (snapshot.hasData) {
                 records_items = snapshot.data.ordersStoryModelItems;
-                return ListView(
-                  children: <Widget>[
+                return Column(
+                  children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      padding: EdgeInsets.only(top: 30, bottom: 10),
                       child: Stack(
                         children: <Widget>[
                           Align(
@@ -414,21 +391,27 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                       ),
                     ),
                     Divider(height: 1.0, color: Color(0xFFF5F5F5)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        NotificationListener<ScrollNotification>(
-                            onNotification: (ScrollNotification scrollInfo) {
-                              if (!isLoading &&
-                                  scrollInfo.metrics.pixels ==
-                                      scrollInfo.metrics.maxScrollExtent) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                              }
-                            },
-                            child: _buildOrdersStoryItems()),
-                      ],
+                    Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              NotificationListener<ScrollNotification>(
+                                  onNotification: (ScrollNotification scrollInfo) {
+                                    if (!isLoading &&
+                                        scrollInfo.metrics.pixels ==
+                                            scrollInfo.metrics.maxScrollExtent) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                    }
+                                  },
+                                  child: _buildOrdersStoryItems()),
+                            ],
+                          )
+                        ],
+                      ),
                     )
                   ],
                 );

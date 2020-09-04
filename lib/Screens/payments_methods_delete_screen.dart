@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/payments_methods_screen.dart';
 import 'package:flutter_app/models/CardModel.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
@@ -13,30 +12,6 @@ class InformationScreen extends StatefulWidget {
 
 class InformationScreenState extends State<InformationScreen>{
   bool status1 = false;
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))
-            ),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +84,7 @@ class InformationScreenState extends State<InformationScreen>{
 //              );
 //            },
 //          ),
-          Divider(height: 1.0, color: Colors.grey),
+          Divider(height: 1.0, color: Color(0xFFEDEDED)),
           InkWell(
             child: Align(
               alignment: Alignment.centerLeft,
@@ -131,7 +106,7 @@ class InformationScreenState extends State<InformationScreen>{
               }
             },
           ),
-          Divider(height: 1.0, color: Colors.grey),
+          Divider(height: 1.0, color: Color(0xFFEDEDED)),
         ],
       ),
     );

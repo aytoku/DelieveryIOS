@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/owners.dart';
+import 'package:flutter_app/GetData/owners.dart';
 import 'package:flutter_app/Screens/partner_screen.dart';
 import 'package:flutter_app/models/OwnersModel.dart';
 

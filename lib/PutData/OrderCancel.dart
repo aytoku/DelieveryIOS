@@ -6,7 +6,6 @@ import 'dart:convert' as convert;
 
 Future<void> loadOrderCancel(String client_order_uuid) async {
   await CreateOrder.sendRefreshToken();
-  //OrdersStoryModel ordersStoryModel = null;
   var url = 'https://client.apis.stage.faem.pro/api/v2/orders/cancel/' + client_order_uuid;
   var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -16,10 +15,8 @@ Future<void> loadOrderCancel(String client_order_uuid) async {
   });
   if (response.statusCode == 200) {
     var jsonResponse = convert.jsonDecode(response.body);
-    //ordersStoryModel = new OrdersStoryModel.fromJson(jsonResponse);
   } else {
     print('Request failed with status: ${response.statusCode}.');
   }
   print(response.body);
-  //return ordersStoryModel;
 }

@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -10,29 +10,6 @@ class AboutAppScreen extends StatefulWidget {
 }
 
 class AboutAppScreenState extends State<AboutAppScreen> {
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,46 +19,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
           color: Colors.white,
           child: Stack(
             children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: Stack(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: InkWell(
-                            child: Container(
-                                height: 50,
-                                width: 55,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 17, bottom: 17, right: 10),
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/arrow_left.svg'),
-                                )),
-                            onTap: (){
-                              Navigator.pop(context);
-                            }
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 15),
-                          child: Text(
-                            "Служба поддержки",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF424242)),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'О приложении'),
               Align(
                 alignment: Alignment.center,
                 child: Container(
@@ -152,7 +90,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                                   },
                                 ),
                               ),
-                              Divider(height: 1.0, color: Colors.grey),
+                              Divider(height: 1.0, color: Color(0xFFEDEDED)),
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: InkWell(
@@ -183,7 +121,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                                   },
                                 ),
                               ),
-                              Divider(height: 1.0, color: Colors.grey),
+                              Divider(height: 1.0, color: Color(0xFFEDEDED)),
                             ],
                           ),
                         ),

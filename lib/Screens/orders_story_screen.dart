@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/GetData/orders_story_data.dart';
+import 'package:flutter_app/GetData/orders_story_data.dart';
 import 'package:flutter_app/Screens/restaurant_screen.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -19,30 +20,6 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
   int limit = 12;
   bool isLoading = true;
   List<OrdersStoryModelItem> records_items = new List<OrdersStoryModelItem>();
-
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   Widget column(OrdersStoryModelItem ordersStoryModelItem) {
     var format = new DateFormat('HH:mm, dd.MM.yy');
@@ -361,65 +338,31 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
               print(snapshot.connectionState);
               if (snapshot.hasData) {
                 records_items = snapshot.data.ordersStoryModelItems;
-                return ListView(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Stack(
+                return Column(
+                  children: [
+                    ScreenTitlePop(img: 'assets/svg_images/arrow_left.svg', title: 'История зазказов',),
+                    Divider(height: 1.0, color: Color(0xFFF5F5F5)),
+                    Expanded(
+                      child: ListView(
                         children: <Widget>[
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: InkWell(
-                              child: Padding(
-                                  padding: EdgeInsets.only(left: 0, top: 0),
-                                  child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 10),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg'),
-                                      ))),
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.topCenter,
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text(
-                                  "История заказов",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF3F3F3F)),
-                                ),
-                              ),
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              NotificationListener<ScrollNotification>(
+                                  onNotification: (ScrollNotification scrollInfo) {
+                                    if (!isLoading &&
+                                        scrollInfo.metrics.pixels ==
+                                            scrollInfo.metrics.maxScrollExtent) {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                    }
+                                  },
+                                  child: _buildOrdersStoryItems()),
+                            ],
                           )
                         ],
                       ),
-                    ),
-                    Divider(height: 1.0, color: Color(0xFFF5F5F5)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        NotificationListener<ScrollNotification>(
-                            onNotification: (ScrollNotification scrollInfo) {
-                              if (!isLoading &&
-                                  scrollInfo.metrics.pixels ==
-                                      scrollInfo.metrics.maxScrollExtent) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                              }
-                            },
-                            child: _buildOrdersStoryItems()),
-                      ],
                     )
                   ],
                 );

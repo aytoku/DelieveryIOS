@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
-import 'file:///C:/Users/ProG8/AndroidStudioProjects/DeliveryIosAndroid1/lib/PutData/OrderCancel.dart';
+import 'package:flutter_app/PutData/OrderCancel.dart';
 import 'package:flutter_app/Screens/cart_screen.dart';
 import 'package:flutter_app/Screens/restaurant_screen.dart';
 import 'package:flutter_app/data/data.dart';
@@ -29,30 +28,6 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   OrdersDetailsScreenState(this.ordersStoryModelItem);
 
   GlobalKey<CartItemsQuantityState> cartItemsQuantityKey = new GlobalKey();
-
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   showAlertDialog(BuildContext context) {
     showDialog(
@@ -166,60 +141,65 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       child: Padding(
                           padding: EdgeInsets.only(left: 15, top: 15),
                           child: SingleChildScrollView(
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 165),
-                                  child: Text(
-                                    product.name,
-                                    style: TextStyle(
-                                        decoration: TextDecoration.none,
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF000000)),
-                                    textAlign: TextAlign.start,
-                                  ),
+                            child: Expanded(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        product.name,
+                                        style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF000000)),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ),
+                                    (product.selectedVariant != null)
+                                        ? Padding(
+                                      padding: EdgeInsets.only(right: 0),
+                                      child: Text(
+                                        product.selectedVariant .name,
+                                        style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF000000)),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    )
+                                        : Text(''),
+                                    (product.toppings != null)
+                                        ? Column(
+                                      children: List.generate(
+                                          product.toppings.length,
+                                              (index) => Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Padding(
+                                              padding:
+                                              EdgeInsets.only(bottom: 5, left: 2),
+                                              child: Text(
+                                                product.toppings[index]
+                                                    .name,
+                                                style: TextStyle(
+                                                    decoration:
+                                                    TextDecoration.none,
+                                                    fontSize: 10.0,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    color: Color(0xFF000000)),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            ),
+                                          )),
+                                    )
+                                        : Text(''),
+                                  ],
                                 ),
-                                (product.selectedVariant != null)
-                                    ? Padding(
-                                  padding: EdgeInsets.only(right: 203),
-                                  child: Text(
-                                    product.selectedVariant .name,
-                                    style: TextStyle(
-                                        decoration: TextDecoration.none,
-                                        fontSize: 10.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF000000)),
-                                    textAlign: TextAlign.start,
-                                  ),
-                                )
-                                    : Text(''),
-                                (product.toppings != null)
-                                    ? Column(
-                                  children: List.generate(
-                                      product.toppings.length,
-                                          (index) => Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding:
-                                          EdgeInsets.only(bottom: 5, left: 2),
-                                          child: Text(
-                                            product.toppings[index]
-                                                .name,
-                                            style: TextStyle(
-                                                decoration:
-                                                TextDecoration.none,
-                                                fontSize: 10.0,
-                                                fontWeight:
-                                                FontWeight.bold,
-                                                color: Color(0xFF000000)),
-                                            textAlign: TextAlign.start,
-                                          ),
-                                        ),
-                                      )),
-                                )
-                                    : Text(''),
-                              ],
+                              ),
                             ),
                           )),
                     ),
@@ -230,7 +210,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         (product.number * (product.price + product.selectedVariant.price) + toppingsCost).toStringAsFixed(0) :
                         (product.number * product.price + toppingsCost).toStringAsFixed(0)} \Р',
                         style: TextStyle(
-                            color: Color(0xFFB0B0D0), fontSize: 14),
+                            color: Color(0xFFB0B0B0), fontSize: 14),
                       ),
                     ),
                   ],
