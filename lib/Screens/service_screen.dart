@@ -243,6 +243,9 @@ class ServiceScreenState extends State<ServiceScreen> {
                           (BuildContext context, AsyncSnapshot<TicketsList> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.data != null) {
+                          if(snapshot.data.records == null && snapshot.data.recordsCount == 0){
+                            return Container();
+                          }
                           return Expanded(
                               child: ListView(
                                 padding: EdgeInsets.zero,

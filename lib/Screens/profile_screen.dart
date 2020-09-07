@@ -171,7 +171,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                       onTap: () async {
                         if (await Internet.checkConnection()) {
                           necessaryDataForAuth.refresh_token = null;
-                          NecessaryDataForAuth.saveData();
+                          authCodeData.refresh_token = null;
+                          await NecessaryDataForAuth.saveData();
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
                                   builder: (context) => DeviceIdScreen()),

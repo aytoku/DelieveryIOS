@@ -138,70 +138,69 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           'assets/svg_images/cross.svg'),
                     ),
                     Expanded(
-                      child: Padding(
-                          padding: EdgeInsets.only(left: 15, top: 15),
-                          child: SingleChildScrollView(
-                            child: Expanded(
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 10),
-                                      child: Text(
-                                        product.name,
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF000000)),
-                                        textAlign: TextAlign.start,
-                                      ),
+                      child: SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 15, top: 15),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10, right: 0),
+                                    child: Text(
+                                      product.name,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 14.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF000000)),
+                                      textAlign: TextAlign.start,
                                     ),
-                                    (product.selectedVariant != null)
-                                        ? Padding(
-                                      padding: EdgeInsets.only(right: 0),
-                                      child: Text(
-                                        product.selectedVariant .name,
-                                        style: TextStyle(
-                                            decoration: TextDecoration.none,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF000000)),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    )
-                                        : Text(''),
-                                    (product.toppings != null)
-                                        ? Column(
-                                      children: List.generate(
-                                          product.toppings.length,
-                                              (index) => Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Padding(
-                                              padding:
-                                              EdgeInsets.only(bottom: 5, left: 2),
-                                              child: Text(
-                                                product.toppings[index]
-                                                    .name,
-                                                style: TextStyle(
-                                                    decoration:
-                                                    TextDecoration.none,
-                                                    fontSize: 10.0,
-                                                    fontWeight:
-                                                    FontWeight.bold,
-                                                    color: Color(0xFF000000)),
-                                                textAlign: TextAlign.start,
-                                              ),
+                                  ),
+                                  (product.selectedVariant != null)
+                                      ? Padding(
+                                    padding: EdgeInsets.only(right: 205),
+                                    child: Text(
+                                      product.selectedVariant .name,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF000000)),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  )
+                                      : Text(''),
+                                  (product.toppings != null)
+                                      ? Column(
+                                    children: List.generate(
+                                        product.toppings.length,
+                                            (index) => Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Padding(
+                                            padding:
+                                            EdgeInsets.only(bottom: 5, left: 2),
+                                            child: Text(
+                                              product.toppings[index]
+                                                  .name,
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration.none,
+                                                  fontSize: 10.0,
+                                                  fontWeight:
+                                                  FontWeight.bold,
+                                                  color: Color(0xFF000000)),
+                                              textAlign: TextAlign.start,
                                             ),
-                                          )),
-                                    )
-                                        : Text(''),
-                                  ],
-                                ),
+                                          ),
+                                        )),
+                                  )
+                                      : Text(''),
+                                ],
                               ),
                             ),
-                          )),
+                          )
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: 15),

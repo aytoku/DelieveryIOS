@@ -139,7 +139,7 @@ class ScreenTitlePopState extends State<ScreenTitlePop> {
   }
 }
 
-//for screen's title with pushAndRemoveUntil 
+//for screen's title with pushAndRemoveUntil
 class ScreenTitlePushAndRemoveUntil extends StatefulWidget {
   String title = '';
   String img = '';

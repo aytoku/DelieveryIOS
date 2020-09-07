@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import '../models/TicketModel.dart';
 
-Future<TicketsList> getTicketsByFilter(int page, int limit, String clientPhone) async {
+Future<TicketsList> getTicketsByFilter(int page, int limit, String clientPhone, {String status}) async {
 
   TicketsList serviceModel = null;
   await CreateOrder.sendRefreshToken();
-  var url = 'https://crm.apis.stage.faem.pro/api/v2/tickets/filter?page=$page&limit=$limit&clientphone=$clientPhone';
+  var url = (status == null) ? 'https://crm.apis.stage.faem.pro/api/v2/tickets/filter?page=$page&limit=$limit&clientphone=$clientPhone'
+  : 'https://crm.apis.stage.faem.pro/api/v2/tickets/filter?page=$page&limit=$limit&clientphone=$clientPhone&status=$status';
   var response = await http.get(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',

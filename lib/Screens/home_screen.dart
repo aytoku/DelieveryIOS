@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/GetData/getImage.dart';
+import 'package:flutter_app/GetData/getTicketByFilter.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/chat.dart';
 import 'package:flutter_app/GetData/orders_story_data.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/ChatHistoryModel.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_app/models/QuickMessagesModel.dart';
+import 'package:flutter_app/models/TicketModel.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -298,11 +300,30 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Text(
-              'Служба поддержки',
-              style: TextStyle(
-                  fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-            ),
+            child: Stack(
+              children: [
+                Text(
+                  'Служба поддержки',
+                  style: TextStyle(
+                      fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                ),
+//                FutureBuilder(
+//                  future: TicketsList.hasNewMessage(),
+//                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+//                    if(snapshot.connectionState == ConnectionState.done && snapshot.data != null && snapshot.data){
+//                      return Align(
+//                        alignment: Alignment.topRight,
+//                        child: Padding(
+//                          padding: EdgeInsets.only(right: 90, bottom: 2),
+//                          child: SvgPicture.asset('assets/svg_images/chat_circle.svg'),
+//                        ),
+//                      );
+//                    }
+//                    return Container(height: 0);
+//                  },
+//                ),
+              ],
+            )
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {

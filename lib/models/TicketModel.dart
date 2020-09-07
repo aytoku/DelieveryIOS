@@ -1,3 +1,6 @@
+import 'package:flutter_app/GetData/getTicketByFilter.dart';
+import 'package:flutter_app/data/data.dart';
+
 class TicketModel{
   String uuid;
   String title;
@@ -29,6 +32,14 @@ class TicketsList {
     "records": List<dynamic>.from(records.map((x) => x.toJson())),
     "records_count": recordsCount,
   };
+
+  static Future<bool> hasNewMessage() async{
+    var newMessageInService = await getTicketsByFilter(1, 12, necessaryDataForAuth.phone_number, status: 'new');
+    if(newMessageInService.recordsCount == 0){
+      return false;
+    }
+    return true;
+  }
 }
 
 class TicketsListRecord {
