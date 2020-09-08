@@ -142,7 +142,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                           child: Padding(
                             padding: EdgeInsets.only(left: 15, top: 15),
                             child: Align(
-                              alignment: Alignment.topLeft,
+                              alignment: Alignment.centerLeft,
                               child: Column(
                                 children: <Widget>[
                                   Padding(
@@ -223,26 +223,53 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
           )));
     });
 
-    result.add(Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
+    result.add(Column(
+      children: [
         Padding(
-          padding: EdgeInsets.only(left: 15, bottom: 20),
-          child: Text(
-            'Итого',
-            style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF000000)),
-          ),
+            padding: EdgeInsets.only(left: 15, top: 10, bottom: 10, right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Доставка еды",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF000000),
+                      fontSize: 14),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(),
+                  child: Text(
+                    "134 Р",
+                    style: TextStyle(
+                        color: Color(0xFFB0B0B0), fontSize: 14),
+                  ),
+                ),
+              ],
+            )
         ),
-        Padding(
-          padding: EdgeInsets.only(right: 15, bottom: 20),
-          child: Text('${totalPrice.toStringAsFixed(0)} \Р',
-              style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF000000))),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 15, bottom: 20, top: 10),
+              child: Text(
+                'Итого',
+                style: TextStyle(
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF000000)),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 15, bottom: 20),
+              child: Text('${totalPrice.toStringAsFixed(0)} \Р',
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF000000))),
+            )
+          ],
         )
       ],
     ),);
