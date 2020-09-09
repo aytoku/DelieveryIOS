@@ -904,6 +904,11 @@ class AddressScreenState extends State<AddressScreen>
                         valueFontSize: 12.0,
                         toggleSize: 18.0,
                         value: status1,
+                        onToggle: (value) {
+                          setState(() {
+                            status1 = value;
+                          });
+                        },
                       ),
                     )
                   ],
