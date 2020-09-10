@@ -299,14 +299,14 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
         ),
         ListTile(
           title: Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 20),
-            child: Stack(
-              children: [
-                Text(
-                  'Служба поддержки',
-                  style: TextStyle(
-                      fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
-                ),
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              child: Stack(
+                children: [
+                  Text(
+                    'Служба поддержки',
+                    style: TextStyle(
+                        fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
+                  ),
 //                FutureBuilder(
 //                  future: TicketsList.hasNewMessage(),
 //                  builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -322,8 +322,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 //                    return Container(height: 0);
 //                  },
 //                ),
-              ],
-            )
+                ],
+              )
           ),
           onTap: () async {
             if (await Internet.checkConnection()) {

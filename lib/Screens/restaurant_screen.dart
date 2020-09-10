@@ -665,7 +665,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   setState(() {
                     isLoading = true;
                     page = 1;
-                    category = restaurant.product_category[index];
+                    category = (restaurant.product_category[index] == category) ? '' : restaurant.product_category[index];
                     _color = !_color;
                   });
                 } else {

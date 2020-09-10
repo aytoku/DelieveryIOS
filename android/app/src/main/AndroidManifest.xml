@@ -40,10 +40,10 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/fcm_client_message_chat_channel_new"
-            />
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.messaging.default_notification_channel_id"-->
+<!--            android:value="@string/fcm_client_message_chat_channel_new"-->
+<!--            />-->
 
     </application>
 </manifest>
