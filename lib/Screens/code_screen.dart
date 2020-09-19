@@ -339,7 +339,8 @@ class _CodeScreenState extends State<CodeScreen> {
                                       necessaryDataForAuth.refresh_token =
                                           authCodeData.refresh_token;
                                       NecessaryDataForAuth.saveData();
-                                      if(necessaryDataForAuth.name == ''){
+                                      await new FirebaseNotifications().setUpFirebase();
+                                      if(necessaryDataForAuth.name == null){
                                         Navigator.push(
                                           context,
                                           new MaterialPageRoute(
@@ -351,8 +352,6 @@ class _CodeScreenState extends State<CodeScreen> {
                                       else{
                                         homeScreenKey =
                                         new GlobalKey<HomeScreenState>();
-                                        await new FirebaseNotifications()
-                                            .setUpFirebase();
                                         currentUser.isLoggedIn = true;
                                         Navigator.of(context).pushAndRemoveUntil(
                                             MaterialPageRoute(

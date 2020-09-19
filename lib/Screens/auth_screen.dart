@@ -274,7 +274,7 @@ class ButtonState extends State<Button> {
               currentUser.phone = '+' + currentUser.phone;
             }
             if (currentUser.phone != necessaryDataForAuth.phone_number) {
-              necessaryDataForAuth.name = '';
+              necessaryDataForAuth.name = null;
               currentUser.isLoggedIn = false;
               Navigator.push(
                 context,

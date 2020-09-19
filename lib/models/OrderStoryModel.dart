@@ -105,6 +105,7 @@ class OrdersStoryModelItem{
 class FoodRecordsStory{
   String uuid;
   String weight;
+  String weight_measure;
   String name;
   String comment;
   bool available;
@@ -118,6 +119,7 @@ class FoodRecordsStory{
   FoodRecordsStory( {
     this.uuid,
     this.weight,
+    this.weight_measure,
     this.name,
     this.comment,
     this.available,
@@ -148,6 +150,7 @@ class FoodRecordsStory{
     return FoodRecordsStory(
       uuid: parsedJson['uuid'],
       weight: parsedJson['weight'],
+      weight_measure: parsedJson['weight_measure'],
       name: parsedJson['name'],
       comment: parsedJson['comment'],
       available: parsedJson['available'],

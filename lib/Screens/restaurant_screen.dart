@@ -474,10 +474,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 5),
-                            child: (restaurantDataItems.weight != null)
+                            child: (restaurantDataItems.weight != null && restaurantDataItems.weight_measure!= null)
                                 ? Text(
-                              restaurantDataItems.weight +
-                                  ' г',
+                              restaurantDataItems.weight + " " + restaurantDataItems.weight_measure, //ну а чо
                               style: TextStyle(
                                   fontSize: 12.0,
                                   color: Color(0xFFB0B0B0)),
@@ -906,9 +905,9 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
               )),
         ),
       )
-          : (restaurantDataItems.weight != null || restaurantDataItems.weight != ' ')
+          : (restaurantDataItems.weight != null && restaurantDataItems.weight_measure!= null)
           ? Text(
-        restaurantDataItems.weight + ' г',
+        restaurantDataItems.weight + ' ' + restaurantDataItems.weight_measure,
         style: TextStyle(color: Color(0xFFB0B0B0), fontSize: 12),
       )
           : Container(),

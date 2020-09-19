@@ -29,6 +29,7 @@ class RestaurantDataItems{
 class FoodRecords{
   String uuid;
   String weight;
+  String weight_measure;
   String name;
   String comment;
   bool available;
@@ -43,6 +44,7 @@ class FoodRecords{
   FoodRecords( {
     this.uuid,
     this.weight,
+    this.weight_measure,
     this.name,
     this.comment,
     this.available,
@@ -59,6 +61,7 @@ class FoodRecords{
     return FoodRecords(
       uuid: foodRecords.uuid,
       weight:foodRecords.weight,
+      weight_measure: foodRecords.weight_measure,
       name: foodRecords.name,
       comment: foodRecords.comment,
       available: foodRecords.available,
@@ -76,6 +79,7 @@ class FoodRecords{
     return FoodRecords(
       uuid: foodItem.uuid,
       weight:foodItem.weight,
+      weight_measure: foodItem.weight_measure,
       name: foodItem.name,
       comment: foodItem.comment,
       available: foodItem.available,
@@ -108,6 +112,7 @@ class FoodRecords{
     return FoodRecords(
       uuid: parsedJson['uuid'],
       weight: parsedJson['weight'],
+      weight_measure: parsedJson['weight_measure'],
       name: parsedJson['name'],
       comment: parsedJson['comment'],
       available: parsedJson['available'],
