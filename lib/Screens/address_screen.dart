@@ -870,7 +870,7 @@ class AddressScreenState extends State<AddressScreen>
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '30 – 50 мин',
+                      (restaurant.order_preparation_time_second != null)? '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
                       style: TextStyle(
                           color: Colors.black, fontSize: 13),
                     )

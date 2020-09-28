@@ -114,7 +114,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
                 );
               },
               errorBuilder: (context, suggestion) => Text('error'),
-              noItemsFoundBuilder: (context) => Text('empty'),
+              noItemsFoundBuilder: (context) => Text(''),
               itemBuilder: (context, suggestion) {
                 print('vi zaebali menya ispolzovat postoyanno fagoti');
                 return row(suggestion);

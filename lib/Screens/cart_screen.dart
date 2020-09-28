@@ -506,7 +506,7 @@ class _CartScreenState extends State<CartScreen> {
                               child: Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text(
-                                  '30 – 50 мин',
+                                  (restaurant.order_preparation_time_second != null)? '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
                                   style: TextStyle(
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w600,
