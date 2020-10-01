@@ -12,6 +12,7 @@ import 'ResponseData.dart';
 class CreateOrder {
   String address;
   String office;
+  DestinationPoints restaurantAddress;
   String intercom;
   String entrance;
   String floor;
@@ -25,6 +26,7 @@ class CreateOrder {
   CreateOrder({
     this.address,
     this.office,
+    this.restaurantAddress,
     this.intercom,
     this.entrance,
     this.floor,
@@ -89,7 +91,7 @@ class CreateOrder {
       ] : null,
       "products_input": cartDataModel.toServerJSON(),
       "routes": [
-        restaurant.destination_points[0].toJson(),
+        restaurantAddress.toJson(),
         necessaryAddressData.destinationPoints[0].toJson()
       ],
       "payment_type": payment_type,

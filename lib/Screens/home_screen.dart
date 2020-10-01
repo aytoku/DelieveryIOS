@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/GetData/getImage.dart';
+import 'package:flutter_app/GetData/getOrder.dart';
 import 'package:flutter_app/GetData/getTicketByFilter.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/PostData/chat.dart';
@@ -494,7 +495,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 //                          child: Text('asdasd'),
 //                        ),
 //                        onTap: ()async {
-//                          await loadOptions();
+//                          await getOrder('b24d27f6-2c70-468c-a234-2509a96deccd');
 //                          //launch("tel://+79187072154");
 //                        },
 //                      ),
@@ -580,7 +581,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
 }
 
 class OrderChecking extends StatefulWidget {
-  final OrdersStoryModelItem ordersStoryModelItem;
+  OrdersStoryModelItem ordersStoryModelItem;
 
   OrderChecking({Key key, this.ordersStoryModelItem}) : super(key: key);
   static var state_array = [
@@ -622,7 +623,7 @@ class OrderChecking extends StatefulWidget {
 }
 
 class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveClientMixin {
-  final OrdersStoryModelItem ordersStoryModelItem;
+  OrdersStoryModelItem ordersStoryModelItem;
   @override
   bool get wantKeepAlive => true;
 
@@ -734,6 +735,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
     if (!OrderChecking.state_array.contains(ordersStoryModelItem.state)) {
       return Container();
     }
+    print('ALO RABOTAI SUKA' + '' + ordersStoryModelItem.own_delivery.toString());
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         decoration: BoxDecoration(
@@ -966,6 +968,17 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                 ),
               ),
             ),
+            (in_the_way.contains(ordersStoryModelItem.state) && ordersStoryModelItem.own_delivery != null && ordersStoryModelItem.own_delivery) ? Padding(
+              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+              child: Expanded(
+                child: Text('Доставку осуществляет курьер от заведения',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14
+                  ),
+                ),
+              ),
+            ) :
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

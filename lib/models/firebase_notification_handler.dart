@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/GetData/getOrder.dart';
 import 'package:flutter_app/PostData/fcm.dart';
 import 'package:flutter_app/Screens/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
@@ -32,15 +33,17 @@ class FirebaseNotifications {
     }
     if(orderCheckingStates.containsKey(order_uuid)) {
       if(orderCheckingStates[order_uuid].currentState != null) {
+        orderCheckingStates[order_uuid].currentState.ordersStoryModelItem = await getOrder(order_uuid);
         orderCheckingStates[order_uuid].currentState.setState(() {
-          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
-              .state = order_state;
+//          orderCheckingStates[order_uuid].currentState.ordersStoryModelItem
+//              .state = order_state;
         });
       } else {
         if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null) {
-          homeScreenKey.currentState.orderList.forEach((element) {
+          homeScreenKey.currentState.orderList.forEach((element) async {
             if(element.ordersStoryModelItem.uuid == order_uuid) {
-              element.ordersStoryModelItem.state = order_state;
+              element.ordersStoryModelItem = await getOrder(order_uuid);
+//              element.ordersStoryModelItem.state = order_state;
               return;
             }
           });

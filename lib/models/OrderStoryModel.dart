@@ -30,10 +30,12 @@ class OrdersStoryModelItem{
   String uuid;
   String comment;
   List<DestinationPoints> routes;
+  Tariff tariff;
   Records store;
   List<FoodRecordsStory>products;
   int created_at_unix;
   String state_title;
+  bool own_delivery;
   int price;
   String state;
   Driver driver;
@@ -42,11 +44,13 @@ class OrdersStoryModelItem{
     this.uuid,
     this.comment,
     this.routes,
+    this.tariff,
     this.store,
     this.products,
     this.created_at_unix,
     this.price,
     this.state_title,
+    this.own_delivery,
     this.state,
     this.driver
   });
@@ -80,10 +84,12 @@ class OrdersStoryModelItem{
       comment: parsedJson['comment'],
       routes: routesList,
       store: store,
+      tariff: Tariff.fromJson(parsedJson["tariff"]),
       products: productsList,
       created_at_unix: parsedJson['created_at_unix'],
       price: parsedJson['tariff']['total_price'],
       state_title: parsedJson['state_title'],
+      own_delivery: parsedJson['own_delivery'],
       state: parsedJson['state'],
       driver: Driver.fromJson(parsedJson['driver'])
     );
@@ -101,6 +107,131 @@ class OrdersStoryModelItem{
     return result;
   }
 }
+
+class Tariff {
+  Tariff({
+    this.name,
+    this.totalPrice,
+    this.fixedPrice,
+    this.productsPrice,
+    this.guaranteedDriverIncome,
+    this.guaranteedDriverIncomeForDelivery,
+    this.supplementToGuaranteedIncome,
+    this.tariffCalcType,
+    this.orderTripTime,
+    this.orderCompleateDist,
+    this.orderStartTime,
+    this.minPaymentWithTime,
+    this.currency,
+    this.paymentType,
+    this.maxBonusPayment,
+    this.bonusPayment,
+    this.items,
+    this.waitingBoarding,
+    this.waitingPoint,
+    this.timeTaximeter,
+    this.waitingPrice,
+    this.surge,
+    this.precalculated,
+  });
+
+  String name;
+  int totalPrice;
+  int fixedPrice;
+  int productsPrice;
+  int guaranteedDriverIncome;
+  int guaranteedDriverIncomeForDelivery;
+  int supplementToGuaranteedIncome;
+  String tariffCalcType;
+  int orderTripTime;
+  int orderCompleateDist;
+  int orderStartTime;
+  int minPaymentWithTime;
+  String currency;
+  String paymentType;
+  int maxBonusPayment;
+  int bonusPayment;
+  List<Item> items;
+  Map<String, int> waitingBoarding;
+  Map<String, int> waitingPoint;
+  Map<String, int> timeTaximeter;
+  int waitingPrice;
+  dynamic surge;
+  String precalculated;
+
+  factory Tariff.fromJson(Map<String, dynamic> json) => Tariff(
+    name: json["name"],
+    totalPrice: json["total_price"],
+    fixedPrice: json["fixed_price"],
+    productsPrice: json["products_price"],
+    guaranteedDriverIncome: json["guaranteed_driver_income"],
+    guaranteedDriverIncomeForDelivery: json["guaranteed_driver_income_for_delivery"],
+    supplementToGuaranteedIncome: json["supplement_to_guaranteed_income"],
+    tariffCalcType: json["tariff_calc_type"],
+    orderTripTime: json["order_trip_time"],
+    orderCompleateDist: json["order_compleate_dist"],
+    orderStartTime: json["order_start_time"],
+    minPaymentWithTime: json["min_payment_with_time"],
+    currency: json["currency"],
+    paymentType: json["payment_type"],
+    maxBonusPayment: json["max_bonus_payment"],
+    bonusPayment: json["bonus_payment"],
+    items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    waitingBoarding: Map.from(json["waiting_boarding"]).map((k, v) => MapEntry<String, int>(k, v)),
+    waitingPoint: Map.from(json["waiting_point"]).map((k, v) => MapEntry<String, int>(k, v)),
+    timeTaximeter: Map.from(json["time_taximeter"]).map((k, v) => MapEntry<String, int>(k, v)),
+    waitingPrice: json["waiting_price"],
+    surge: json["surge"],
+    precalculated: json["precalculated"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "total_price": totalPrice,
+    "fixed_price": fixedPrice,
+    "products_price": productsPrice,
+    "guaranteed_driver_income": guaranteedDriverIncome,
+    "guaranteed_driver_income_for_delivery": guaranteedDriverIncomeForDelivery,
+    "supplement_to_guaranteed_income": supplementToGuaranteedIncome,
+    "tariff_calc_type": tariffCalcType,
+    "order_trip_time": orderTripTime,
+    "order_compleate_dist": orderCompleateDist,
+    "order_start_time": orderStartTime,
+    "min_payment_with_time": minPaymentWithTime,
+    "currency": currency,
+    "payment_type": paymentType,
+    "max_bonus_payment": maxBonusPayment,
+    "bonus_payment": bonusPayment,
+    "items": List<dynamic>.from(items.map((x) => x.toJson())),
+    "waiting_boarding": Map.from(waitingBoarding).map((k, v) => MapEntry<String, dynamic>(k, v)),
+    "waiting_point": Map.from(waitingPoint).map((k, v) => MapEntry<String, dynamic>(k, v)),
+    "time_taximeter": Map.from(timeTaximeter).map((k, v) => MapEntry<String, dynamic>(k, v)),
+    "waiting_price": waitingPrice,
+    "surge": surge,
+    "precalculated": precalculated,
+  };
+}
+
+class Item {
+  Item({
+    this.name,
+    this.price,
+  });
+
+  String name;
+  int price;
+
+  factory Item.fromJson(Map<String, dynamic> json) => Item(
+    name: json["name"],
+    price: json["price"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "price": price,
+  };
+}
+
 
 class FoodRecordsStory{
   String uuid;

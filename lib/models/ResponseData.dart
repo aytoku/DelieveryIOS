@@ -57,9 +57,13 @@ class Records{
     List<dynamic> dp;
     if(destination_points != null && destination_points.length > 0) {
       dp = new List<dynamic>();
-      dp.add(destination_points[0].toJson());
+//      dp.add(destination_points[0].toJson());
+      destination_points.forEach((element) {
+        dp.add(
+          element.toJson()
+        );
+      });
     }
-
 
     return
     {
@@ -117,6 +121,7 @@ class Records{
       name: parsedJson['name'],
       phone: parsedJson['phone'],
       comment: parsedJson['comment'],
+      own_delivery: parsedJson['own_delivery'],
       image: parsedJson['image'],
       work_schedule: workScheduleList,
       type: parsedJson['type'],

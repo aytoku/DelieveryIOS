@@ -10,6 +10,7 @@ import 'ResponseData.dart';
 
 class CreateOrderTakeAway {
   String address;
+  DestinationPoints restaurantAddress;
   String comment;
   String delivery;
   CartDataModel cartDataModel;
@@ -17,6 +18,7 @@ class CreateOrderTakeAway {
 
   CreateOrderTakeAway( {
     this.address,
+    this.restaurantAddress,
     this.comment,
     this.delivery,
     this.cartDataModel,
@@ -49,7 +51,7 @@ class CreateOrderTakeAway {
       "comment": comment,
       "products_input": cartDataModel.toJson(),
       "routes": [
-        restaurant.destination_points[0].toJson(),
+        restaurantAddress.toJson(),
       ],
       "service_uuid": "6b73e9e3-927b-453c-81c4-dfae818291f4",
     }), headers: <String, String>{

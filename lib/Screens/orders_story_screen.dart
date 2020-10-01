@@ -53,7 +53,7 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '${ordersStoryModelItem.price  + 134} \Р',
+                  '${ordersStoryModelItem.price + ordersStoryModelItem.tariff.productsPrice - ordersStoryModelItem.tariff.bonusPayment} \Р',
                   style: TextStyle(
                     fontSize: 14,
                     color: Color(0xFFB0B0B0),

@@ -11,6 +11,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'auto_complete.dart';
 import 'home_screen.dart';
 
+
 class PageScreen extends StatefulWidget {
   final Records restaurant;
 
@@ -424,6 +425,7 @@ class PageState extends State<PageScreen> {
                                 .destinationPointsKey.currentState
                                 .searchTextField.textFieldConfiguration.controller
                                 .text,
+                            restaurantAddress: addressScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                             office: addressScreenKey.currentState.officeField
                                 .text,
                             floor: addressScreenKey.currentState.floorField.text,
@@ -444,6 +446,7 @@ class PageState extends State<PageScreen> {
                           new CreateOrderTakeAway(
                               comment: takeAwayScreenKey.currentState.comment,
                               cartDataModel: currentUser.cartDataModel,
+                              restaurantAddress: takeAwayScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                               restaurant: restaurant);
                           createOrderTakeAway.sendData();
                         }
@@ -504,6 +507,8 @@ class AddressScreenState extends State<AddressScreen>
   String comment;
   String delivery;
   final Records restaurant;
+  GlobalKey<DestinationPointsSelectorState> destinationPointsSelectorStateKey =
+  GlobalKey<DestinationPointsSelectorState>();
 
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
   bool _color;
@@ -644,9 +649,12 @@ class AddressScreenState extends State<AddressScreen>
       resizeToAvoidBottomPadding: false,
       body:  Container(
           color: Colors.white,
-          child:  Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child:  ListView(
             children: <Widget>[
+              DestinationPointsSelector(
+                destinationPoints: restaurant.destination_points,
+                key: destinationPointsSelectorStateKey,
+              ),
               Padding(
                 padding: EdgeInsets.only(top: 10, left: 15),
                 child: Row(
@@ -1096,6 +1104,8 @@ class TakeAwayState extends State<TakeAway>
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
+  GlobalKey<DestinationPointsSelectorState> destinationPointsSelectorStateKey =
+  GlobalKey<DestinationPointsSelectorState>();
   TextEditingController commentField = new TextEditingController();
   final maxLines = 1;
 
@@ -1109,7 +1119,7 @@ class TakeAwayState extends State<TakeAway>
       resizeToAvoidBottomPadding: false,
       body: Container(
         color: Colors.white,
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Row(
               children: <Widget>[
@@ -1137,17 +1147,9 @@ class TakeAwayState extends State<TakeAway>
                     )),
               ],
             ),
-            Row(
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(bottom: 20, left: 15),
-                    child: Text(
-                      restaurant
-                          .destination_points[0].unrestricted_value,
-                      style: TextStyle(
-                          color: Color(0xFF3F3F3F), fontSize: 15),
-                    )),
-              ],
+            DestinationPointsSelector(
+              destinationPoints: restaurant.destination_points,
+              key: destinationPointsSelectorStateKey,
             ),
             Padding(
               padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -1306,6 +1308,57 @@ class TakeAwayState extends State<TakeAway>
           delivery = value;
         }
       },
+    );
+  }
+}
+
+class DestinationPointsSelector extends StatefulWidget {
+  List<DestinationPoints> destinationPoints;
+
+  DestinationPointsSelector({Key key, this.destinationPoints}) : super(key: key);
+
+  @override
+  DestinationPointsSelectorState createState() => DestinationPointsSelectorState(destinationPoints);
+}
+
+class DestinationPointsSelectorState extends State<DestinationPointsSelector> {
+  DestinationPoints selectedDestinationPoint = null;
+  List<DestinationPoints> destinationPointsList;
+
+  DestinationPointsSelectorState(this.destinationPointsList);
+
+  Widget build(BuildContext context) {
+    List<Widget> widgetsList = new List<Widget>();
+    destinationPointsList.forEach((element) {
+      widgetsList.add(
+        ListTile(
+          title: Text(
+            element.unrestricted_value,
+            style: TextStyle(color: Color(0xFF424242)),
+          ),
+          leading: Radio(
+            focusColor: Colors.red,
+            value: element,
+            groupValue: selectedDestinationPoint,
+            onChanged: (DestinationPoints value) {
+              setState(() {
+                selectedDestinationPoint = value;
+              });
+            },
+          ),
+        ),
+      );
+    });
+    return Container(
+      color: Colors.white,
+      child: ScrollConfiguration(
+        behavior: new ScrollBehavior(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: widgetsList,
+          ),
+        ),
+      ),
     );
   }
 }

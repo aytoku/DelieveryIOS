@@ -100,7 +100,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   }
 
   List<Widget> _buildListItems(){
-    double totalPrice = 134;
+    double totalPrice = ordersStoryModelItem.tariff.totalPrice.toDouble();
     List<Widget> result = new List<Widget>();
     ordersStoryModelItem.products.forEach((product) {
       if(product.selectedVariant != null && product.selectedVariant.price != null){
@@ -243,7 +243,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(),
                   child: Text(
-                    "134 Р",
+                    (ordersStoryModelItem.tariff.totalPrice - ordersStoryModelItem.tariff.bonusPayment).toString() + ' \Р',
                     style: TextStyle(
                         color: Color(0xFFB0B0B0), fontSize: 14),
                   ),

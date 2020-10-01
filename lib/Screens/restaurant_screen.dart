@@ -706,13 +706,17 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             child: Padding(
                               padding: EdgeInsets.only(left: 0),
                               child: InkWell(
-                                  onTap: () {
+                                  onTap: () async {
                                     homeScreenKey =
                                     new GlobalKey<HomeScreenState>();
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeScreen()),
-                                            (Route<dynamic> route) => false);
+                                    if(await Internet.checkConnection()){
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          MaterialPageRoute(
+                                              builder: (context) => HomeScreen()),
+                                              (Route<dynamic> route) => false);
+                                    }else{
+                                      noConnection(context);
+                                    }
                                   },
                                   child: Container(
                                       height: 40,
@@ -779,7 +783,16 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: InkWell(
-                                        onTap: () => Navigator.pop(context),
+                                        onTap: () async {
+                                          if(await Internet.checkConnection()){
+                                            Navigator.of(context).pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                    builder: (context) => HomeScreen()),
+                                                    (Route<dynamic> route) => false);
+                                          }else{
+                                            noConnection(context);
+                                          }
+                                        },
                                         child: Container(
                                             height: 40,
                                             width: 60,
