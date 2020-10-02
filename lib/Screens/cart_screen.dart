@@ -32,7 +32,7 @@ class _CartScreenState extends State<CartScreen> {
   _CartScreenState(this.restaurant);
 
   _buildList() {
-    double totalPrice = 134;
+    double totalPrice = 0;
     currentUser.cartDataModel.cart.forEach(
         (Order order) {
           if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
@@ -336,7 +336,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 134;
+    double totalPrice = 0;
     currentUser.cartDataModel.cart.forEach(
             (Order order) {
           if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){

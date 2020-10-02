@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/GetData/getImage.dart';
@@ -970,14 +972,12 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
             ),
             (in_the_way.contains(ordersStoryModelItem.state) && ordersStoryModelItem.own_delivery != null && ordersStoryModelItem.own_delivery) ? Padding(
               padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-              child: Expanded(
-                child: Text('Доставку осуществляет курьер от заведения',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14
-                  ),
+              child: Text('Доставку осуществляет курьер от заведения',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14
                 ),
-              ),
+              )
             ) :
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1261,7 +1261,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                   child: Column(
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.9,
                         child: Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: ListView.builder(
@@ -1371,11 +1371,13 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                         new GlobalKey<ChatMessageScreenState>();
                                         chatMessagesStates[message.uuid] =
                                             chatMessageScreenStateKey;
-                                        chatMessageList.insert(
-                                            0,
-                                            new ChatMessageScreen(
-                                                key: chatMessageScreenStateKey,
-                                                chatMessage: message));
+                                        if(Platform.isAndroid){
+                                          chatMessageList.insert(
+                                              0,
+                                              new ChatMessageScreen(
+                                                  key: chatMessageScreenStateKey,
+                                                  chatMessage: message));
+                                        }
                                       });
                                     } else {
                                       noConnection(context);

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app/GetData/getOrder.dart';
 import 'package:flutter_app/PostData/fcm.dart';
 import 'package:flutter_app/Screens/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:convert' as convert;
 import 'ChatHistoryModel.dart';
 
@@ -133,17 +135,25 @@ class FirebaseNotifications {
     }
   }
 
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  new FlutterLocalNotificationsPlugin();
+
   void firebaseCloudMessaging_Listeners() async{
     if (Platform.isIOS) iOS_Permission();
     var token = await _firebaseMessaging.getToken();
     FCMToken = token;
     await sendFCMToken(token);
     print('DAITE MNE TOKEN   ' + token);
-
+    var android = new AndroidInitializationSettings('');
+    var ios = new IOSInitializationSettings();
+    var platform = new InitializationSettings(android, ios);
+    flutterLocalNotificationsPlugin.initialize(platform);
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
         await messageHandler(message);
+        //showNotification(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
       onResume: (Map<String, dynamic> message) async {
@@ -164,5 +174,13 @@ class FirebaseNotifications {
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
+  }
+
+  showNotification(Map<String, dynamic> message) async {
+    var android = new AndroidNotificationDetails('channelId', 'channelName', 'channelDescription');
+    var ios = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android, ios);
+    await flutterLocalNotificationsPlugin.show(
+        0, '','', platform);
   }
 }
