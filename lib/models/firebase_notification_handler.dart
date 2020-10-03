@@ -145,15 +145,15 @@ class FirebaseNotifications {
     FCMToken = token;
     await sendFCMToken(token);
     print('DAITE MNE TOKEN   ' + token);
-    var android = new AndroidInitializationSettings('');
+    var android = new AndroidInitializationSettings('@mipmap/faem');
     var ios = new IOSInitializationSettings();
     var platform = new InitializationSettings(android, ios);
     flutterLocalNotificationsPlugin.initialize(platform);
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
+        await showNotification(message);
         await messageHandler(message);
-        //showNotification(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
       onResume: (Map<String, dynamic> message) async {
@@ -176,11 +176,30 @@ class FirebaseNotifications {
     });
   }
 
-  showNotification(Map<String, dynamic> message) async {
-    var android = new AndroidNotificationDetails('channelId', 'channelName', 'channelDescription');
-    var ios = new IOSNotificationDetails();
-    var platform = new NotificationDetails(android, ios);
+  Future<void> showNotification(Map<String, dynamic> message) async {
+    String title = message['notification']['title'];
+    String body = message['notification']['body'];
+    if(title == null)
+      return;
+    var androidChannelSpecifics = AndroidNotificationDetails(
+      'CHANNEL_ID',
+      'CHANNEL_NAME',
+      "CHANNEL_DESCRIPTION",
+      importance: Importance.Max,
+      priority: Priority.High,
+      playSound: true,
+      timeoutAfter: 5000,
+      styleInformation: DefaultStyleInformation(true, true),
+    );
+    var iosChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics =
+    NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-        0, '','', platform);
+      0,  // Notification ID
+      title, // Notification Title
+      body, // Notification Body, set as null to remove the body
+      platformChannelSpecifics,
+      payload: 'New Payload', // Notification Payload
+    );
   }
 }

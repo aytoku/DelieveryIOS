@@ -1364,6 +1364,7 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                         print(
                                             key + ' ' + value.currentState.toString());
                                       });
+                                      print("Отправка сообщения");
                                       messageField.clear();
                                       setState(() {
                                         GlobalKey<ChatMessageScreenState>
@@ -1371,13 +1372,11 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                         new GlobalKey<ChatMessageScreenState>();
                                         chatMessagesStates[message.uuid] =
                                             chatMessageScreenStateKey;
-                                        if(Platform.isAndroid){
-                                          chatMessageList.insert(
-                                              0,
-                                              new ChatMessageScreen(
-                                                  key: chatMessageScreenStateKey,
-                                                  chatMessage: message));
-                                        }
+                                        chatMessageList.insert(
+                                            0,
+                                            new ChatMessageScreen(
+                                                key: chatMessageScreenStateKey,
+                                                chatMessage: message));
                                       });
                                     } else {
                                       noConnection(context);
