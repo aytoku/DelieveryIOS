@@ -14,8 +14,8 @@ class DeliveryResponseData {
     List<Records> recordList = records_list.map((i) => Records.fromJson(i)).toList();
 
     return DeliveryResponseData(
-      records:recordList,
-      records_count:parsedJson['records_count']
+        records:recordList,
+        records_count:parsedJson['records_count']
     );
   }
 }
@@ -60,28 +60,28 @@ class Records{
 //      dp.add(destination_points[0].toJson());
       destination_points.forEach((element) {
         dp.add(
-          element.toJson()
+            element.toJson()
         );
       });
     }
 
     return
-    {
-      'uuid': this.uuid,
-      'name': this.name,
-      'phone': this.phone,
-      'comment': this.comment,
-      'own_delivery': this.own_delivery,
-      'image': this.image,
-      'available': this.available,
-      'work_schedule': null,
-      'type': this.type,
-      'product_category': null,
-      'destination_points': dp,
-      'destination_points_uuid': null,
-      'order_preparation_time_second': this.order_preparation_time_second,
-      'created_at_unix': this.created_at_unix,
-    };
+      {
+        'uuid': this.uuid,
+        'name': this.name,
+        'phone': this.phone,
+        'comment': this.comment,
+        'own_delivery': this.own_delivery,
+        'image': this.image,
+        'available': this.available,
+        'work_schedule': null,
+        'type': this.type,
+        'product_category': null,
+        'destination_points': dp,
+        'destination_points_uuid': null,
+        'order_preparation_time_second': this.order_preparation_time_second,
+        'created_at_unix': this.created_at_unix,
+      };
   }
 
   factory Records.fromJson(Map<String, dynamic> parsedJson){
@@ -160,10 +160,10 @@ class WorkSchedule{
 
   factory WorkSchedule.fromJson(Map<String, dynamic> parsedJson){
     return WorkSchedule(
-        week_day:parsedJson['week_day'],
-        day_off:parsedJson['day_off'],
-        work_beginning:parsedJson['work_beginning'],
-        work_ending:parsedJson['work_ending'],
+      week_day:parsedJson['week_day'],
+      day_off:parsedJson['day_off'],
+      work_beginning:parsedJson['work_beginning'],
+      work_ending:parsedJson['work_ending'],
     );
   }
 }
@@ -192,7 +192,7 @@ class DestinationPoints{
   int radius;
   double lat;
   double lon;
-
+  num min;
   DestinationPoints( {
     this.uuid,
     this.point_type,
@@ -217,6 +217,7 @@ class DestinationPoints{
     this.radius,
     this.lat,
     this.lon,
+
   });
 
   factory DestinationPoints.fromJson(Map<String, dynamic> parsedJson){

@@ -13,18 +13,18 @@ class MyAddressesScreen extends StatefulWidget {
 }
 
 class MyAddressesScreenState extends State<MyAddressesScreen> {
-  List<MyAddressesModel> myAddressesModelList;
+  List<MyFavouriteAddressesModel> myAddressesModelList;
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
 
-  void _deleteButton(MyAddressesModel myAddressesModel) {
+  void _deleteButton(MyFavouriteAddressesModel myAddressesModel) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(20),
-          topRight: const Radius.circular(20),
-        )),
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )),
         context: context,
         builder: (context) {
           return Container(
@@ -41,7 +41,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
         });
   }
 
-  _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel) {
+  _buildDeleteBottomNavigationMenu(MyFavouriteAddressesModel myAddressesModel) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Stack(
@@ -140,12 +140,9 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(builder: (context) {
-                        myAddressesModel.type = MyAddressesType.home;
-                        myAddressesModel.address = destinationPointsKey
-                            .currentState
-                            .searchTextField.textFieldConfiguration
-                            .controller
-                            .text;
+                        myAddressesModel.tag = "house";
+                        myAddressesModel.address = FavouriteAddress.fromDestinationPoint(destinationPointsKey
+                            .currentState.selectedValue);
                         return new AddMyAddressScreen(
                             myAddressesModel: myAddressesModel);
                       }),
@@ -167,15 +164,15 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
     // TODO: implement build
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: FutureBuilder<List<MyAddressesModel>>(
-          future: MyAddressesModel.getAddresses(),
+        body: FutureBuilder<List<MyFavouriteAddressesModel>>(
+          future: MyFavouriteAddressesModel.getAddresses(),
           builder: (BuildContext context,
-              AsyncSnapshot<List<MyAddressesModel>> snapshot) {
+              AsyncSnapshot<List<MyFavouriteAddressesModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               myAddressesModelList = snapshot.data;
               if (myAddressesModelList.length == 0) {
                 myAddressesModelList
-                    .add(new MyAddressesModel(type: MyAddressesType.empty));
+                    .add(new MyFavouriteAddressesModel(tag: null));
               }
               return Column(
                 children: <Widget>[
@@ -202,7 +199,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) => HomeScreen()),
-                                (Route<dynamic> route) => false);
+                                    (Route<dynamic> route) => false);
                           },
                         ),
                         InkWell(
@@ -214,18 +211,17 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                     height: 40,
                                     width: 60,
                                     child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 12, bottom: 12, right: 15),
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/plus.svg')
+                                        padding: EdgeInsets.only(
+                                            top: 12, bottom: 12, right: 15),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/plus.svg')
                                     )),
                               )),
                           onTap: () async {
                             if (await Internet.checkConnection()) {
-                              myAddressesModelList.add(new MyAddressesModel(
-                                  type: MyAddressesType.empty));
-                              MyAddressesModel.saveData()
-                                  .then((value) => setState(() {}));
+                              myAddressesModelList.add(new MyFavouriteAddressesModel(
+                                  tag: null));
+                              setState(() {});
                             } else {
                               noConnection(context);
                             }
@@ -248,52 +244,52 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                   Expanded(
                     child: ListView(
                       children:
-                          List.generate(myAddressesModelList.length, (index) {
-                        if (myAddressesModelList[index].type ==
-                            MyAddressesType.empty) {
+                      List.generate(myAddressesModelList.length, (index) {
+                        if (myAddressesModelList[index].tag ==
+                            null) {
                           return Column(
                             children: <Widget>[
                               GestureDetector(
                                   child: Row(
-                                children: <Widget>[
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 15, left: 30, bottom: 15),
-                                        child: GestureDetector(
-                                            child: Row(
-                                              children: <Widget>[
-                                                Image(
-                                                  image: AssetImage(
-                                                      'assets/images/plus_icon.png'),
-                                                ),
-                                                Padding(
-                                                  padding:
+                                    children: <Widget>[
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 15, left: 30, bottom: 15),
+                                            child: GestureDetector(
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Image(
+                                                      image: AssetImage(
+                                                          'assets/images/plus_icon.png'),
+                                                    ),
+                                                    Padding(
+                                                      padding:
                                                       EdgeInsets.only(left: 20),
-                                                  child: Text(
-                                                    'Добавить адрес дома',
-                                                    style: TextStyle(
-                                                        fontSize: 17,
-                                                        color:
+                                                      child: Text(
+                                                        'Добавить адрес дома',
+                                                        style: TextStyle(
+                                                            fontSize: 17,
+                                                            color:
                                                             Color(0xFF424242)),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            onTap: () async {
-                                              if (await Internet
-                                                  .checkConnection()) {
-                                                _deleteButton(
-                                                    myAddressesModelList[
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                                onTap: () async {
+                                                  if (await Internet
+                                                      .checkConnection()) {
+                                                    _deleteButton(
+                                                        myAddressesModelList[
                                                         index]);
-                                              } else {
-                                                noConnection(context);
-                                              }
-                                            })),
-                                  ),
-                                ],
-                              )),
+                                                  } else {
+                                                    noConnection(context);
+                                                  }
+                                                })),
+                                      ),
+                                    ],
+                                  )),
                               Divider(height: 1.0, color: Color(0xFFEDEDED)),
                             ],
                           );
@@ -310,7 +306,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                   child: Text(
                                     myAddressesModelList[index].name,
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -321,7 +317,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                     padding: EdgeInsets.only(
                                         left: 0, top: 10, bottom: 10),
                                     child: Text(
-                                        myAddressesModelList[index].address),
+                                        myAddressesModelList[index].address.unrestrictedValue),
                                   ),
                                   onTap: () async {
                                     if (await Internet.checkConnection()) {
@@ -329,11 +325,11 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                         context,
                                         new MaterialPageRoute(
                                             builder: (context) {
-                                          return new AddMyAddressScreen(
-                                            myAddressesModel:
+                                              return new AddMyAddressScreen(
+                                                myAddressesModel:
                                                 myAddressesModelList[index],
-                                          );
-                                        }),
+                                              );
+                                            }),
                                       );
                                     } else {
                                       noConnection(context);

@@ -110,8 +110,8 @@ class PageState extends State<PageScreen> {
   String addressName = '';
   int deliveryPrice = 134;
 
-  List<MyAddressesModel> myAddressesModelList;
-  MyAddressesModel myAddressesModel;
+  List<MyFavouriteAddressesModel> myAddressesModelList;
+  MyFavouriteAddressesModel myAddressesModel;
 
   String image = 'assets/svg_images/dollar_bills.svg';
   String checkbox = 'assets/images/checkbox.png';
@@ -487,7 +487,7 @@ class PageState extends State<PageScreen> {
 }
 
 class AddressScreen extends StatefulWidget {
-  MyAddressesModel myAddressesModel;
+  MyFavouriteAddressesModel myAddressesModel;
 
   AddressScreen(
       {Key key, this.restaurant, this.myAddressesModel})
@@ -542,10 +542,10 @@ class AddressScreenState extends State<AddressScreen>
   String addressName = '';
   int deliveryPrice = 134;
 
-  List<MyAddressesModel> myAddressesModelList;
-  MyAddressesModel myAddressesModel;
+  List<MyFavouriteAddressesModel> myAddressesModelList;
+  MyFavouriteAddressesModel myAddressesModel;
 
-  void _deleteButton(MyAddressesModel myAddressesModel) {
+  void _deleteButton(MyFavouriteAddressesModel myAddressesModel) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -570,7 +570,7 @@ class AddressScreenState extends State<AddressScreen>
         });
   }
 
-  Column _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel) {
+  Column _buildDeleteBottomNavigationMenu(MyFavouriteAddressesModel myAddressesModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -602,13 +602,9 @@ class AddressScreenState extends State<AddressScreen>
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (context) {
-                      myAddressesModel.type = MyAddressesType.home;
-                      myAddressesModel.address = destinationPointsKey
-                          .currentState
-                          .searchTextField
-                          .textFieldConfiguration
-                          .controller
-                          .text;
+                      myAddressesModel.tag = "house";
+                      myAddressesModel.address = FavouriteAddress.fromDestinationPoint(destinationPointsKey
+                          .currentState.selectedValue);
                       return new AddressScreen(
                           myAddressesModel: myAddressesModel);
                     }),
@@ -1118,105 +1114,105 @@ class TakeAwayState extends State<TakeAway>
       key: _scaffoldStateKey,
       resizeToAvoidBottomPadding: false,
       body: Container(
-        color: Colors.white,
-        child: ListView(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 10, top: 15, left: 15),
-                    child: Text(
-                      'Адрес заведения',
-                      style: TextStyle(
-                          color: Color(0xFFB0B0B0), fontSize: 11),
-                    )),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                    padding:
-                    EdgeInsets.only(bottom: 10, top: 0, left: 15),
-                    child: Text(
-                      restaurant.name,
-                      style: TextStyle(
-                          color: Color(0xFF3F3F3F),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 21),
-                    )),
-              ],
-            ),
-            DestinationPointsSelector(
-              destinationPoints: restaurant.destination_points,
-              key: destinationPointsSelectorStateKey,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 5, bottom: 5),
-              child: Divider(
-                height: 1,
-                color: Color(0xFFF5F5F5),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
-              child: Row(
+          color: Colors.white,
+          child: ListView(
+            children: <Widget>[
+              Row(
                 children: <Widget>[
-                  Text(
-                    'Комментарий к заказу',
-                    style: TextStyle(
-                        color: Color(0xFFB0B0B0), fontSize: 13),
-                  )
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 10, top: 15, left: 15),
+                      child: Text(
+                        'Адрес заведения',
+                        style: TextStyle(
+                            color: Color(0xFFB0B0B0), fontSize: 11),
+                      )),
                 ],
               ),
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: 15, bottom: 5),
-                child: Container(
-                  height: 20,
-                  child: TextField(
-                    textCapitalization: TextCapitalization.sentences,
-                    controller: commentField,
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      counterText: '',
-                    ),
-                  ),
-                )),
-            Padding(
-              padding: EdgeInsets.only(left: 15, right: 15),
-              child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
-              child: Row(
+              Row(
                 children: <Widget>[
-                  Text(
-                    'Время ожидания',
-                    style: TextStyle(
-                        color: Color(0xFFB0B0B0), fontSize: 13),
-                  )
+                  Padding(
+                      padding:
+                      EdgeInsets.only(bottom: 10, top: 0, left: 15),
+                      child: Text(
+                        restaurant.name,
+                        style: TextStyle(
+                            color: Color(0xFF3F3F3F),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 21),
+                      )),
                 ],
               ),
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: 15, bottom: 5),
-                child: Container(
-                  height: 20,
-                  child: TextField(
-                    textCapitalization: TextCapitalization.sentences,
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      counterText: '',
+              DestinationPointsSelector(
+                destinationPoints: restaurant.destination_points,
+                key: destinationPointsSelectorStateKey,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                child: Divider(
+                  height: 1,
+                  color: Color(0xFFF5F5F5),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Комментарий к заказу',
+                      style: TextStyle(
+                          color: Color(0xFFB0B0B0), fontSize: 13),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                  child: Container(
+                    height: 20,
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      controller: commentField,
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        counterText: '',
+                      ),
                     ),
-                  ),
-                )),
-            Container(
-              height: 145,
-              color: Color(0xFAFAFAFA),
-            ),
-          ],
-        )
+                  )),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 15, left: 15, bottom: 5),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      'Время ожидания',
+                      style: TextStyle(
+                          color: Color(0xFFB0B0B0), fontSize: 13),
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 15, bottom: 5),
+                  child: Container(
+                    height: 20,
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        counterText: '',
+                      ),
+                    ),
+                  )),
+              Container(
+                height: 145,
+                color: Color(0xFAFAFAFA),
+              ),
+            ],
+          )
       ),);
   }
 

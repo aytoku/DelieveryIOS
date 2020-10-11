@@ -3,9 +3,9 @@ import 'dart:convert' as convert;
 String getImage(String imgJson) {
   try {
     Map<String,dynamic> json = convert.jsonDecode(imgJson);
-    if(json.containsKey('full')){
-      print('parsedJson ' + json['full']);
-      return json['full'];
+    if(json.containsKey('medium_format')){
+      print('parsedJson ' + json['medium_format']);
+      return json['medium_format'];
     }
     print('not parsedJson ' + imgJson);
     return imgJson;

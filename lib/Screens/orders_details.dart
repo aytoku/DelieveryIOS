@@ -315,6 +315,13 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       'order_payment'
     ];
     var not_cancel_state = [
+      'cooking',
+      'offer_offered',
+      'smart_distribution',
+      'finding_driver',
+      'offer_rejected',
+      'order_start',
+      'on_place',
       'on_the_way',
       'order_payment'
     ];

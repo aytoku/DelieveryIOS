@@ -22,6 +22,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
   FocusNode node = new FocusNode();
 
   TypeAheadField searchTextField;
+  DestinationPoints selectedValue;
 
   Future<List<DestinationPoints>> getUsers(String name) async {
     List<DestinationPoints> necessaryAddressDataItems;
@@ -30,19 +31,19 @@ class AutoCompleteDemoState extends State<AutoComplete> {
         necessaryAddressDataItems =
             (await loadNecessaryAddressData(name)).destinationPoints;
       } else {
-        List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
+        List<MyFavouriteAddressesModel> temp = await MyFavouriteAddressesModel.getAddresses();
         necessaryAddressDataItems = new List<DestinationPoints>();
         for (int i = 0; i < temp.length; i++) {
           var element = temp[i];
           NecessaryAddressData necessaryAddressData =
-          await loadNecessaryAddressData(element.address);
+          await loadNecessaryAddressData(element.address.unrestrictedValue);
           if (necessaryAddressData.destinationPoints.length > 0) {
-            necessaryAddressData.destinationPoints[0].comment = temp[i].comment;
+            necessaryAddressData.destinationPoints[0].comment = temp[i].description;
             necessaryAddressDataItems
                 .add(necessaryAddressData.destinationPoints[0]);
           } else {
             necessaryAddressDataItems.add(new DestinationPoints(
-                street: element.address, house: '', comment: temp[i].comment));
+                street: element.address.unrestrictedValue, house: '', comment: temp[i].description));
           }
         }
       }
@@ -126,6 +127,7 @@ class AutoCompleteDemoState extends State<AutoComplete> {
               },
               onSuggestionSelected: (suggestion) {
                 print('asdasdasdadasd');
+                selectedValue = (suggestion as DestinationPoints);
                 controller.text =(suggestion as DestinationPoints).unrestricted_value;
                 //FocusScope.of(context).unfocus();
                 node.requestFocus();

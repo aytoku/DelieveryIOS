@@ -21,7 +21,7 @@ class OrdersStoryModel{
     }
 
     return OrdersStoryModel(
-        ordersStoryModelItems:recordList,
+      ordersStoryModelItems:recordList,
     );
   }
 }
@@ -80,18 +80,18 @@ class OrdersStoryModelItem{
     }
 
     return OrdersStoryModelItem(
-      uuid: parsedJson['uuid'],
-      comment: parsedJson['comment'],
-      routes: routesList,
-      store: store,
-      tariff: Tariff.fromJson(parsedJson["tariff"]),
-      products: productsList,
-      created_at_unix: parsedJson['created_at_unix'],
-      price: parsedJson['tariff']['total_price'],
-      state_title: parsedJson['state_title'],
-      own_delivery: parsedJson['own_delivery'],
-      state: parsedJson['state'],
-      driver: Driver.fromJson(parsedJson['driver'])
+        uuid: parsedJson['uuid'],
+        comment: parsedJson['comment'],
+        routes: routesList,
+        store: store,
+        tariff: Tariff.fromJson(parsedJson["tariff"]),
+        products: productsList,
+        created_at_unix: parsedJson['created_at_unix'],
+        price: parsedJson['tariff']['total_price'],
+        state_title: parsedJson['state_title'],
+        own_delivery: parsedJson['own_delivery'],
+        state: parsedJson['state'],
+        driver: Driver.fromJson(parsedJson['driver'])
     );
   }
 
@@ -176,10 +176,10 @@ class Tariff {
     paymentType: json["payment_type"],
     maxBonusPayment: json["max_bonus_payment"],
     bonusPayment: json["bonus_payment"],
-    items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
-    waitingBoarding: Map.from(json["waiting_boarding"]).map((k, v) => MapEntry<String, int>(k, v)),
-    waitingPoint: Map.from(json["waiting_point"]).map((k, v) => MapEntry<String, int>(k, v)),
-    timeTaximeter: Map.from(json["time_taximeter"]).map((k, v) => MapEntry<String, int>(k, v)),
+    items: json["items"] == null ? null : List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
+    waitingBoarding: json["waiting_boarding"] == null ? null : Map.from(json["waiting_boarding"]).map((k, v) => MapEntry<String, int>(k, v)),
+    waitingPoint: json["waiting_point"] == null ? null : Map.from(json["waiting_point"]).map((k, v) => MapEntry<String, int>(k, v)),
+    timeTaximeter: json["time_taximeter"] == null ? null : Map.from(json["time_taximeter"]).map((k, v) => MapEntry<String, int>(k, v)),
     waitingPrice: json["waiting_price"],
     surge: json["surge"],
     precalculated: json["precalculated"],
