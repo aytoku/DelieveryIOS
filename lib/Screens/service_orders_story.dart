@@ -81,6 +81,9 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
     List<Widget> restaurantList = [];
     int i = 0;
     GlobalKey<CartItemsQuantityState> cartItemsQuantityKey = new GlobalKey();
+    if(records_items == null){
+      return Container();
+    }
     records_items.forEach((OrdersStoryModelItem ordersStoryModelItem) {
       var format = new DateFormat('HH:mm, dd-MM-yy');
       var date = new DateTime.fromMicrosecondsSinceEpoch(

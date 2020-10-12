@@ -72,34 +72,37 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
     List<Widget> restaurantList = [];
     int i = 0;
     GlobalKey<CartItemsQuantityState> cartItemsQuantityKey = new GlobalKey();
-    records_items.forEach((OrdersStoryModelItem ordersStoryModelItem) {
-      var format = new DateFormat('HH:mm, dd-MM-yy');
-      var date = new DateTime.fromMicrosecondsSinceEpoch(
-          ordersStoryModelItem.created_at_unix * 1000);
-      var time = '';
-      time = format.format(date);
-      if(ordersStoryModelItem.products!= null && ordersStoryModelItem.products.length > 0){
-        restaurantList.add(
-          InkWell(
-              child: column(ordersStoryModelItem),
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) {
-                      return OrdersDetailsScreen(
-                          ordersStoryModelItem: ordersStoryModelItem);
-                    }),
-                  );
-                } else {
-                  noConnection(context);
-                }
-              }),
-        );
-      }
-      i++;
-    });
-
+    if(records_items == null){
+      return Container();
+    }else{
+      records_items.forEach((OrdersStoryModelItem ordersStoryModelItem) {
+        var format = new DateFormat('HH:mm, dd-MM-yy');
+        var date = new DateTime.fromMicrosecondsSinceEpoch(
+            ordersStoryModelItem.created_at_unix * 1000);
+        var time = '';
+        time = format.format(date);
+        if(ordersStoryModelItem.products!= null && ordersStoryModelItem.products.length > 0){
+          restaurantList.add(
+            InkWell(
+                child: column(ordersStoryModelItem),
+                onTap: () async {
+                  if (await Internet.checkConnection()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) {
+                        return OrdersDetailsScreen(
+                            ordersStoryModelItem: ordersStoryModelItem);
+                      }),
+                    );
+                  } else {
+                    noConnection(context);
+                  }
+                }),
+          );
+        }
+        i++;
+      });
+    }
     return Column(children: restaurantList);
   }
 

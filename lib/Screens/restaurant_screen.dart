@@ -171,7 +171,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         builder: (context) {
           if(food.comment != "" && food.comment != null){
             return Container(
-              height: 500,
+              height: 520,
               child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,

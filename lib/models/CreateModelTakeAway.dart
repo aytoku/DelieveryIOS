@@ -50,6 +50,7 @@ class CreateOrderTakeAway {
       "increased_fare": 25,
       "comment": comment,
       "products_input": cartDataModel.toJson(),
+      "without_delivery":true,
       "routes": [
         restaurantAddress.toJson(),
       ],
