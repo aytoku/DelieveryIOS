@@ -192,7 +192,7 @@ class DestinationPoints{
   int radius;
   double lat;
   double lon;
-  num min;
+
   DestinationPoints( {
     this.uuid,
     this.point_type,
@@ -217,7 +217,6 @@ class DestinationPoints{
     this.radius,
     this.lat,
     this.lon,
-
   });
 
   factory DestinationPoints.fromJson(Map<String, dynamic> parsedJson){

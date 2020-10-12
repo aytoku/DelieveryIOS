@@ -7,7 +7,7 @@ import 'my_addresses_screen.dart';
 
 // ignore: must_be_immutable
 class AddMyAddressScreen extends StatefulWidget {
-  MyFavouriteAddressesModel myAddressesModel;
+  MyAddressesModel myAddressesModel;
 
   AddMyAddressScreen({Key key, this.myAddressesModel}) : super(key: key);
 
@@ -19,7 +19,7 @@ class AddMyAddressScreen extends StatefulWidget {
 class AddMyAddressScreenState extends State<AddMyAddressScreen> {
   bool status1 = false;
   String name;
-  MyFavouriteAddressesModel myAddressesModel;
+  MyAddressesModel myAddressesModel;
 
   AddMyAddressScreenState(this.myAddressesModel);
 
@@ -29,7 +29,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
   @override
   Widget build(BuildContext context) {
     nameField.text = myAddressesModel.name;
-    commentField.text = myAddressesModel.description;
+    commentField.text = myAddressesModel.comment;
     // TODO: implement build
     return Scaffold(
       resizeToAvoidBottomPadding: false,
@@ -73,7 +73,10 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                       )),
                   onTap: () async {
                     if (await Internet.checkConnection()) {
-                      await myAddressesModel.delete();
+                      List<MyAddressesModel> list =
+                      await MyAddressesModel.getAddresses();
+                      list.remove(myAddressesModel);
+                      await MyAddressesModel.saveData();
                       Navigator.push(
                         context,
                         new MaterialPageRoute(builder: (context) {
@@ -128,7 +131,7 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                     alignment: Alignment.centerLeft,
                     child: Padding(
                       padding: EdgeInsets.only(top: 30, left: 15, right: 15),
-                      child: Text(myAddressesModel.address.unrestrictedValue,
+                      child: Text(myAddressesModel.address,
                           style: TextStyle(fontSize: 17, color: Color(0xFF424242))),
                     ),
                   ),
@@ -213,13 +216,13 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
                 EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
                 onPressed: () async {
                   if (await Internet.checkConnection()) {
-                    myAddressesModel.tag = "house";
-                    myAddressesModel.name = nameField.text;
-                    myAddressesModel.description = commentField.text;
-                    await myAddressesModel.ifNoBrainsSave();
                     Navigator.push(
                       context,
                       new MaterialPageRoute(builder: (context) {
+                        myAddressesModel.type = MyAddressesType.home;
+                        myAddressesModel.name = nameField.text;
+                        myAddressesModel.comment = commentField.text;
+                        MyAddressesModel.saveData();
                         return new MyAddressesScreen();
                       }),
                     );

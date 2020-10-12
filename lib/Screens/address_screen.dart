@@ -108,10 +108,10 @@ class PageState extends State<PageScreen> {
   GlobalKey<AddressScreenState> addressScreenKey = new GlobalKey<AddressScreenState>();
 
   String addressName = '';
-  int deliveryPrice = 134;
+  int deliveryPrice = 0;
 
-  List<MyFavouriteAddressesModel> myAddressesModelList;
-  MyFavouriteAddressesModel myAddressesModel;
+  List<MyAddressesModel> myAddressesModelList;
+  MyAddressesModel myAddressesModel;
 
   String image = 'assets/svg_images/dollar_bills.svg';
   String checkbox = 'assets/images/checkbox.png';
@@ -120,7 +120,7 @@ class PageState extends State<PageScreen> {
   @override
   Widget build(BuildContext context) {
     FocusNode focusNode;
-    double totalPrice = 134;
+    double totalPrice = 0;
     currentUser.cartDataModel.cart.forEach(
             (Order order) {
           if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
@@ -414,7 +414,7 @@ class PageState extends State<PageScreen> {
                     if (await Internet.checkConnection()) {
                       if (addressScreenKey.currentState.destinationPointsKey.currentState.searchTextField
                           .textFieldConfiguration.controller.text.length >
-                          0) {
+                          0 || selectedPageId == 1) {
                         Center(
                           child: CircularProgressIndicator(),
                         );
@@ -487,7 +487,7 @@ class PageState extends State<PageScreen> {
 }
 
 class AddressScreen extends StatefulWidget {
-  MyFavouriteAddressesModel myAddressesModel;
+  MyAddressesModel myAddressesModel;
 
   AddressScreen(
       {Key key, this.restaurant, this.myAddressesModel})
@@ -540,12 +540,12 @@ class AddressScreenState extends State<AddressScreen>
   TextField officeTextField;
 
   String addressName = '';
-  int deliveryPrice = 134;
+  int deliveryPrice = 0;
 
-  List<MyFavouriteAddressesModel> myAddressesModelList;
-  MyFavouriteAddressesModel myAddressesModel;
+  List<MyAddressesModel> myAddressesModelList;
+  MyAddressesModel myAddressesModel;
 
-  void _deleteButton(MyFavouriteAddressesModel myAddressesModel) {
+  void _deleteButton(MyAddressesModel myAddressesModel) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -570,7 +570,7 @@ class AddressScreenState extends State<AddressScreen>
         });
   }
 
-  Column _buildDeleteBottomNavigationMenu(MyFavouriteAddressesModel myAddressesModel) {
+  Column _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -602,9 +602,13 @@ class AddressScreenState extends State<AddressScreen>
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (context) {
-                      myAddressesModel.tag = "house";
-                      myAddressesModel.address = FavouriteAddress.fromDestinationPoint(destinationPointsKey
-                          .currentState.selectedValue);
+                      myAddressesModel.type = MyAddressesType.home;
+                      myAddressesModel.address = destinationPointsKey
+                          .currentState
+                          .searchTextField
+                          .textFieldConfiguration
+                          .controller
+                          .text;
                       return new AddressScreen(
                           myAddressesModel: myAddressesModel);
                     }),
@@ -623,7 +627,7 @@ class AddressScreenState extends State<AddressScreen>
   @override
   Widget build(BuildContext context) {
     FocusNode focusNode;
-    double totalPrice = 134;
+    double totalPrice = 0;
     currentUser.cartDataModel.cart.forEach(
             (Order order) {
           if(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null){
@@ -1107,7 +1111,7 @@ class TakeAwayState extends State<TakeAway>
 
   @override
   Widget build(BuildContext context) {
-    double totalPrice = 134;
+    double totalPrice = 0;
     currentUser.cartDataModel.cart.forEach(
             (Order order) => totalPrice += order.quantity * order.food.price);
     return Scaffold(
