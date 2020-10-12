@@ -14,6 +14,7 @@ class CreateOrderTakeAway {
   String comment;
   String delivery;
   CartDataModel cartDataModel;
+  bool without_delivery;
   Records restaurant;
 
   CreateOrderTakeAway( {
@@ -22,6 +23,7 @@ class CreateOrderTakeAway {
     this.comment,
     this.delivery,
     this.cartDataModel,
+    this.without_delivery,
     this.restaurant
   });
 

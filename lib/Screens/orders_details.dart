@@ -102,6 +102,9 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
   List<Widget> _buildListItems(){
     double totalPrice = ordersStoryModelItem.tariff.totalPrice.toDouble();
     List<Widget> result = new List<Widget>();
+    if(ordersStoryModelItem.products == null){
+      return List<Container>();
+    }
     ordersStoryModelItem.products.forEach((product) {
       if(product.selectedVariant != null && product.selectedVariant.price != null){
         totalPrice += product.number * (product.price + product.selectedVariant.price);

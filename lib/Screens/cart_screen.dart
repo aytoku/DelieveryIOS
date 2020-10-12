@@ -774,9 +774,8 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                       Padding(
                         padding: EdgeInsets.only(top: 30),
                         child: Center(
-                          child: Image(
-                            image: AssetImage('assets/images/basket.png'),
-                          ),
+                          child: SvgPicture.asset(
+                              'assets/svg_images/basket.svg'),
                         ),
                       ),
                       Padding(
