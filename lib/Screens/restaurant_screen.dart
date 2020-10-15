@@ -384,7 +384,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           alignment: Alignment.centerLeft,
                           child: Padding(
                             padding:
-                            EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                            EdgeInsets.only(left: 15, top: 20, bottom: 10),
                             child: Text(
                               restaurantDataItems.comment,
                               style: TextStyle(
@@ -455,49 +455,39 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Stack(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(
-                              restaurantDataItems.name,
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF000000)),
-                              textAlign: TextAlign.start,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5),
-                            child: (restaurantDataItems.weight != null && restaurantDataItems.weight_measure!= null)
-                                ? Text(
-                              restaurantDataItems.weight + " " + restaurantDataItems.weight_measure, //ну а чо
-                              style: TextStyle(
+                    Expanded(child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 10),
+                      child: Container(
+                        child: RichText(text:
+                        TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(text: restaurantDataItems.name,
+                                style: TextStyle(
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF000000)),),
+                              TextSpan(text: (restaurantDataItems.weight != null && restaurantDataItems.weight_measure!= null)
+                                  ? '  ' + restaurantDataItems.weight + " " + restaurantDataItems.weight_measure
+                                  : '', style: TextStyle(
                                   fontSize: 12.0,
-                                  color: Color(0xFFB0B0B0)),
-                            )
-                                : Container(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 10),
-                        child: Text(
-                          '${restaurantDataItems.price}\₽',
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF000000)),
-                          overflow: TextOverflow.ellipsis,
+                                  color: Color(0xFFB0B0B0)),)
+                            ]
+                        )
                         ),
+                      ),
+                    )),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Text(
+                        '${restaurantDataItems.price}\₽',
+                        style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000)),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     )
                   ],
@@ -628,52 +618,49 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   }
 
   _buildFoodCategoryList() {
-    return Flexible(
-      flex: 1,
-      child: Container(
-        height: 50,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: List.generate(restaurant.product_category.length, (index) {
-            return GestureDetector(
-              child: Padding(
-                  padding:
-                  EdgeInsets.only(left: 5, right: 5, top: 0, bottom: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                        color: (restaurant.product_category[index] != category)
-                            ? Color(0xFFF6F6F6)
-                            : Color(0xFFFE534F)),
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Center(
-                          child: Text(
-                            restaurant.product_category[index],
-                            style: TextStyle(
-                                color: (restaurant.product_category[index] !=
-                                    category)
-                                    ? Color(0xFF424242)
-                                    : Colors.white,
-                                fontSize: 15),
-                          ),
-                        )),
-                  )),
-              onTap: () async {
-                if (await Internet.checkConnection()) {
-                  setState(() {
-                    isLoading = true;
-                    page = 1;
-                    category = (restaurant.product_category[index] == category) ? '' : restaurant.product_category[index];
-                    _color = !_color;
-                  });
-                } else {
-                  noConnection(context);
-                }
-              },
-            );
-          }),
-        ),
+    return Container(
+      height: 50,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(restaurant.product_category.length, (index) {
+          return GestureDetector(
+            child: Padding(
+                padding:
+                EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: (restaurant.product_category[index] != category)
+                          ? Color(0xFFF6F6F6)
+                          : Color(0xFFFE534F)),
+                  child: Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Center(
+                        child: Text(
+                          restaurant.product_category[index],
+                          style: TextStyle(
+                              color: (restaurant.product_category[index] !=
+                                  category)
+                                  ? Color(0xFF424242)
+                                  : Colors.white,
+                              fontSize: 15),
+                        ),
+                      )),
+                )),
+            onTap: () async {
+              if (await Internet.checkConnection()) {
+                setState(() {
+                  isLoading = true;
+                  page = 1;
+                  category = (restaurant.product_category[index] == category) ? '' : restaurant.product_category[index];
+                  _color = !_color;
+                });
+              } else {
+                noConnection(context);
+              }
+            },
+          );
+        }),
       ),
     );
   }
@@ -723,7 +710,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                       width: 60,
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 10),
+                                            top: 12, bottom: 12, right: 10, left: 16),
                                         child: SvgPicture.asset(
                                             'assets/svg_images/arrow_left.svg'),
                                       ))),
@@ -747,14 +734,19 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         ],
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+                    ),
                     _buildFoodCategoryList(),
-                    Flexible(
-                      flex: 8,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Center(
-                          child: Text('Нет товаров данной категории'),
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text('Нет товаров данной категории'),
                       ),
                     ),
                     SizedBox(height: 10.0),
@@ -800,7 +792,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                                               padding: EdgeInsets.only(
                                                   top: 12,
                                                   bottom: 12,
-                                                  right: 20),
+                                                  right: 16),
                                               child: SvgPicture.asset(
                                                   'assets/svg_images/arrow_left.svg'),
                                             ))),
@@ -826,9 +818,16 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         )
                       ],
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+                    ),
                     _buildFoodCategoryList(),
-                    Flexible(
-                      flex: 8,
+                    Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+                    ),
+                    Expanded(
                       child: NotificationListener<ScrollNotification>(
                         // ignore: missing_return
                           onNotification: (ScrollNotification scrollInfo) {
@@ -848,13 +847,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             }
                           },
                           child: GridView.count(
-                            padding: EdgeInsets.all(10.0),
+                            padding: EdgeInsets.only(left: 10.0, right: 10, bottom: 0),
                             crossAxisCount: 2,
                             mainAxisSpacing: 8.0,
                             crossAxisSpacing: 10.0,
-                            childAspectRatio:
-                            MediaQuery.of(context).size.width /
-                                (MediaQuery.of(context).size.height / 1),
+                            childAspectRatio: 0.65,
                             children: List.generate(food_records_items.length,
                                     (index) {
                                   FoodRecords food = food_records_items[index];

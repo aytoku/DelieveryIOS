@@ -138,20 +138,21 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text(
-                              (restaurant.destination_points != null)
-                                  ? restaurant.destination_points[0].type
-                                  : ' ',
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF3F3F3F),
+                          Flexible(child: Container(
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: Text(
+                                (restaurant.product_category != null) ? restaurant.getCategoriesString():
+                                '',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF3F3F3F),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          )
+                          ))
                         ],
                       ),
                       SizedBox(
@@ -451,7 +452,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                       width: 60,
                                       child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: 12, bottom: 12, right: 0),
+                                              top: 20, bottom: 2, left: 10),
                                           child: SvgPicture.asset(
                                               'assets/svg_images/menu.svg')
                                       )),

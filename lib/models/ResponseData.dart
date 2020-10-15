@@ -133,6 +133,17 @@ class Records{
       created_at_unix: parsedJson['created_at_unix'],
     );
   }
+
+  String getCategoriesString(){
+    String result = '';
+    product_category.forEach((element) {
+      result += element + ', ';
+    });
+    if(result == ''){
+      return result;
+    }
+    return result.substring(0, result.length - 3);
+  }
 }
 
 class WorkSchedule{
