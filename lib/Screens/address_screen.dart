@@ -200,13 +200,14 @@ class PageState extends State<PageScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Flexible(
-                        flex: 1,
+                      Container(
+                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
                         child: SizedBox(
                           height: 40,
                           child: GestureDetector(
                             child: Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
+                              padding: EdgeInsets.only(left: 0,
+                                  right: 0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius:
@@ -236,13 +237,15 @@ class PageState extends State<PageScreen> {
                           ),
                         ),
                       ),
-                      Flexible(
-                        flex: 1,
+                      Container(
+                        padding: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width * 0.1),
                         child: SizedBox(
                           height: 40,
                           child: GestureDetector(
                             child: Padding(
-                              padding: EdgeInsets.only(left: 5, right: 5),
+                              padding: EdgeInsets.only(left: 0,
+                                  right: 0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius:
@@ -364,7 +367,7 @@ class PageState extends State<PageScreen> {
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                (restaurant.order_preparation_time_second != null)? '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
+                                 '30-50 мин.',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w600,
@@ -879,7 +882,7 @@ class AddressScreenState extends State<AddressScreen>
                 child: Row(
                   children: <Widget>[
                     Text(
-                      (restaurant.order_preparation_time_second != null)? '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
+                      '30-50 мин.',
                       style: TextStyle(
                           color: Colors.black, fontSize: 13),
                     )
@@ -1193,7 +1196,7 @@ class TakeAwayState extends State<TakeAway>
                 child: Row(
                   children: <Widget>[
                     Text(
-                      'Время ожидания',
+                      'Время готовки',
                       style: TextStyle(
                           color: Color(0xFFB0B0B0), fontSize: 13),
                     )
@@ -1333,9 +1336,16 @@ class DestinationPointsSelectorState extends State<DestinationPointsSelector> {
     destinationPointsList.forEach((element) {
       widgetsList.add(
         ListTile(
-          title: Text(
-            element.unrestricted_value,
-            style: TextStyle(color: Color(0xFF424242)),
+          title: GestureDetector(
+            child: Text(
+              element.unrestricted_value,
+              style: TextStyle(color: Color(0xFF424242)),
+            ),
+            onTap: (){
+              setState(() {
+                selectedDestinationPoint = element;
+              });
+            },
           ),
           leading: Radio(
             focusColor: Colors.red,

@@ -152,7 +152,6 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 14.0,
-                                fontWeight: FontWeight.bold,
                                 color: Color(0xFF000000)),
                           ),
                         )
@@ -178,9 +177,8 @@ class _CartScreenState extends State<CartScreen> {
                                 style: TextStyle(
                                     decoration: TextDecoration.none,
                                     fontSize: 14.0,
-                                    fontWeight: FontWeight.bold,
                                     color: Color(0xFF000000)),
-                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             (order.food.variants != null)
@@ -189,7 +187,6 @@ class _CartScreenState extends State<CartScreen> {
                                     style: TextStyle(
                                         decoration: TextDecoration.none,
                                         fontSize: 10.0,
-                                        fontWeight: FontWeight.bold,
                                         color: Color(0xFF000000)),
                                     textAlign: TextAlign.start,
                                   )
@@ -210,8 +207,6 @@ class _CartScreenState extends State<CartScreen> {
                                                       decoration:
                                                           TextDecoration.none,
                                                       fontSize: 10.0,
-                                                      fontWeight:
-                                                          FontWeight.bold,
                                                       color: Color(0xFF000000)),
                                                   textAlign: TextAlign.start,
                                                 ),

@@ -1221,9 +1221,15 @@ class VariantsSelectorState extends State<VariantsSelector> {
     variantsList.forEach((element) {
       widgetsList.add(
         ListTile(
-          title: Text(
-            element.name,
-            style: TextStyle(color: Color(0xFF424242)),
+          title: GestureDetector(
+            child: Text(
+              element.name,
+              style: TextStyle(color: Color(0xFF424242)),
+            ),onTap: (){
+              setState(() {
+                selectedVariant = element;
+              });
+           },
           ),
           leading: Radio(
             value: element,
