@@ -847,7 +847,7 @@ class AddressScreenState extends State<AddressScreen>
               Padding(
                   padding: EdgeInsets.only(left: 15, bottom: 5),
                   child: Container(
-                    height: 20,
+                    height: 45,
                     child: TextField(
                       textCapitalization: TextCapitalization.sentences,
                       controller: commentField,
@@ -1329,6 +1329,12 @@ class DestinationPointsSelectorState extends State<DestinationPointsSelector> {
   List<DestinationPoints> destinationPointsList;
 
   DestinationPointsSelectorState(this.destinationPointsList);
+
+  void initState() {
+    if(destinationPointsList.length > 0){
+      selectedDestinationPoint = destinationPointsList[0];
+    }
+  }
 
   Widget build(BuildContext context) {
     List<Widget> widgetsList = new List<Widget>();
