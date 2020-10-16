@@ -105,7 +105,7 @@ class _CartScreenState extends State<CartScreen> {
                             fontWeight: FontWeight.bold,
                             color: Color(0xFF000000)),
                       ),
-                      Text('${totalPrice.toStringAsFixed(0)} \Р',
+                      Text('${totalPrice.toStringAsFixed(0)} \₽',
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.bold,
@@ -225,7 +225,7 @@ class _CartScreenState extends State<CartScreen> {
                     padding: EdgeInsets.only(right: 15),
                     child: Text('${(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null) ?
                     (order.quantity * (order.food.price + order.food.variants[0].price) + toppingsCost).toStringAsFixed(0) :
-                    (order.quantity * order.food.price + toppingsCost).toStringAsFixed(0)} \Р',
+                    (order.quantity * order.food.price + toppingsCost).toStringAsFixed(0)} \₽',
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 14.0,
@@ -533,7 +533,7 @@ class _CartScreenState extends State<CartScreen> {
                               child: Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text(
-                                    '${totalPrice.toStringAsFixed(0)} \Р',
+                                    '${totalPrice.toStringAsFixed(0)} \₽',
                                     style: TextStyle(
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w600,

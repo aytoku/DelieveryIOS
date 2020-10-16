@@ -213,7 +213,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       child: Text(
                         '${(product.selectedVariant != null  && product.selectedVariant.price != null) ?
                         (product.number * (product.price + product.selectedVariant.price) + toppingsCost).toStringAsFixed(0) :
-                        (product.number * product.price + toppingsCost).toStringAsFixed(0)} \Р',
+                        (product.number * product.price + toppingsCost).toStringAsFixed(0)} \₽',
                         style: TextStyle(
                             color: Color(0xFFB0B0B0), fontSize: 14),
                       ),
@@ -246,7 +246,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 Padding(
                   padding: EdgeInsets.only(),
                   child: Text(
-                    (ordersStoryModelItem.tariff.totalPrice - ordersStoryModelItem.tariff.bonusPayment).toString() + ' \Р',
+                    (ordersStoryModelItem.tariff.totalPrice - ordersStoryModelItem.tariff.bonusPayment).toString() + ' \₽',
                     style: TextStyle(
                         color: Color(0xFFB0B0B0), fontSize: 14),
                   ),
@@ -269,7 +269,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(right: 15, bottom: 20),
-              child: Text('${totalPrice.toStringAsFixed(0)} \Р',
+              child: Text('${totalPrice.toStringAsFixed(0)} \₽',
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,

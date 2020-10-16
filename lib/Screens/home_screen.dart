@@ -452,7 +452,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                       width: 60,
                                       child: Padding(
                                           padding: EdgeInsets.only(
-                                              top: 20, bottom: 2, left: 10),
+                                              top: 20, bottom: 4, left: 10),
                                           child: SvgPicture.asset(
                                               'assets/svg_images/menu.svg')
                                       )),

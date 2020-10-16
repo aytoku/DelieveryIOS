@@ -61,100 +61,103 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       key: cartItemsQuantityKey,
       restaurantDataItems: restaurantDataItems,
     );
-    return Center(
-        child: GestureDetector(
-            onTap: () async {
-              if (await Internet.checkConnection()) {
-                _onPressedButton(restaurantDataItems, cartItemsQuantityKey);
-              } else {
-                noConnection(context);
-              }
-            },
-            child: Container(
-              //width: 170,
-              height: 260,
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 8.0, // soften the shadow
-                      spreadRadius: 3.0, //extend the shadow
-                    )
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  border: Border.all(width: 1.0, color: Colors.grey[200])),
-              child: Stack(
-                children: <Widget>[
-                  ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                          bottomLeft: Radius.circular(15),
-                          bottomRight: Radius.circular(15)),
-                      child: Hero(
-                        tag: restaurantDataItems.name,
-                        child: Image.network(
-                          getImage(restaurantDataItems.image),
-                          fit: BoxFit.cover,
-                          height: 190,
-                          width: MediaQuery.of(context).size.width,
-                        ),)),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 90,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Center(
+          child: GestureDetector(
+              onTap: () async {
+                if (await Internet.checkConnection()) {
+                  _onPressedButton(restaurantDataItems, cartItemsQuantityKey);
+                } else {
+                  noConnection(context);
+                }
+              },
+              child: Container(
+                //width: 170,
+                height: 260,
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 8.0, // soften the shadow
+                        spreadRadius: 3.0, //extend the shadow
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    border: Border.all(width: 1.0, color: Colors.grey[200])),
+                child: Stack(
+                  children: <Widget>[
+                    ClipRRect(
                         borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
                             bottomLeft: Radius.circular(15),
                             bottomRight: Radius.circular(15)),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 10, bottom: 15),
-                            child: Text(
-                              restaurantDataItems.name,
-                              style: TextStyle(
-                                  fontSize: 15.0, color: Color(0xFF3F3F3F)),
-                              overflow: TextOverflow.ellipsis,
+                        child: Hero(
+                          tag: restaurantDataItems.name,
+                          child: Image.network(
+                            getImage(restaurantDataItems.image),
+                            fit: BoxFit.cover,
+                            height: 190,
+                            width: MediaQuery.of(context).size.width,
+                          ),)),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFFFFFF),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 10, bottom: 15),
+                              child: Text(
+                                restaurantDataItems.name,
+                                style: TextStyle(
+                                    fontSize: 15.0, color: Color(0xFF3F3F3F)),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 4.0,
-                          ),
-                          Padding(
-                            padding:
-                            EdgeInsets.only(left: 10, right: 10, top: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Align(
-                                  child: Text(
-                                    '${restaurantDataItems.price}\₽',
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(0xFF6EC292)),
-                                    overflow: TextOverflow.ellipsis,
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Padding(
+                              padding:
+                              EdgeInsets.only(left: 10, right: 10, top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Align(
+                                    child: Text(
+                                      '${restaurantDataItems.price}\₽',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF6EC292)),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                ),
-                                Align(
-                                  child: cartItemsQuantity,
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                                  Align(
+                                    child: cartItemsQuantity,
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            )));
+                    )
+                  ],
+                ),
+              ))),
+    );
   }
 
   void _onPressedButton(FoodRecords food,
@@ -819,12 +822,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(7.0),
+                      padding: const EdgeInsets.only(bottom: 7.0),
                       child: Divider(color: Color(0xFFEEEEEE), height: 1,),
                     ),
                     _buildFoodCategoryList(),
                     Padding(
-                      padding: const EdgeInsets.all(7.0),
+                      padding: const EdgeInsets.only(bottom: 7.0),
                       child: Divider(color: Color(0xFFEEEEEE), height: 1,),
                     ),
                     Expanded(
@@ -1052,7 +1055,7 @@ class ButtonCounterState extends State<ButtonCounter> {
     currentUser.cartDataModel.cart.forEach(
             (Order order) => totalPrice += order.quantity * order.food.price);
 
-    return Text('${totalPrice.toStringAsFixed(0)} \Р',
+    return Text('${totalPrice.toStringAsFixed(0)} \₽',
         style: TextStyle(
             fontSize: 14.0, fontWeight: FontWeight.w600, color: Colors.white));
   }
