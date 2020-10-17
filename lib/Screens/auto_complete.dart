@@ -5,6 +5,8 @@ import 'package:flutter_app/models/ResponseData.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
+import 'device_id_screen.dart';
+
 class AutoComplete extends StatefulWidget {
   String hint;
 
@@ -14,8 +16,10 @@ class AutoComplete extends StatefulWidget {
   AutoCompleteDemoState createState() => AutoCompleteDemoState(hint);
 }
 
-class AutoCompleteDemoState extends State<AutoComplete> {
+class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveClientMixin{
   String hint;
+  @override
+  bool get wantKeepAlive => true;
 
   AutoCompleteDemoState(this.hint);
   TextEditingController controller = new TextEditingController();

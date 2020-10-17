@@ -9,6 +9,9 @@ import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'auto_complete.dart';
+import 'auto_complete.dart';
+import 'auto_complete.dart';
+import 'auto_complete.dart';
 import 'home_screen.dart';
 
 
@@ -414,8 +417,7 @@ class PageState extends State<PageScreen> {
                       left: 10, top: 10, right: 10, bottom: 10),
                   onPressed: () async {
                     if (await Internet.checkConnection()) {
-                      if (addressScreenKey.currentState.destinationPointsKey.currentState.searchTextField
-                          .textFieldConfiguration.controller.text.length >
+                      if (addressScreenKey.currentState.addressField.text.length >
                           0 || selectedPageId == 1) {
                         Center(
                           child: CircularProgressIndicator(),
@@ -423,10 +425,7 @@ class PageState extends State<PageScreen> {
                         showAlertDialog(context);
                         if(selectedPageId == 0 && addressScreenKey.currentState != null) {
                           CreateOrder createOrder = new CreateOrder(
-                            address: addressScreenKey.currentState
-                                .destinationPointsKey.currentState
-                                .searchTextField.textFieldConfiguration.controller
-                                .text,
+                            address: addressScreenKey.currentState.addressField.text,
                             restaurantAddress: addressScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                             office: addressScreenKey.currentState.officeField
                                 .text,
@@ -513,7 +512,7 @@ class AddressScreenState extends State<AddressScreen>
   GlobalKey<DestinationPointsSelectorState> destinationPointsSelectorStateKey =
   GlobalKey<DestinationPointsSelectorState>();
 
-  GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
+  GlobalKey<AutoCompleteDemoState> destinationPointsKey;
   bool _color;
 
   AddressScreenState(this.restaurant, this.myAddressesModel);
@@ -524,7 +523,10 @@ class AddressScreenState extends State<AddressScreen>
   @override
   void initState() {
     super.initState();
+    print('fagoti 2');
     _color = true;
+    destinationPointsKey = new GlobalKey();
+    autoComplete = new AutoComplete(destinationPointsKey, 'Введите адрес');
   }
 
   bool status1 = false;
@@ -537,10 +539,12 @@ class AddressScreenState extends State<AddressScreen>
   TextEditingController intercomField = new TextEditingController();
   TextEditingController entranceField = new TextEditingController();
   TextEditingController floorField = new TextEditingController();
+  TextEditingController addressField = new TextEditingController();
   TextField floorTextField;
   TextField intercomTextField;
   TextField entranceTextField;
   TextField officeTextField;
+  AutoComplete autoComplete;
 
   String addressName = '';
   int deliveryPrice = 0;
@@ -548,7 +552,7 @@ class AddressScreenState extends State<AddressScreen>
   List<MyAddressesModel> myAddressesModelList;
   MyAddressesModel myAddressesModel;
 
-  void _deleteButton(MyAddressesModel myAddressesModel) {
+  void _deleteButton(AutoComplete autoComplete) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -562,7 +566,7 @@ class AddressScreenState extends State<AddressScreen>
           return Container(
               height: MediaQuery.of(context).size.height * 0.8,
               child: Container(
-                child: _buildDeleteBottomNavigationMenu(myAddressesModel),
+                child: _buildDeleteBottomNavigationMenu(autoComplete),
                 decoration: BoxDecoration(
                     color: Theme.of(context).canvasColor,
                     borderRadius: BorderRadius.only(
@@ -573,57 +577,92 @@ class AddressScreenState extends State<AddressScreen>
         });
   }
 
-  Column _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(bottom: 0, right: 15, top: 10),
-          child: AutoComplete(destinationPointsKey, ''),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(left: 30, top: 370),
-            child: FlatButton(
-              child: Text(
-                "Далее",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
+   _buildDeleteBottomNavigationMenu(AutoComplete autoComplete) {
+     return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 7),
+                    child: Center(
+                      child: Container(
+                        width: 67,
+                        height: 7,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFEBEAEF),
+                            borderRadius: BorderRadius.all(Radius.circular(11))),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(bottom: 0, right: 15),
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 15,
+                              top: 33,
+                              bottom: 0,
+                            ),
+                            child: SvgPicture.asset('assets/svg_images/home.svg'),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              left: 25,
+                              bottom: 22,
+                            ),
+                            child: autoComplete,
+                          ),
+                        ],
+                      )),
+                  Padding(
+                    padding: EdgeInsets.only(top: 0),
+                    child: Divider(
+                      color: Color(0xFFEDEDED),
+                      height: 1,
+                      thickness: 1,
+                    ),
+                  ),
+                ],
               ),
-              color: Color(0xFFFE534F),
-              splashColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding:
-              EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
-              onPressed: () async {
-                if (await Internet.checkConnection()) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) {
-                      myAddressesModel.type = MyAddressesType.home;
-                      myAddressesModel.address = destinationPointsKey
-                          .currentState
-                          .searchTextField
-                          .textFieldConfiguration
-                          .controller
-                          .text;
-                      return new AddressScreen(
-                          myAddressesModel: myAddressesModel);
-                    }),
-                  );
-                } else {
-                  noConnection(context);
-                }
-              },
             ),
           ),
-        )
-      ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10, bottom: 15),
+              child: FlatButton(
+                child: Text(
+                  "Далее",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold),
+                ),
+                color: Color(0xFFFE534F),
+                splashColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                padding:
+                EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
+                onPressed: () async {
+                  addressField.text = destinationPointsKey.currentState
+                      .searchTextField.textFieldConfiguration.controller
+                      .text;
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -672,7 +711,23 @@ class AddressScreenState extends State<AddressScreen>
                   ],
                 ),
               ),
-              AutoComplete(destinationPointsKey, ''),
+              Padding(
+                  padding: EdgeInsets.only(left: 15, top: 5),
+                  child: Container(
+                    height: 40,
+                    child: TextField(
+                      controller: addressField,
+                      readOnly: true,
+                      onTap: (){
+                        _deleteButton(autoComplete);
+                      },
+                      focusNode: focusNode,
+                      decoration: new InputDecoration(
+                        border: InputBorder.none,
+                        counterText: '',
+                      ),
+                    ),
+                  )),
               Padding(
                 padding: EdgeInsets.only(left: 15, right: 15),
                 child: Divider(

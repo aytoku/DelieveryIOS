@@ -135,103 +135,100 @@ class _CartScreenState extends State<CartScreen> {
     }
     GlobalKey<CounterState> counterKey = new GlobalKey();
     return Container(
-        padding: EdgeInsets.all(5.0),
         child: GestureDetector(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Flexible(
-                flex: 3,
-                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  !order.isSelected
-                      ? Padding(
-                          padding:
-                              EdgeInsets.only(top: 15, bottom: 15, left: 10),
+          !order.isSelected ? Row(
+               children: [
+                 Padding(
+                   padding:
+                   EdgeInsets.only(top: 15, bottom: 15, left: 15),
+                   child: Text(
+                     '${order.quantity.toStringAsFixed(0)}',
+                     style: TextStyle(
+                         decoration: TextDecoration.none,
+                         fontSize: 14.0,
+                         color: Color(0xFF000000)),
+                   ),
+                 ),
+                 Padding(
+                   padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
+                   child: SvgPicture.asset(
+                       'assets/svg_images/cross.svg'),
+                 )
+              ]) : Counter(
+            key: counterKey,
+            initial_counter: order.quantity,
+          ),
+              Container(
+                padding: EdgeInsets.only(left: 10, bottom: 0, top: 10),
+                child: FittedBox(
+                    fit: BoxFit.fill,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 0),
                           child: Text(
-                            '${order.quantity.toStringAsFixed(0)}',
+                            order.food.name,
                             style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 14.0,
                                 color: Color(0xFF000000)),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        )
-                      : Counter(
-                          key: counterKey,
-                          initial_counter: order.quantity,
                         ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, top: 15, bottom: 15),
-                    child: SvgPicture.asset(
-                        'assets/svg_images/cross.svg'),
-                  ),
-                  Expanded(
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 15, top: 15),
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 0),
-                              child: Text(
-                                order.food.name,
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 14.0,
-                                    color: Color(0xFF000000)),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            (order.food.variants != null)
-                                ? Text(
-                                    order.food.variants[0].name,
+                        (order.food.variants != null)
+                            ? Text(
+                          order.food.variants[0].name,
+                          style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 10.0,
+                              color: Color(0xFF000000)),
+                          textAlign: TextAlign.start,
+                        ) : Text(''),
+                        (order.food.toppings != null)
+                            ? Column(
+                          children: List.generate(
+                              order.food.toppings.length,
+                                  (index) => Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    order.food.toppings[index]
+                                        .name,
                                     style: TextStyle(
-                                        decoration: TextDecoration.none,
+                                        decoration:
+                                        TextDecoration.none,
                                         fontSize: 10.0,
                                         color: Color(0xFF000000)),
                                     textAlign: TextAlign.start,
-                                  )
-                                : Text(''),
-                            (order.food.toppings != null)
-                                ? Column(
-                                    children: List.generate(
-                                        order.food.toppings.length,
-                                        (index) => Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Text(
-                                                  order.food.toppings[index]
-                                                      .name,
-                                                  style: TextStyle(
-                                                      decoration:
-                                                          TextDecoration.none,
-                                                      fontSize: 10.0,
-                                                      color: Color(0xFF000000)),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ),
-                                            )),
-                                  )
-                                : Text(''),
-                          ],
-                        )),
-                  )
-                ]),
+                                  ),
+                                ),
+                              )),
+                        )
+                            : Text(''),
+                      ],
+                    )
+                ),
               ),
-              Flexible(
-                  flex: 1,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 15),
+                    padding: EdgeInsets.only(right: 15, top: 10),
                     child: Text('${(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null) ?
                     (order.quantity * (order.food.price + order.food.variants[0].price) + toppingsCost).toStringAsFixed(0) :
                     (order.quantity * order.food.price + toppingsCost).toStringAsFixed(0)} \₽',
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
                             color: Color(0xFFB0B0B0))),
-                  )),
+                  ),
+                ),
+              )
             ],
           ),
           onTap: () {
@@ -612,26 +609,35 @@ class CounterState extends State<Counter> {
     return Padding(
       padding: EdgeInsets.only(top: 0, left: 15),
       child: Container(
+        height: 40,
+        width: 100,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(color: Color(0xF5F5F5F5))),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
             padding: EdgeInsets.only(left: 5),
-            child: GestureDetector(
+            child: InkWell(
               onTap: () {
                 if (counter != 1) {
                   _incrementCounter_minus();
                 }
               },
-              child: Text(
-                '-',
-                style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+              child: Container(
+                width: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              ),
+                child: Center(
+                  child: Text(
+                    '-',
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              )
             ),
           ),
           SizedBox(width: 20.0),
@@ -646,21 +652,28 @@ class CounterState extends State<Counter> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(right: 5),
-            child: GestureDetector(
+            padding: EdgeInsets.only(right: 0),
+            child: InkWell(
               onTap: () {
                 setState(() {
                   _incrementCounter_plus();
                 });
               },
-              child: Text(
-                '+',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+              child: Container(
+                width: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              ),
+                child: Center(
+                  child: Text(
+                    '+',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              )
             ),
           )
         ]),
