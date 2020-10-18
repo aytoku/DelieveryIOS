@@ -142,7 +142,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                     ),
                     Expanded(
                       child: SingleChildScrollView(
-                        child: Stack(
+                        child: Column(
                           children: <Widget>[
                             Align(
                               alignment: Alignment.topLeft,
@@ -163,7 +163,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                 ? Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
-                                padding: EdgeInsets.only(top: 15),
+                                padding: EdgeInsets.only(top: 5),
                                 child: Text(
                                   product.selectedVariant .name,
                                   style: TextStyle(

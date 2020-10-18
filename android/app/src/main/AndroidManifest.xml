@@ -10,8 +10,8 @@
 
     <application
         android:name=".Application"
-        android:label="Faem.eda"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Faem Eda"
+        android:icon="@mipmap/faem">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="YOUR-KEY-HERE"/>

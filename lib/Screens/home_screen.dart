@@ -597,6 +597,7 @@ class OrderChecking extends StatefulWidget {
     'order_start',
     'on_place',
     'on_the_way',
+    'transferred_to_store',
     'order_payment'
   ];
 
@@ -722,7 +723,8 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) {
-    var processing = ['waiting_for_confirmation'];
+    var processing = ['waiting_for_confirmation',
+    'transferred_to_store'];
     var cooking_state = [
       'cooking',
       'offer_offered',

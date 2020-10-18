@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/PostData/necessary_address_data_pass.dart';
 import 'package:flutter_app/models/NecessaryAddressModel.dart';
 import 'package:flutter_app/models/ResponseData.dart';
+import 'package:flutter_app/models/last_addresses_model.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -34,21 +35,31 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
         necessaryAddressDataItems =
             (await loadNecessaryAddressData(name)).destinationPoints;
       } else {
+        // Вывод фаворитных адресов
         List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
         necessaryAddressDataItems = new List<DestinationPoints>();
+        // Бежим по фаворитным адресам
         for (int i = 0; i < temp.length; i++) {
           var element = temp[i];
+          // Получаем адрес с серва
           NecessaryAddressData necessaryAddressData =
           await loadNecessaryAddressData(element.address);
+          // Если на серве есть такой адрес
           if (necessaryAddressData.destinationPoints.length > 0) {
+            // То добавляем его в подсказку
             necessaryAddressData.destinationPoints[0].comment = temp[i].comment;
             necessaryAddressDataItems
                 .add(necessaryAddressData.destinationPoints[0]);
           } else {
+            // Иначе добавляаем кривую инвалидную версию адреса
             necessaryAddressDataItems.add(new DestinationPoints(
                 street: element.address, house: '', comment: temp[i].comment));
           }
         }
+
+        // Вывод последних адресов
+        List<DestinationPoints> last_dp = await LastAddressesModel.getAddresses();
+        necessaryAddressDataItems.addAll(last_dp);
       }
       print(necessaryAddressDataItems[0].unrestricted_value);
       print('dick lenght ' + necessaryAddressDataItems.length.toString());

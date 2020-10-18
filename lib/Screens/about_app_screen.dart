@@ -33,17 +33,19 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                               children: <Widget>[
                                 Center(
                                   child: Padding(
-                                    padding: EdgeInsets.only(top: 20, bottom: 10),
-                                    child: Image(
-                                      image: AssetImage('assets/images/faem_icon.png'),
-                                    )
+                                      padding: EdgeInsets.only(top: 20, bottom: 10),
+                                      child: Image(
+                                        height: 140,
+                                        width: 140,
+                                        image: AssetImage('assets/images/faem.png'),
+                                      )
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 25),
                                   child: Center(
                                     child: Text(
-                                      'Версия 4.95 от 25 авг. 2019 г.\nсборка 34234',
+                                      'Версия 1.0 от 13 окт. 2020 г.\nсборка 34234',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(color: Color(0x97979797), fontSize: 15),
                                     ),
