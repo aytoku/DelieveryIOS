@@ -76,12 +76,18 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   }
 
   _buildNearlyRestaurant() {
-    int work_beginning = 0;
-    int work_ending = 0;
+    DateTime now = DateTime.now();
+    int currentTime = now.hour*60+now.minute;
+    print((currentTime/60).toString() + 'KANTENT');
+    print((now.hour).toString() + 'KANTENT');
+    print((now.minute).toString() + 'KANTENT');
+    int dayNumber  = now.weekday-1;
     List<Widget> restaurantList = [];
     records_items.forEach((Records restaurant) {
-      work_beginning = restaurant.work_schedule[0].work_beginning;
-      work_ending = restaurant.work_schedule[0].work_ending;
+      int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
+      int work_ending = restaurant.work_schedule[dayNumber].work_ending;
+      bool day_off = restaurant.work_schedule[dayNumber].day_off;
+      bool available = restaurant.available != null ? restaurant.available : true;
       restaurantList.add(GestureDetector(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -98,9 +104,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Column(
               children: <Widget>[
-                (restaurant.work_schedule[0].day_off == true ||
-                    restaurant.available == false ||
-                    restaurant.work_schedule[0].work_beginning != work_beginning && restaurant.work_schedule[0].work_ending != work_ending) ? Stack(
+                ( day_off ||
+                    !available ||
+                    !(currentTime >= work_beginning && currentTime < work_ending)) ? Stack(
                   children: [
                     ClipRRect(
                         borderRadius: BorderRadius.only(
@@ -128,6 +134,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                         alignment: Alignment.bottomRight,
                         child: Container(
                           height: 32,
+                          width: 250,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
@@ -139,7 +146,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0, right: 8),
                               child: Text(
-                                "Заведение откроется в ${(restaurant.work_schedule[0].work_beginning / 60).toStringAsFixed(0)} часов",
+                                "Заведение откроется в ${(work_beginning / 60).toStringAsFixed(0)} часов",
                                 style: TextStyle(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,

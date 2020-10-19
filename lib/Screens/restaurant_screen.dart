@@ -8,6 +8,8 @@ import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:flutter_app/models/food.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
+import '../models/RestaurantDataItems.dart';
+import '../models/RestaurantDataItems.dart';
 import 'cart_screen.dart';
 import 'home_screen.dart';
 
@@ -167,6 +169,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     GlobalKey<VariantsSelectorState>();
     GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey =
     new GlobalKey<ToppingsSelectorState>();
+
+    DateTime now = DateTime.now();
+    int dayNumber  = now.weekday-1;
+
+    int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -180,7 +187,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             padding: EdgeInsets.only(top: 30),
             child: Align(
               alignment: Alignment.topCenter,
-              child: Text('К сожалению, доставка не доступна. Ближайшее время в ${(restaurant.work_schedule[0].work_beginning / 60).toStringAsFixed(0)} часов',
+              child: Text('К сожалению, доставка не доступна.\nБлижайшее время в ${( work_beginning/ 60).toStringAsFixed(0)} часов',
                 style: TextStyle(
                     fontSize: 16
                 ),
@@ -206,7 +213,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     padding: EdgeInsets.only(
                         left: 110, top: 20, right: 110, bottom: 20),
                     onPressed: () async {
-                      Navigator.pop(context);
+                      homeScreenKey = new GlobalKey<HomeScreenState>();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false);
                     },
                   )
               ),
@@ -217,13 +228,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   }
 
 
-  int work_beginning = 0;
-  int work_ending = 0;
-
   void _onPressedButton(FoodRecords food,
       GlobalKey<CartItemsQuantityState> cartItemsQuantityKey) {
-    work_beginning = restaurant.work_schedule[0].work_beginning;
-    work_ending = restaurant.work_schedule[0].work_ending;
+
+    DateTime now = DateTime.now();
+    int currentTime = now.hour*60+now.minute;
+    print((currentTime/60).toString() + 'KANTENT');
+    print((now.hour).toString() + 'KANTENT');
+    print((now.minute).toString() + 'KANTENT');
+    int dayNumber  = now.weekday-1;
+
+    int work_beginning = restaurant.work_schedule[dayNumber].work_beginning;
+    int work_ending = restaurant.work_schedule[dayNumber].work_ending;
+    bool day_off = restaurant.work_schedule[dayNumber].day_off;
+    bool available = restaurant.available != null ? restaurant.available : true;
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -234,9 +252,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             )),
         context: context,
         builder: (context) {
-          if(restaurant.work_schedule[0].day_off == true ||
-          restaurant.available == false ||
-          restaurant.work_schedule[0].work_beginning != work_beginning && restaurant.work_schedule[0].work_ending != work_ending){
+          if(day_off ||
+              !available ||
+              !(currentTime >= work_beginning && currentTime < work_ending)){
             return Container(
               height: 200,
               child: _dayOff(food, cartItemsQuantityKey),
@@ -412,6 +430,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     GlobalKey<VariantsSelectorState>();
     GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey =
     new GlobalKey<ToppingsSelectorState>();
+    GlobalKey<PriceFieldState> priceFieldKey =
+    new GlobalKey<PriceFieldState>();
+
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -561,15 +582,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     )),
                     Padding(
                       padding: EdgeInsets.only(right: 10),
-                      child: Text(
-//                        '${counterKey.currentState.counter * (restaurantDataItems.price)}\₽',
-                        '${restaurantDataItems.price}\₽',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF000000)),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: PriceField(key: priceFieldKey, restaurantDataItems: restaurantDataItems),
                     )
                   ],
                 ),
@@ -586,6 +599,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                           padding: EdgeInsets.only(right: 0),
                           child: Counter(
                             key: counterKey,
+                            priceFieldKey: priceFieldKey
                           ),
                         ),
                       ),
@@ -1011,21 +1025,28 @@ class CartItemsQuantityState extends State<CartItemsQuantity> {
 }
 
 class Counter extends StatefulWidget {
-  Counter({Key key}) : super(key: key);
+  GlobalKey<PriceFieldState> priceFieldKey;
+  Counter({Key key, this.priceFieldKey}) : super(key: key);
 
   @override
   CounterState createState() {
-    return new CounterState();
+    return new CounterState(priceFieldKey);
   }
 }
 
 class CounterState extends State<Counter> {
+  GlobalKey<PriceFieldState> priceFieldKey;
+  CounterState(this.priceFieldKey);
+
   int counter = 1;
 
   // ignore: non_constant_identifier_names
   void _incrementCounter_plus() {
     setState(() {
       counter++;
+      if(priceFieldKey.currentState != null){
+        priceFieldKey.currentState.setCount(counter);
+      }
     });
   }
 
@@ -1033,8 +1054,12 @@ class CounterState extends State<Counter> {
   void _incrementCounter_minus() {
     setState(() {
       counter--;
+      if(priceFieldKey.currentState != null){
+        priceFieldKey.currentState.setCount(counter);
+      }
     });
   }
+
 
   Widget build(BuildContext context) {
     return Padding(
@@ -1116,6 +1141,40 @@ class CounterState extends State<Counter> {
 
   void refresh() {
     setState(() {});
+  }
+}
+
+
+class PriceField extends StatefulWidget {
+  FoodRecords restaurantDataItems;
+  PriceField({Key key, this.restaurantDataItems}) : super(key: key);
+
+  @override
+  PriceFieldState createState() {
+    return new PriceFieldState(restaurantDataItems);
+  }
+}
+
+class PriceFieldState extends State<PriceField> {
+  int count = 1;
+  FoodRecords restaurantDataItems;
+  PriceFieldState(this.restaurantDataItems);
+  Widget build(BuildContext context) {
+    return Text(
+
+      '${restaurantDataItems.price * count}\₽',
+
+      style: TextStyle(
+          fontSize: 15.0,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF000000)),
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+  void setCount(int newCount){
+    setState(() {
+      count = newCount;
+    });
   }
 }
 
