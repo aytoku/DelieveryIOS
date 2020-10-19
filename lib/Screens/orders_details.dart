@@ -119,7 +119,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
         totalPrice += toppingsCost;
       }
       result.add(Padding(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 0),
           child: Column(
             children: <Widget>[
               Padding(
@@ -140,7 +140,75 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                       child: SvgPicture.asset(
                           'assets/svg_images/cross.svg'),
                     ),
-                    Expanded(
+                    (product.selectedVariant == null || product.toppings == null ||
+                        product.selectedVariant == null && product.toppings == null) ? Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 27.0),
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  product.name,
+                                  style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF000000)),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                              (product.selectedVariant != null)
+                                  ? Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    product.selectedVariant .name,
+                                    style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontSize: 10.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xFF000000)),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              )
+                                  : Text(''),
+                              (product.toppings != null)
+                                  ? Padding(
+                                padding: EdgeInsets.only(top: 15),
+                                child: Column(
+                                  children: List.generate(
+                                      product.toppings.length,
+                                          (index) => Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                          padding:
+                                          EdgeInsets.only(bottom: 5, left: 2),
+                                          child: Text(
+                                            product.toppings[index]
+                                                .name,
+                                            style: TextStyle(
+                                                decoration:
+                                                TextDecoration.none,
+                                                fontSize: 10.0,
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                color: Color(0xFF000000)),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              )
+                                  : Text(''),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ) : Expanded(
                       child: SingleChildScrollView(
                         child: Column(
                           children: <Widget>[
@@ -178,7 +246,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                 : Text(''),
                             (product.toppings != null)
                                 ? Padding(
-                              padding: EdgeInsets.only(top: 30),
+                              padding: EdgeInsets.only(top: 5),
                               child: Column(
                                 children: List.generate(
                                     product.toppings.length,
@@ -222,7 +290,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: 0),
                 child: Divider(height: 1.0, color: Color(0xFFF5F5F5)),
               ),
             ],

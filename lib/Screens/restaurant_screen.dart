@@ -53,6 +53,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
 
+
   _RestaurantScreenState(this.restaurant, this.category);
 
   _buildMenuItem(FoodRecords restaurantDataItems) {
@@ -160,8 +161,69 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
 
+  _dayOff(FoodRecords restaurantDataItems,
+      GlobalKey<CartItemsQuantityState> cartItemsQuantityKey) {
+    GlobalKey<VariantsSelectorState> variantsSelectorStateKey =
+    GlobalKey<VariantsSelectorState>();
+    GlobalKey<ToppingsSelectorState> toppingsSelectorStateKey =
+    new GlobalKey<ToppingsSelectorState>();
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(12),
+            topRight: const Radius.circular(12),
+          )),
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 30),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text('К сожалению, доставка не доступна. Ближайшее время в ${(restaurant.work_schedule[0].work_beginning / 60).toStringAsFixed(0)} часов',
+                style: TextStyle(
+                    fontSize: 16
+                ),
+                textAlign: TextAlign.center,
+              )
+            ),
+          ),
+          Padding(
+              padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 15),
+              child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: FlatButton(
+                    child: Text(
+                      "Далее",
+                      style:
+                      TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    color: Color(0xFFFE534F),
+                    splashColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: EdgeInsets.only(
+                        left: 110, top: 20, right: 110, bottom: 20),
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    },
+                  )
+              ),
+          )
+        ],
+      ),
+    );
+  }
+
+
+  int work_beginning = 0;
+  int work_ending = 0;
+
   void _onPressedButton(FoodRecords food,
       GlobalKey<CartItemsQuantityState> cartItemsQuantityKey) {
+    work_beginning = restaurant.work_schedule[0].work_beginning;
+    work_ending = restaurant.work_schedule[0].work_ending;
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -172,10 +234,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             )),
         context: context,
         builder: (context) {
-          if(food.comment != "" && food.comment != null){
+          if(restaurant.work_schedule[0].day_off == true ||
+          restaurant.available == false ||
+          restaurant.work_schedule[0].work_beginning != work_beginning && restaurant.work_schedule[0].work_ending != work_ending){
             return Container(
-              height: 520,
-              child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
+              height: 200,
+              child: _dayOff(food, cartItemsQuantityKey),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.only(
@@ -184,16 +248,29 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   )),
             );
           }else{
-            return Container(
-              height: 440,
-              child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(12),
-                    topRight: const Radius.circular(12),
-                  )),
-            );
+            if(food.comment != "" && food.comment != null){
+              return Container(
+                height: 520,
+                child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(12),
+                      topRight: const Radius.circular(12),
+                    )),
+              );
+            }else{
+              return Container(
+                height: 440,
+                child: _buildBottomNavigationMenu(food, cartItemsQuantityKey),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(12),
+                      topRight: const Radius.circular(12),
+                    )),
+              );
+            }
           }
         });
   }
@@ -485,6 +562,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Text(
+//                        '${counterKey.currentState.counter * (restaurantDataItems.price)}\₽',
                         '${restaurantDataItems.price}\₽',
                         style: TextStyle(
                             fontSize: 15.0,
@@ -974,6 +1052,7 @@ class CounterState extends State<Counter> {
               onTap: () {
                 if (counter != 1) {
                   _incrementCounter_minus();
+                  // counter = restaurantDataItems.records_count;
                 }
               },
               child: Container(
@@ -1009,6 +1088,7 @@ class CounterState extends State<Counter> {
                 if (await Internet.checkConnection()) {
                   setState(() {
                     _incrementCounter_plus();
+                   // counter = restaurantDataItems.records_count;
                   });
                 } else {
                   noConnection(context);

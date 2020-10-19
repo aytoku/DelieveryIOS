@@ -141,7 +141,7 @@ class _CartScreenState extends State<CartScreen> {
                children: [
                  Padding(
                    padding:
-                   EdgeInsets.only(top: 15, bottom: 15, left: 15),
+                   EdgeInsets.only(top: 15, bottom: 18, left: 15),
                    child: Text(
                      '${order.quantity.toStringAsFixed(0)}',
                      style: TextStyle(
@@ -159,62 +159,115 @@ class _CartScreenState extends State<CartScreen> {
             key: counterKey,
             initial_counter: order.quantity,
           ),
-              Container(
+              (order.food.variants == null || order.food.toppings == null ||
+                  order.food.variants == null && order.food.toppings == null) ? Container(
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 15.0, top: 10),
-                    child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 0),
-                              child: Text(
-                                order.food.name,
-                                style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 14.0,
-                                    color: Color(0xFF000000)),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            (order.food.variants != null)
-                                ? Text(
-                              order.food.variants[0].name,
+                    padding: const EdgeInsets.only(left: 15.0, top: 27),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 0),
+                          child: Text(
+                            order.food.name,
+                            style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 14.0,
+                                color: Color(0xFF000000)),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        (order.food.variants != null)
+                            ? Text(
+                          order.food.variants[0].name,
+                          style: TextStyle(
+                              decoration: TextDecoration.none,
+                              fontSize: 10.0,
+                              color: Color(0xFF000000)),
+                          textAlign: TextAlign.start,
+                        ) : Text(''),
+                        (order.food.toppings != null)
+                            ? Column(
+                          children: List.generate(
+                              order.food.toppings.length,
+                                  (index) => Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding:
+                                  EdgeInsets.only(bottom: 0),
+                                  child: Text(
+                                    order.food.toppings[index]
+                                        .name,
+                                    style: TextStyle(
+                                        decoration:
+                                        TextDecoration.none,
+                                        fontSize: 10.0,
+                                        color: Color(0xFF000000)),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ),
+                              )),
+                        )
+                            : Text(''),
+                      ],
+                    )
+                  ),
+                ),
+              ) : Container(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 15.0, top: 15, bottom: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(top: 0),
+                            child: Text(
+                              order.food.name,
                               style: TextStyle(
                                   decoration: TextDecoration.none,
-                                  fontSize: 10.0,
+                                  fontSize: 14.0,
                                   color: Color(0xFF000000)),
-                              textAlign: TextAlign.start,
-                            ) : Text(''),
-                            (order.food.toppings != null)
-                                ? Column(
-                              children: List.generate(
-                                  order.food.toppings.length,
-                                      (index) => Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Padding(
-                                      padding:
-                                      EdgeInsets.only(bottom: 0),
-                                      child: Text(
-                                        order.food.toppings[index]
-                                            .name,
-                                        style: TextStyle(
-                                            decoration:
-                                            TextDecoration.none,
-                                            fontSize: 10.0,
-                                            color: Color(0xFF000000)),
-                                        textAlign: TextAlign.start,
-                                      ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          (order.food.variants != null)
+                              ? Text(
+                            order.food.variants[0].name,
+                            style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 10.0,
+                                color: Color(0xFF000000)),
+                            textAlign: TextAlign.start,
+                          ) : Text(''),
+                          (order.food.toppings != null)
+                              ? Column(
+                            children: List.generate(
+                                order.food.toppings.length,
+                                    (index) => Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Padding(
+                                    padding:
+                                    EdgeInsets.only(bottom: 0),
+                                    child: Text(
+                                      order.food.toppings[index]
+                                          .name,
+                                      style: TextStyle(
+                                          decoration:
+                                          TextDecoration.none,
+                                          fontSize: 10.0,
+                                          color: Color(0xFF000000)),
+                                      textAlign: TextAlign.start,
                                     ),
-                                  )),
-                            )
-                                : Text(''),
-                          ],
-                        )
-                    ),
+                                  ),
+                                )),
+                          )
+                              : Text(''),
+                        ],
+                      )
                   ),
                 ),
               ),
@@ -222,7 +275,7 @@ class _CartScreenState extends State<CartScreen> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 15, top: 10),
+                    padding: EdgeInsets.only(right: 15, top: 0),
                     child: Text('${(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null) ?
                     (order.quantity * (order.food.price + order.food.variants[0].price) + toppingsCost).toStringAsFixed(0) :
                     (order.quantity * order.food.price + toppingsCost).toStringAsFixed(0)} \₽',

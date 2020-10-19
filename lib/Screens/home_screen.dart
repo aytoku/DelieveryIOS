@@ -76,8 +76,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   }
 
   _buildNearlyRestaurant() {
+    int work_beginning = 0;
+    int work_ending = 0;
     List<Widget> restaurantList = [];
     records_items.forEach((Records restaurant) {
+      work_beginning = restaurant.work_schedule[0].work_beginning;
+      work_ending = restaurant.work_schedule[0].work_ending;
       restaurantList.add(GestureDetector(
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -94,20 +98,107 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                 border: Border.all(width: 1.0, color: Colors.grey[200])),
             child: Column(
               children: <Widget>[
-                ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
-                        bottomLeft: Radius.circular(0),
-                        bottomRight: Radius.circular(0)),
-                    child: Hero(
-                        tag: restaurant.uuid,
-                        child: Image.network(
-                          getImage(restaurant.image),
-                          height: 200.0,
-                          width: MediaQuery.of(context).size.width,
-                          fit: BoxFit.cover,
-                        ))),
+                (restaurant.work_schedule[0].day_off == true ||
+                    restaurant.available == false ||
+                    restaurant.work_schedule[0].work_beginning != work_beginning && restaurant.work_schedule[0].work_ending != work_ending) ? Stack(
+                  children: [
+                    ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0)),
+                        child: Hero(
+                            tag: restaurant.uuid,
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                  Colors.grey,
+                                  BlendMode.saturation
+                              ),
+                              child: Image.network(
+                                getImage(restaurant.image),
+                                height: 200.0,
+                                width: MediaQuery.of(context).size.width,
+                                fit: BoxFit.cover,
+                              ),
+                            ))),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 150.0),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Container(
+                          height: 32,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20)
+                            ),
+                            color: Colors.black.withOpacity(0.5)
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0, right: 8),
+                              child: Text(
+                                "Заведение откроется в ${(restaurant.work_schedule[0].work_beginning / 60).toStringAsFixed(0)} часов",
+                                style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ) : Stack(
+                  children: [
+                    ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0)),
+                        child:  Hero(
+                            tag: restaurant.uuid,
+                            child: Image.network(
+                              getImage(restaurant.image),
+                              height: 200.0,
+                              width: MediaQuery.of(context).size.width,
+                              fit: BoxFit.cover,
+                            ))),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 150.0),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Container(
+                          height: 32,
+                          width: 85,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20)
+                              ),
+                              color: Colors.black.withOpacity(0.5)
+                          ),
+                          child: Center(
+                            child: Text(
+                              (restaurant.order_preparation_time_second != null)? '~' + '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
+                              style: TextStyle(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Container(
                   margin: EdgeInsets.only(left: 15.0, top: 12, bottom: 12),
                   child: Column(
@@ -130,17 +221,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                       ),
                       Row(
                         children: <Widget>[
-                          Text(
-                            (restaurant.order_preparation_time_second != null)? '~' + '${restaurant.order_preparation_time_second ~/ 60} мин' : '',
-                            style: TextStyle(
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w600
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
                           Flexible(child: Container(
                             child: Padding(
-                              padding: EdgeInsets.only(left: 10, right: 10),
+                              padding: EdgeInsets.only(left: 5, right: 10),
                               child: Text(
                                 (restaurant.product_category != null) ? restaurant.getCategoriesString():
                                 '',

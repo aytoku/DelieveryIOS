@@ -77,25 +77,23 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
   }
 
   Widget row(DestinationPoints user) {
-    return Row(
-      children: <Widget>[
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
-            child: Text(
-              user.unrestricted_value,
-              style: TextStyle(fontSize: 16.0, decoration: TextDecoration.none),
-              textAlign: TextAlign.start,
-            ),
-          ),
-        )
-      ],
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
+        child: Text(
+          user.unrestricted_value,
+          style: TextStyle(fontSize: 16.0, decoration: TextDecoration.none),
+          textAlign: TextAlign.start,
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       child: Theme(
         data: new ThemeData(hintColor: Color(0xF2F2F2F2)),
         child: Padding(

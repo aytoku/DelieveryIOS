@@ -609,13 +609,13 @@ class AddressScreenState extends State<AddressScreen>
                               top: 33,
                               bottom: 0,
                             ),
-                            child: SvgPicture.asset('assets/svg_images/home.svg'),
+                            child: SvgPicture.asset('assets/svg_images/mini_black_ellipse.svg'),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                              top: 10,
+                              top: 3,
                               left: 25,
-                              bottom: 22,
+                              bottom: 5,
                             ),
                             child: autoComplete,
                           ),

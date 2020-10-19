@@ -177,7 +177,10 @@ class FirebaseNotifications {
   }
 
   Future<void> showNotification(Map<String, dynamic> message) async {
-    String title = message['notification_message'];
+    String title = message['notification']['title'];
+    String body = message['notification']['body'];
+    //for ios
+    String title_ios = message['notification_message'];
     if(title == null)
       return;
     var androidChannelSpecifics = AndroidNotificationDetails(
@@ -196,7 +199,10 @@ class FirebaseNotifications {
     await flutterLocalNotificationsPlugin.show(
       0,  // Notification ID
       title, // Notification Title
-      '', // Notification Body, set as null to remove the body
+      body, // Notification Body, set as null to remove the body
+      //for ios change body on empty field
+      //title_ios,
+      //''
       platformChannelSpecifics,
       payload: 'New Payload', // Notification Payload
     );
