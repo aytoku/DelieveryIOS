@@ -606,7 +606,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Padding(
-                          padding: EdgeInsets.only(left: 15, right: 5),
+                          padding: EdgeInsets.only(left: 15, right: 5, bottom: 10),
                           child: FlatButton(
                             child: Text(
                               "Добавить",
@@ -1065,7 +1065,7 @@ class CounterState extends State<Counter> {
     return Padding(
       padding: EdgeInsets.only(left: 15, right: 0),
       child: Container(
-        width: 120,
+        width: 122,
         height: 58,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
@@ -1255,7 +1255,7 @@ class BasketButtonState extends State<BasketButton> {
       return Container();
     }
     return Padding(
-      padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 15),
+      padding: EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 20),
       child: FlatButton(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

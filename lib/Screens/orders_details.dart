@@ -144,7 +144,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                         product.selectedVariant == null && product.toppings == null) ? Expanded(
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 27.0),
+                          padding: const EdgeInsets.only(top: 33.0),
                           child: Column(
                             children: <Widget>[
                               Align(
@@ -215,7 +215,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Padding(
-                                padding: EdgeInsets.only(top: 5, right: 0),
+                                padding: EdgeInsets.only(top: 10, right: 0),
                                 child: Text(
                                   product.name,
                                   style: TextStyle(
@@ -299,7 +299,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
 
     result.add(Column(
       children: [
-        Padding(
+        (ordersStoryModelItem.own_delivery != null && ordersStoryModelItem.own_delivery) ? Container(height: 0) : Padding(
             padding: EdgeInsets.only(left: 15, top: 10, bottom: 10, right: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
