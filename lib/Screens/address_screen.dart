@@ -445,7 +445,7 @@ class PageState extends State<PageScreen> {
                         } else if (takeAwayScreenKey.currentState != null) {
                           CreateOrderTakeAway createOrderTakeAway =
                           new CreateOrderTakeAway(
-                              comment: takeAwayScreenKey.currentState.comment,
+                              comment: (takeAwayScreenKey.currentState.status1) ? "Поем в заведении" : takeAwayScreenKey.currentState.comment,
                               cartDataModel: currentUser.cartDataModel,
                               restaurantAddress: takeAwayScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                               without_delivery: true,
@@ -1146,6 +1146,7 @@ class TakeAwayState extends State<TakeAway>
   final Records restaurant;
   String name = '';
   bool _color;
+  bool status1 = false;
 
 
   TakeAwayState(this.restaurant);
@@ -1269,6 +1270,43 @@ class TakeAwayState extends State<TakeAway>
                       ),
                     ),
                   )),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 10, left: 15, right: 15, bottom: 10),
+                child: Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Поем в заведении',
+                      style: TextStyle(
+                          color: Color(0xFF3F3F3F),
+                          fontSize: 15),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 0),
+                      child: FlutterSwitch(
+                        width: 55.0,
+                        height: 25.0,
+                        inactiveColor: Color(0xD6D6D6D6),
+                        activeColor: Colors.red,
+                        valueFontSize: 12.0,
+                        toggleSize: 18.0,
+                        value: status1,
+                        onToggle: (value) {
+                          setState(() {
+                            status1 = value;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Container(
                 height: 145,
                 color: Color(0xFAFAFAFA),

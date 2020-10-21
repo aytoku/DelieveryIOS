@@ -45,16 +45,25 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
           NecessaryAddressData necessaryAddressData =
           await loadNecessaryAddressData(element.address);
           // Если на серве есть такой адрес
-          if (necessaryAddressData.destinationPoints.length > 0) {
-            // То добавляем его в подсказку
-            necessaryAddressData.destinationPoints[0].comment = temp[i].comment;
+          if(necessaryAddressData.destinationPoints.length > 0){
+            necessaryAddressData.destinationPoints[0].comment = element.comment;
+            //necessaryAddressData.destinationPoints[0].name = element.name;
             necessaryAddressDataItems
                 .add(necessaryAddressData.destinationPoints[0]);
-          } else {
-            // Иначе добавляаем кривую инвалидную версию адреса
+          }else{
             necessaryAddressDataItems.add(new DestinationPoints(
                 street: element.address, house: '', comment: temp[i].comment));
           }
+          // if (necessaryAddressData.destinationPoints.length > 0) {
+          //   // То добавляем его в подсказку
+          //   necessaryAddressData.destinationPoints[0].comment = element.comment;
+          //   necessaryAddressDataItems
+          //       .add(necessaryAddressData.destinationPoints[0]);
+          // } else {
+          //   // Иначе добавляаем кривую инвалидную версию адреса
+          //   necessaryAddressDataItems.add(new DestinationPoints(
+          //       street: element.address, house: '', comment: temp[i].comment));
+          // }
         }
 
         // Вывод последних адресов
@@ -62,7 +71,6 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
         necessaryAddressDataItems.addAll(last_dp);
       }
       print(necessaryAddressDataItems[0].unrestricted_value);
-      print('dick lenght ' + necessaryAddressDataItems.length.toString());
     } catch (e) {
       print("Error getting users.");
     } finally {
@@ -82,6 +90,7 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
       child: Padding(
         padding: EdgeInsets.only(left: 10, bottom: 10, top: 10),
         child: Text(
+          //user.name != null ? user.name : user.unrestricted_value,
           user.unrestricted_value,
           style: TextStyle(fontSize: 16.0, decoration: TextDecoration.none),
           textAlign: TextAlign.start,
