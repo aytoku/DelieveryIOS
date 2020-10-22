@@ -203,6 +203,7 @@ class DestinationPoints{
   int radius;
   double lat;
   double lon;
+  String name;
 
   DestinationPoints( {
     this.uuid,
@@ -228,6 +229,7 @@ class DestinationPoints{
     this.radius,
     this.lat,
     this.lon,
+    this.name
   });
 
   factory DestinationPoints.fromJson(Map<String, dynamic> parsedJson){

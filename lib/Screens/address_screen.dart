@@ -241,7 +241,7 @@ class PageState extends State<PageScreen> {
                       ),
                       Container(
                         padding: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.05),
+                            right: MediaQuery.of(context).size.width * 0.05),
                         child: SizedBox(
                           height: 40,
                           child: GestureDetector(
@@ -353,7 +353,7 @@ class PageState extends State<PageScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 8, left: 15, right: 15, top: 10),
+                padding: EdgeInsets.only(bottom: 20, left: 15, right: 15, top: 10),
                 child: FlatButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -369,7 +369,7 @@ class PageState extends State<PageScreen> {
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                 '30-50 мин.',
+                                '30-50 мин.',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w600,
@@ -445,7 +445,7 @@ class PageState extends State<PageScreen> {
                         } else if (takeAwayScreenKey.currentState != null) {
                           CreateOrderTakeAway createOrderTakeAway =
                           new CreateOrderTakeAway(
-                              comment: takeAwayScreenKey.currentState.comment,
+                              comment: (takeAwayScreenKey.currentState.status1) ? "Поем в заведении" : takeAwayScreenKey.currentState.comment,
                               cartDataModel: currentUser.cartDataModel,
                               restaurantAddress: takeAwayScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                               without_delivery: true,
@@ -577,8 +577,8 @@ class AddressScreenState extends State<AddressScreen>
         });
   }
 
-   _buildDeleteBottomNavigationMenu(AutoComplete autoComplete) {
-     return Container(
+  _buildDeleteBottomNavigationMenu(AutoComplete autoComplete) {
+    return Container(
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: <Widget>[
@@ -1146,6 +1146,7 @@ class TakeAwayState extends State<TakeAway>
   final Records restaurant;
   String name = '';
   bool _color;
+  bool status1 = false;
 
 
   TakeAwayState(this.restaurant);
@@ -1269,6 +1270,43 @@ class TakeAwayState extends State<TakeAway>
                       ),
                     ),
                   )),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Divider(height: 1.0, color: Color(0xFFEDEDED)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 10, left: 15, right: 15, bottom: 10),
+                child: Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Поем в заведении',
+                      style: TextStyle(
+                          color: Color(0xFF3F3F3F),
+                          fontSize: 15),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 0),
+                      child: FlutterSwitch(
+                        width: 55.0,
+                        height: 25.0,
+                        inactiveColor: Color(0xD6D6D6D6),
+                        activeColor: Colors.red,
+                        valueFontSize: 12.0,
+                        toggleSize: 18.0,
+                        value: status1,
+                        onToggle: (value) {
+                          setState(() {
+                            status1 = value;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Container(
                 height: 145,
                 color: Color(0xFAFAFAFA),
@@ -1395,34 +1433,34 @@ class DestinationPointsSelectorState extends State<DestinationPointsSelector> {
     List<Widget> widgetsList = new List<Widget>();
     destinationPointsList.forEach((element) {
       widgetsList.add(
-        Padding(
-          padding: EdgeInsets.only(right: 0),
-          child: ListTile(
-            contentPadding: EdgeInsets.only(right: 5),
-            title: GestureDetector(
-              child: Text(
-                element.unrestricted_value,
-                style: TextStyle(color: Color(0xFF424242)),
+          Padding(
+            padding: EdgeInsets.only(right: 0),
+            child: ListTile(
+              contentPadding: EdgeInsets.only(right: 5),
+              title: GestureDetector(
+                child: Text(
+                  element.unrestricted_value,
+                  style: TextStyle(color: Color(0xFF424242)),
+                ),
+                onTap: (){
+                  setState(() {
+                    selectedDestinationPoint = element;
+                  });
+                },
               ),
-              onTap: (){
-                setState(() {
-                  selectedDestinationPoint = element;
-                });
-              },
+              leading: Radio(
+                focusColor: Colors.red,
+                value: element,
+                groupValue: selectedDestinationPoint,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onChanged: (DestinationPoints value) {
+                  setState(() {
+                    selectedDestinationPoint = value;
+                  });
+                },
+              ),
             ),
-            leading: Radio(
-              focusColor: Colors.red,
-              value: element,
-              groupValue: selectedDestinationPoint,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (DestinationPoints value) {
-                setState(() {
-                  selectedDestinationPoint = value;
-                });
-              },
-            ),
-          ),
-        )
+          )
       );
     });
     return Container(

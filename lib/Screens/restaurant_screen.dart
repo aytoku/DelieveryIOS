@@ -721,7 +721,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           return GestureDetector(
             child: Padding(
                 padding:
-                EdgeInsets.only(left: 16, right: 10, top: 5, bottom: 5),
+                EdgeInsets.only(left: 11, top: 5, bottom: 5),
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -830,12 +830,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                       child: Divider(color: Color(0xFFEEEEEE), height: 1,),
                     ),
                     _buildFoodCategoryList(),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                       child: Divider(color: Color(0xFFEEEEEE), height: 1,),
                     ),
                     Align(
@@ -914,12 +914,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 7.0),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                       child: Divider(color: Color(0xFFEEEEEE), height: 1,),
                     ),
                     _buildFoodCategoryList(),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 7.0),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                       child: Divider(color: Color(0xFFEEEEEE), height: 1,),
                     ),
                     Expanded(
