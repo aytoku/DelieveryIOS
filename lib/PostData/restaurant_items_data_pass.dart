@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_app/models/ResponseData.dart';
 import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -32,4 +33,18 @@ Future<RestaurantDataItems> loadRestaurantItems(String uuid, String category, in
   }
   print(restaurantDataItems1);
   return restaurantDataItems1;
+}
+
+Future<RestaurantDataItems> loadRestaurantItemsRange(Records restaurant,
+    int category_index_from, int category_index_to) async{
+  RestaurantDataItems result = new RestaurantDataItems(records: new List<FoodRecords>(), records_count: 0);
+  for(int i = category_index_from; i<=category_index_to; i++) {
+    int records_count =
+        (await loadRestaurantItems(restaurant.uuid, restaurant.product_category[i], 1,1)).records_count;
+    result.records.addAll(
+        (await loadRestaurantItems(restaurant.uuid, restaurant.product_category[i], 1, records_count)).records
+    );
+  }
+  result.records_count = result.records.length;
+  return result;
 }
