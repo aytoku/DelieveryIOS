@@ -28,7 +28,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   // Добавленные глобалки
   RestaurantDataItems restaurantDataItems; // Модель текущего меню
   CategoryList categoryList; // Виджет с категориями еды
-  bool LoadLastFoodItem = false; // Скроллить ли до конца при загрузке экрана
   // (для подгрузки ВПЕРЕД по клику по категории)
   ScrollController foodScrollController = new ScrollController(); // Скролл контроллер для хавки
   List<MenuItem> food_menu_items = new List<MenuItem>(); // Виджеты с хавкой
@@ -275,27 +274,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
           if (categoryList.key.currentState.currentCategory !=
               food_menu_items[ind].key.currentState
                   .restaurantDataItems.category) {
-            // Выбираем категорию и скроллим к ней
+            // Выбираем категорию и скроллим сам список категорий к ней
             categoryList.key.currentState.SelectCategory(food_menu_items[ind].key.currentState
                 .restaurantDataItems.category);
             categoryList.key.currentState.ScrollToSelectedCategory();
-          }
-        }
-
-        // Если мы в конце скролла
-        if (foodScrollController.position.pixels == foodScrollController.position.maxScrollExtent) {
-          // Решаем что нам подгружать: новую пагу, новую категорию или ничего
-          if(restaurantDataItems.records_count - (page + 1) * limit > (-1) * limit){
-            setState(() {
-              isLoading = true;
-              page++;
-            });
-          } else if(load_category_index + 1 < restaurant.product_category.length){
-            setState(() {
-              isLoading = true;
-              page = 1;
-              load_category_index++;
-            });
           }
         }
       }
@@ -309,223 +291,193 @@ class RestaurantScreenState extends State<RestaurantScreen> {
       return Container(height: 0);
   }
 
+  Widget _buildScreen() {
+    isLoading = false;
+    // Если хавки нет
+    if (restaurantDataItems.records_count == 0) {
+      return Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 40, bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 0),
+                    child: InkWell(
+                        onTap: () async {
+                          homeScreenKey =
+                          new GlobalKey<HomeScreenState>();
+                          if(await Internet.checkConnection()){
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen()),
+                                    (Route<dynamic> route) => false);
+                          }else{
+                            noConnection(context);
+                          }
+                        },
+                        child: Container(
+                            height: 40,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 10, left: 16),
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            ))),
+                  ),
+                ),
+                Flexible(
+                  flex: 7,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Text(
+                        this.restaurant.name,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+          ),
+          _buildFoodCategoryList(),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Center(
+              child: Text('Нет товаров данной категории'),
+            ),
+          ),
+          SizedBox(height: 10.0),
+        ],
+      );
+    }
+
+
+    food_menu_items.addAll(MenuItem.fromFoodRecordsList(restaurantDataItems.records, this));
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 30, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                        flex: 1,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: InkWell(
+                              onTap: () async {
+                                if(await Internet.checkConnection()){
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => HomeScreen()),
+                                          (Route<dynamic> route) => false);
+                                }else{
+                                  noConnection(context);
+                                }
+                              },
+                              child: Container(
+                                  height: 40,
+                                  width: 60,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 12,
+                                        bottom: 12,
+                                        right: 16),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  ))),
+                        )),
+                    Flexible(
+                      flex: 7,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 30),
+                          child: Text(
+                            this.restaurant.name,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF3F3F3F)),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+          ),
+          _buildFoodCategoryList(),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+          ),
+          Expanded(
+            child:  GridView.count(
+              padding: EdgeInsets.only(left: 10.0, right: 10, bottom: 0),
+              crossAxisCount: 2,
+              mainAxisSpacing: 8.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 0.65,
+              controller: foodScrollController,
+              children: List.generate(food_menu_items.length, (index) {
+                // Выводим итем хавки
+                return food_menu_items[index];
+              }),
+            )
+          ),
+          BasketButton(
+              key: basketButtonStateKey, restaurant: restaurant)
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if(restaurantDataItems != null){
+      return _buildScreen();
+    }
     return Scaffold(
       key: _scaffoldStateKey,
       body: FutureBuilder<RestaurantDataItems>(
-          future: loadRestaurantItems(restaurant.uuid,
-              restaurant.product_category.length > 0 ? restaurant.product_category[load_category_index] : '',
-              page, limit),
+          future: loadAllRestaurantItems(restaurant),
           initialData: null,
           builder: (BuildContext context,
               AsyncSnapshot<RestaurantDataItems> snapshot) {
             print(snapshot.connectionState);
-            if (snapshot.hasData) {
-              if (snapshot.data.records_count == 0) {
-                return Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 40, bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            flex: 1,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 0),
-                              child: InkWell(
-                                  onTap: () async {
-                                    homeScreenKey =
-                                    new GlobalKey<HomeScreenState>();
-                                    if(await Internet.checkConnection()){
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                              builder: (context) => HomeScreen()),
-                                              (Route<dynamic> route) => false);
-                                    }else{
-                                      noConnection(context);
-                                    }
-                                  },
-                                  child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 10, left: 16),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg'),
-                                      ))),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 7,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 30),
-                                child: Text(
-                                  this.restaurant.name,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
-                    ),
-                    _buildFoodCategoryList(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text('Нет товаров данной категории'),
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                  ],
-                );
-              }
-
-              if (snapshot.connectionState == ConnectionState.done) {
-                restaurantDataItems = snapshot.data;
-                // {Фикс бага со скроллом}
-                // Если нам не надо скроллить в конец списка хавки
-                if(!LoadLastFoodItem) {
-                  // Навешиваем событие, которые выполнится после билдинга скрина
-                  WidgetsBinding.instance.addPostFrameCallback((_) async {
-                    // Скролл на 1 пиксель
-                    if(foodScrollController.position.pixels == 0)
-                      foodScrollController.jumpTo(1);
-                  });
-                }
-                // Добавляем подгруженные итемы в лист
-                food_menu_items.addAll(MenuItem.fromFoodRecordsList(snapshot.data.records, this));
-                isLoading = false;
-              }
-              return Container(
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top: 30, bottom: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: InkWell(
-                                        onTap: () async {
-                                          if(await Internet.checkConnection()){
-                                            Navigator.of(context).pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                    builder: (context) => HomeScreen()),
-                                                    (Route<dynamic> route) => false);
-                                          }else{
-                                            noConnection(context);
-                                          }
-                                        },
-                                        child: Container(
-                                            height: 40,
-                                            width: 60,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 12,
-                                                  bottom: 12,
-                                                  right: 16),
-                                              child: SvgPicture.asset(
-                                                  'assets/svg_images/arrow_left.svg'),
-                                            ))),
-                                  )),
-                              Flexible(
-                                flex: 7,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 30),
-                                    child: Text(
-                                      this.restaurant.name,
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF3F3F3F)),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
-                    ),
-                    _buildFoodCategoryList(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-                      child: Divider(color: Color(0xFFEEEEEE), height: 1,),
-                    ),
-                    Expanded(
-                      child: GridView.count(
-                        padding: EdgeInsets.only(left: 10.0, right: 10, bottom: 0),
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 10.0,
-                        childAspectRatio: 0.65,
-                        controller: foodScrollController,
-                        children: List.generate(food_menu_items.length, (index) {
-                          // Если мы генерируем последний итем
-                          // и нам надо скроллить в конец листа еды
-                          if(index == food_menu_items.length-1)
-                            if(LoadLastFoodItem) {
-                              // то после билдинга скрина
-                              WidgetsBinding.instance.addPostFrameCallback((_) async {
-                                // тупо скроллим в конец
-                                if (food_menu_items[food_menu_items.length - 1].key
-                                    .currentContext == null) {
-                                  await foodScrollController.animateTo(
-                                      foodScrollController.position.maxScrollExtent - 1,
-                                      duration: new Duration(seconds: 2),
-                                      curve: Curves.ease);
-                                }
-                                else // или по возможности далем это другим путем
-                                  Scrollable.ensureVisible(
-                                      food_menu_items[food_menu_items.length - 1].key
-                                          .currentContext,
-                                      duration: new Duration(seconds: 2),
-                                      curve: Curves.ease);
-                                LoadLastFoodItem = false;
-                              });
-                            }
-
-                          // Выводим итем хавки
-                          return food_menu_items[index];
-                        }),
-                      ),
-                    ),
-                    BasketButton(
-                        key: basketButtonStateKey, restaurant: restaurant)
-                  ],
-                ),
-              );
+            if (snapshot.connectionState == ConnectionState.done) {
+              restaurantDataItems = snapshot.data;
+              return _buildScreen();
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -535,34 +487,26 @@ class RestaurantScreenState extends State<RestaurantScreen> {
     );
   }
   // Подгрузка итемов с категорией
-  Future<void> GoToCategory(int categoryIndex) async {
-    // Если категория уже подгружена
-    if(categoryIndex < load_category_index) {
-      // находим итем с данной категорией
-      for(int i = 0; i<food_menu_items.length;i++) {
-        var item = food_menu_items[i];
-        if(item.restaurantDataItems.category == restaurant.product_category[categoryIndex]){
-          // джампаем к нему
-          await Scrollable.ensureVisible(item.key.currentContext);
-          break;
+  Future<bool> GoToCategory(int categoryIndex) async {
+    if(isLoading)
+      return false;
+    isLoading = true;
+    // находим итем с данной категорией
+    for(int i = 0; i<food_menu_items.length;i++) {
+      var item = food_menu_items[i];
+      if(item.restaurantDataItems.category == restaurant.product_category[categoryIndex]){
+        while(item.key.currentContext == null) {
+          await foodScrollController.animateTo(foodScrollController.offset+200, duration: new Duration(milliseconds: 15),
+              curve: Curves.ease);
         }
+        // джампаем к нему
+        await Scrollable.ensureVisible(item.key.currentContext, duration: new Duration(milliseconds: 100),
+            curve: Curves.ease);
+        break;
       }
-      isLoading = false;
-    } else {
-      // Если же категория не была подгружена
-      // сносим итемы последней загруженной категории
-      food_menu_items.removeWhere((element) => element.restaurantDataItems.category == restaurant.product_category[load_category_index]);
-      // Загружаем новые итемы, не доходя до требуемой категории
-      food_menu_items.addAll(
-          MenuItem.fromFoodRecordsList((await loadRestaurantItemsRange(restaurant, load_category_index, categoryIndex-1)).records, this)
-      );
-      // Требуемая категория загрузится при ребилде скрина
-      setState(() {
-        load_category_index = categoryIndex;
-        page = 1;
-        LoadLastFoodItem = true;
-      });
     }
+    isLoading = false;
+    return true;
   }
 }
 
@@ -1214,9 +1158,9 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
           )),
       onTap: () async {
         if (await Internet.checkConnection()) {
-          categoryList.parent.isLoading = true;
-          await categoryList.parent.GoToCategory(categoryList.restaurant.product_category.indexOf(value));
-          categoryList.SelectCategory(value);
+          //Если категория загрузась без ошибок
+          if(await categoryList.parent.GoToCategory(categoryList.restaurant.product_category.indexOf(value)))
+            categoryList.SelectCategory(value); // выделяем ее
         } else {
           noConnection(context);
         }

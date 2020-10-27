@@ -35,16 +35,20 @@ Future<RestaurantDataItems> loadRestaurantItems(String uuid, String category, in
   return restaurantDataItems1;
 }
 
-Future<RestaurantDataItems> loadRestaurantItemsRange(Records restaurant,
-    int category_index_from, int category_index_to) async{
-  RestaurantDataItems result = new RestaurantDataItems(records: new List<FoodRecords>(), records_count: 0);
-  for(int i = category_index_from; i<=category_index_to; i++) {
-    int records_count =
-        (await loadRestaurantItems(restaurant.uuid, restaurant.product_category[i], 1,1)).records_count;
-    result.records.addAll(
-        (await loadRestaurantItems(restaurant.uuid, restaurant.product_category[i], 1, records_count)).records
-    );
-  }
-  result.records_count = result.records.length;
+Future<RestaurantDataItems> loadAllRestaurantItems(Records restaurant) async {
+  // Получаем количество еды в ресторане
+  int recordsCount =
+      (await loadRestaurantItems(restaurant.uuid, "", 1, 1)).records_count;
+  if(recordsCount == 0)
+    return new RestaurantDataItems(records_count: 0);  // Получаем всю еду в неотсортированном виде
+  RestaurantDataItems result = await loadRestaurantItems(restaurant.uuid, "", 1, recordsCount);
+
+  // Сортируем список еды
+  result.records.sort((var a, var b) {
+    int aCategoryIndex = restaurant.product_category.indexOf(a.category);
+    int bCategoryIndex = restaurant.product_category.indexOf(b.category);
+    return aCategoryIndex.compareTo(bCategoryIndex);
+  });
+
   return result;
 }
