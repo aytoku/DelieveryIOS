@@ -241,7 +241,7 @@ class PageState extends State<PageScreen> {
                       ),
                       Container(
                         padding: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.05),
+                            right: MediaQuery.of(context).size.width * 0.05),
                         child: SizedBox(
                           height: 40,
                           child: GestureDetector(
@@ -369,7 +369,7 @@ class PageState extends State<PageScreen> {
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Text(
-                                 '30-50 мин.',
+                                '30-50 мин.',
                                 style: TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.w600,
@@ -577,8 +577,8 @@ class AddressScreenState extends State<AddressScreen>
         });
   }
 
-   _buildDeleteBottomNavigationMenu(AutoComplete autoComplete) {
-     return Container(
+  _buildDeleteBottomNavigationMenu(AutoComplete autoComplete) {
+    return Container(
       width: MediaQuery.of(context).size.width,
       child: Stack(
         children: <Widget>[
@@ -1433,34 +1433,34 @@ class DestinationPointsSelectorState extends State<DestinationPointsSelector> {
     List<Widget> widgetsList = new List<Widget>();
     destinationPointsList.forEach((element) {
       widgetsList.add(
-        Padding(
-          padding: EdgeInsets.only(right: 0),
-          child: ListTile(
-            contentPadding: EdgeInsets.only(right: 5),
-            title: GestureDetector(
-              child: Text(
-                element.unrestricted_value,
-                style: TextStyle(color: Color(0xFF424242)),
+          Padding(
+            padding: EdgeInsets.only(right: 0),
+            child: ListTile(
+              contentPadding: EdgeInsets.only(right: 5),
+              title: GestureDetector(
+                child: Text(
+                  element.unrestricted_value,
+                  style: TextStyle(color: Color(0xFF424242)),
+                ),
+                onTap: (){
+                  setState(() {
+                    selectedDestinationPoint = element;
+                  });
+                },
               ),
-              onTap: (){
-                setState(() {
-                  selectedDestinationPoint = element;
-                });
-              },
+              leading: Radio(
+                focusColor: Colors.red,
+                value: element,
+                groupValue: selectedDestinationPoint,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onChanged: (DestinationPoints value) {
+                  setState(() {
+                    selectedDestinationPoint = value;
+                  });
+                },
+              ),
             ),
-            leading: Radio(
-              focusColor: Colors.red,
-              value: element,
-              groupValue: selectedDestinationPoint,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onChanged: (DestinationPoints value) {
-                setState(() {
-                  selectedDestinationPoint = value;
-                });
-              },
-            ),
-          ),
-        )
+          )
       );
     });
     return Container(
