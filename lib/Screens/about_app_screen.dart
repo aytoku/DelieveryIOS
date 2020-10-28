@@ -137,7 +137,7 @@ class AboutAppScreenState extends State<AboutAppScreen> {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 20, left: 15),
                   child: Text(
-                    '@ 2011-2020 ООО «Faem.Taxi»',
+                    '@ 2011-2020 ООО «ФАЕМ ТЕХНОЛОГИИ»',
                     style: TextStyle(color: Color(0x97979797), fontSize: 15),
                   ),
                 ),
