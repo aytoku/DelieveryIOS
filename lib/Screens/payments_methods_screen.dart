@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CardModel.dart';
 import 'package:flutter_svg/svg.dart';
+import '../Internet/check_internet.dart';
 import 'AttachCardScreen.dart';
 import 'home_screen.dart';
+import 'payments_methods_delete_screen.dart';
 
 class PaymentsMethodsScreen extends StatefulWidget {
   @override
@@ -30,7 +32,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                              padding: EdgeInsets.only(top: 0, bottom: 0),
+                              padding: EdgeInsets.only(top: 40, bottom: 0),
                               child: Container(
                                   height: 40,
                                   width: 60,
@@ -57,10 +59,21 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                               'Изменить',
                               style: TextStyle(
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold
                               ),
                             ),
                           ),
+                          onTap: () async {
+                            if (await Internet.checkConnection()) {
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new PaymentsMethodsDeleteScreen(),
+                                ),
+                              );
+                            } else {
+                              noConnection(context);
+                            }
+                          },
                         )
                     ),
                   ],
@@ -69,7 +82,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(top: 30, left: 20),
-                    child: Text('Способы оплаты',style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
+                    child: Text('Способ оплаты',style: TextStyle(fontSize: 21)),
                   ),
                 ),
                 PaymentMethodSelector(key: paymentSelectorKey, cardModelList: snapshot.data,),
@@ -82,7 +95,8 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                     padding: EdgeInsets.only(top: 10, left: 10, bottom: 10),
                     child: ListTile(
                       title: Text("Добавить карту", style: TextStyle(color: Colors.black),),
-                      trailing: Image(image: AssetImage('assets/images/arrow_right.png')),
+                      trailing: SvgPicture.asset(
+                          'assets/svg_images/arrow_right.svg'),
                       onTap: (){
                         CardModel cardModelItem = new CardModel(number: '', expiration: '', cvv: '', type: CardTypes.visa);
                         snapshot.data.add(cardModelItem);
@@ -96,7 +110,7 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                     ),
                   ),
                 ),
-                Divider(height: 1.0, color: Colors.grey),
+                Divider(height: 1.0, color: Color(0xFFEDEDED)),
               ],
             );
           }else{
@@ -127,23 +141,23 @@ class PaymentMethodSelectorState extends State<PaymentMethodSelector> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      height: 200,
-      child: ListView.builder(
-        itemCount: cardModelList.length + 1,
-        itemBuilder: (context, position) {
-          if(position >= cardModelList.length){
+        height: 200,
+        child: ListView.builder(
+          itemCount: cardModelList.length + 1,
+          itemBuilder: (context, position) {
+            if(position >= cardModelList.length){
+              return ListTile(
+                title: Text('Наличными'),
+                //leading: SvgPicture.asset('assets/svg_images/visa.svg'),
+                //trailing: position == selectedIndex ? SvgPicture.asset('assets/svg_images/selected_circle.svg') : SvgPicture.asset('assets/svg_images/circle.svg'),
+                onTap: (){
+                  setState(() {
+                    selectedIndex = position;
+                  });
+                },
+              );
+            }
             return ListTile(
-              title: Text('Наличными'),
-              //leading: SvgPicture.asset('assets/svg_images/visa.svg'),
-              //trailing: position == selectedIndex ? SvgPicture.asset('assets/svg_images/selected_circle.svg') : SvgPicture.asset('assets/svg_images/circle.svg'),
-              onTap: (){
-                setState(() {
-                  selectedIndex = position;
-                });
-              },
-            );
-          }
-          return ListTile(
               title: Text('${cardModelList[position].number.substring(cardModelList[position].number.length-4)}'),
               //leading: SvgPicture.asset('assets/svg_images/visa.svg'),
               //trailing: position == selectedIndex ? SvgPicture.asset('assets/svg_images/selected_circle.svg') : SvgPicture.asset('assets/svg_images/circle.svg'),
@@ -153,9 +167,9 @@ class PaymentMethodSelectorState extends State<PaymentMethodSelector> {
                   selectedIndex = position;
                 });
               },
-          );
-        },
-      )
+            );
+          },
+        )
     );
   }
 }

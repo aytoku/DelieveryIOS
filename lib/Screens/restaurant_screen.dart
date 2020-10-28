@@ -186,41 +186,41 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           Padding(
             padding: EdgeInsets.only(top: 30),
             child: Align(
-              alignment: Alignment.topCenter,
-              child: Text('К сожалению, доставка не доступна.\nБлижайшее время в ${( work_beginning/ 60).toStringAsFixed(0)} часов',
-                style: TextStyle(
-                    fontSize: 16
-                ),
-                textAlign: TextAlign.center,
-              )
+                alignment: Alignment.topCenter,
+                child: Text('К сожалению, доставка не доступна.\nБлижайшее время в ${( work_beginning/ 60).toStringAsFixed(0)} часов',
+                  style: TextStyle(
+                      fontSize: 16
+                  ),
+                  textAlign: TextAlign.center,
+                )
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 15),
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FlatButton(
-                    child: Text(
-                      "Далее",
-                      style:
-                      TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    color: Color(0xFFFE534F),
-                    splashColor: Colors.redAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    padding: EdgeInsets.only(
-                        left: 110, top: 20, right: 110, bottom: 20),
-                    onPressed: () async {
-                      homeScreenKey = new GlobalKey<HomeScreenState>();
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreen()),
-                              (Route<dynamic> route) => false);
-                    },
-                  )
-              ),
+            padding: EdgeInsets.only(top: 10,left: 15, right: 15, bottom: 15),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FlatButton(
+                  child: Text(
+                    "Далее",
+                    style:
+                    TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  color: Color(0xFFFE534F),
+                  splashColor: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.only(
+                      left: 110, top: 20, right: 110, bottom: 20),
+                  onPressed: () async {
+                    homeScreenKey = new GlobalKey<HomeScreenState>();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) => HomeScreen()),
+                            (Route<dynamic> route) => false);
+                  },
+                )
+            ),
           )
         ],
       ),
@@ -356,7 +356,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     InkWell(
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        child: Padding( 
+                        child: Padding(
                           padding: EdgeInsets.only(top: 20, bottom: 20),
                           child: Center(
                             child: Text(
@@ -598,8 +598,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(right: 0),
                           child: Counter(
-                            key: counterKey,
-                            priceFieldKey: priceFieldKey
+                              key: counterKey,
+                              priceFieldKey: priceFieldKey
                           ),
                         ),
                       ),
@@ -1113,7 +1113,7 @@ class CounterState extends State<Counter> {
                 if (await Internet.checkConnection()) {
                   setState(() {
                     _incrementCounter_plus();
-                   // counter = restaurantDataItems.records_count;
+                    // counter = restaurantDataItems.records_count;
                   });
                 } else {
                   noConnection(context);
@@ -1368,10 +1368,10 @@ class VariantsSelectorState extends State<VariantsSelector> {
               element.name,
               style: TextStyle(color: Color(0xFF424242)),
             ),onTap: (){
-              setState(() {
-                selectedVariant = element;
-              });
-           },
+            setState(() {
+              selectedVariant = element;
+            });
+          },
           ),
           leading: Radio(
             value: element,

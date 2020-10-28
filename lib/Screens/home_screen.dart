@@ -137,11 +137,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                           height: 32,
                           width: 250,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20)
-                            ),
-                            color: Colors.black.withOpacity(0.5)
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20)
+                              ),
+                              color: Colors.black.withOpacity(0.5)
                           ),
                           child: Center(
                             child: Padding(
@@ -337,19 +337,19 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-             ListTile(
-               title: Text('Способы оплаты',
-    style: TextStyle(
-    fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),),
-               onTap: (){
-                 Navigator.push(
-                   context,
-                   new MaterialPageRoute(
-                     builder: (context) => new PaymentsMethodsScreen(),
-                   ),
-                 );
-               },
-             ),
+        ListTile(
+          title: Text('Способы оплаты',
+            style: TextStyle(
+                fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),),
+          onTap: (){
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new PaymentsMethodsScreen(),
+              ),
+            );
+          },
+        ),
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -817,7 +817,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
   @override
   Widget build(BuildContext context) {
     var processing = ['waiting_for_confirmation',
-    'transferred_to_store'];
+      'transferred_to_store'];
     var cooking_state = [
       'cooking',
       'offer_offered',
@@ -1067,13 +1067,13 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
               ),
             ),
             (in_the_way.contains(ordersStoryModelItem.state) && ordersStoryModelItem.own_delivery != null && ordersStoryModelItem.own_delivery) ? Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-              child: Text('Доставку осуществляет курьер от заведения',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14
-                ),
-              )
+                padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                child: Text('Доставку осуществляет курьер от заведения',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14
+                  ),
+                )
             ) :
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

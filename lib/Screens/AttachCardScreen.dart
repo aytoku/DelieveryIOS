@@ -34,33 +34,41 @@ class AttachCardScreenState extends State<AttachCardScreen> {
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 50, left: 15),
+              padding: EdgeInsets.only(top: 40, left: 0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Flexible(
                     flex: 1,
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: GestureDetector(
-                          child: Container(
-                              width: 20,
-                              height: 20,
-                              child: SvgPicture.asset(
-                                  'assets/svg_images/arrow_left.svg'),),
-                          onTap: () {
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 0),
+                      child: InkWell(
+                          onTap: () async {
                             Navigator.pop(context);
                           },
-                        )),
+                          child: Container(
+                              height: 40,
+                              width: 60,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 12, bottom: 12, right: 10, left: 16),
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/arrow_left.svg'),
+                              ))),
+                    ),
                   ),
-                  Expanded(
+                  Flexible(
+                    flex: 7,
                     child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Flexible(
-                        flex: 3,
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 30),
                         child: Text(
-                          'Новая карта',
+                          'Новая картка',
                           style: TextStyle(
-                              fontSize: 19, fontWeight: FontWeight.bold),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -164,13 +172,12 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                 ],
               ),
             ),
-            Container(
-              height: 350,
+            Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding:
-                      EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
+                  EdgeInsets.only(bottom: 10, left: 0, right: 0, top: 10),
                   child: FlatButton(
                     child: Text('Привязать карту',
                         style: TextStyle(
