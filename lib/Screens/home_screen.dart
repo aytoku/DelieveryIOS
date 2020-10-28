@@ -10,6 +10,7 @@ import 'package:flutter_app/PostData/chat.dart';
 import 'package:flutter_app/GetData/orders_story_data.dart';
 import 'package:flutter_app/PostData/restaurant_data_pass.dart';
 import 'package:flutter_app/Screens/orders_details.dart';
+import 'package:flutter_app/Screens/payments_methods_screen.dart';
 import 'package:flutter_app/Screens/profile_screen.dart';
 import 'package:flutter_app/Screens/restaurant_screen.dart';
 import 'package:flutter_app/Screens/service_screen.dart';
@@ -336,17 +337,19 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-//              ListTile(
-//                title: Text('Способы оплаты'),
-//                onTap: (){
-//                  Navigator.push(
-//                    context,
-//                    new MaterialPageRoute(
-//                      builder: (context) => new PaymentsMethodsScreen(),
-//                    ),
-//                  );
-//                },
-//              ),
+             ListTile(
+               title: Text('Способы оплаты',
+    style: TextStyle(
+    fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),),
+               onTap: (){
+                 Navigator.push(
+                   context,
+                   new MaterialPageRoute(
+                     builder: (context) => new PaymentsMethodsScreen(),
+                   ),
+                 );
+               },
+             ),
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CardModel.dart';
+import 'package:flutter_svg/svg.dart';
 import 'AttachCardScreen.dart';
 import 'home_screen.dart';
 
@@ -25,24 +26,26 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    GestureDetector(
+                    InkWell(
                       child: Align(
                           alignment: Alignment.topLeft,
                           child: Padding(
-                              padding: EdgeInsets.only(left: 0, top: 40),
+                              padding: EdgeInsets.only(top: 0, bottom: 0),
                               child: Container(
-                                  width: 40,
                                   height: 40,
-                                  child: Center(
-                                    child:Image(image: AssetImage('assets/images/arrow_left.png')),
-                                  )
-                              )
-                          )
-                      ),
-                      onTap: (){
+                                  width: 60,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 12, bottom: 12, right: 10),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  )))),
+                      onTap: () {
                         homeScreenKey = new GlobalKey<HomeScreenState>();
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                            HomeScreen()), (Route<dynamic> route) => false);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                                (Route<dynamic> route) => false);
                       },
                     ),
                     Align(

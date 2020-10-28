@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Screens/payments_methods_screen.dart';
 import 'package:flutter_app/models/CardModel.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AttachCardScreen extends StatefulWidget {
   final CardModel cardModel;
@@ -36,30 +37,34 @@ class AttachCardScreenState extends State<AttachCardScreen> {
               padding: EdgeInsets.only(top: 50, left: 15),
               child: Row(
                 children: <Widget>[
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: GestureDetector(
-                        child: Container(
-                            width: 20,
-                            height: 20,
-                            child: Center(
-                              child: Image(image: AssetImage('assets/images/arrow_left.png')),
-                            )),
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      )),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 120),
-                      child: Text(
-                        'Новая карта',
-                        style: TextStyle(
-                            fontSize: 19, fontWeight: FontWeight.bold),
+                  Flexible(
+                    flex: 1,
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                          child: Container(
+                              width: 20,
+                              height: 20,
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        )),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Flexible(
+                        flex: 3,
+                        child: Text(
+                          'Новая карта',
+                          style: TextStyle(
+                              fontSize: 19, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -77,11 +82,15 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                 keyboardType: TextInputType.number,
                 controller: numberField,
                 decoration: new InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 0),
-                  hintText: '',
+                  border: InputBorder.none,
                   counterText: '',
                 ),
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 15, right: 15),
+              child: Divider(
+                  height: 1.0, color: Color(0xFFEDEDED)),
             ),
             Expanded(
               child: Row(
@@ -104,11 +113,15 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                             maxLength: 5,
                             keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 0),
-                              hintText: '',
+                              border: InputBorder.none,
                               counterText: '',
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: Divider(
+                              height: 1.0, color: Color(0xFFEDEDED)),
                         ),
                       ],
                     ),
@@ -131,11 +144,15 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                             obscureText: true,
                             keyboardType: TextInputType.number,
                             decoration: new InputDecoration(
-                              contentPadding: EdgeInsets.only(left: 0),
-                              hintText: '',
+                              border: InputBorder.none,
                               counterText: '',
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          child: Divider(
+                              height: 1.0, color: Color(0xFFFE534F)),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 5),
@@ -160,13 +177,12 @@ class AttachCardScreenState extends State<AttachCardScreen> {
                             fontSize: 14.0,
                             fontWeight: FontWeight.w600,
                             color: Colors.white)),
-                    color: Colors.grey,
-                    splashColor: Colors.grey,
+                    color: Color(0xFFFE534F),
+                    splashColor: Color(0xFFFE534F),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    padding: EdgeInsets.only(
-                        left: 120, top: 20, right: 120, bottom: 20),
+                    padding: EdgeInsets.only(left: 70, top: 20, right: 70, bottom: 20),
                     onPressed: () async {
                       cardModel.number = numberField.text;
                       cardModel.expiration = controller.text;

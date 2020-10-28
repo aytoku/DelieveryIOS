@@ -195,7 +195,8 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                       child: Padding(
                                         padding: EdgeInsets.only(
                                             top: 12, bottom: 12, right: 10),
-                                        child: Image(image: AssetImage('assets/images/arrow_left.png')),
+                                        child: SvgPicture.asset(
+                                            'assets/svg_images/arrow_left.svg'),
                                       )))),
                           onTap: () {
                             homeScreenKey = new GlobalKey<HomeScreenState>();
