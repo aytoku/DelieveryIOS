@@ -25,6 +25,7 @@ import 'auth_screen.dart';
 import 'infromation_screen.dart';
 import 'my_addresses_screen.dart';
 import 'orders_story_screen.dart';
+import 'payments_methods_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: homeScreenKey);
@@ -336,17 +337,17 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-//              ListTile(
-//                title: Text('Способы оплаты'),
-//                onTap: (){
-//                  Navigator.push(
-//                    context,
-//                    new MaterialPageRoute(
-//                      builder: (context) => new PaymentsMethodsScreen(),
-//                    ),
-//                  );
-//                },
-//              ),
+             ListTile(
+               title: Text('Способы оплаты'),
+               onTap: (){
+                 Navigator.push(
+                   context,
+                   new MaterialPageRoute(
+                     builder: (context) => new PaymentsMethodsScreen(),
+                   ),
+                 );
+               },
+             ),
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),

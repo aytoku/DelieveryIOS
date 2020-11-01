@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CardModel.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'AttachCardScreen.dart';
 import 'home_screen.dart';
 
@@ -92,6 +94,35 @@ class PaymentsMethodsScreenState extends State<PaymentsMethodsScreen>{
                       },
                     ),
                   ),
+                ),
+                FlatButton(
+                  child: Text('sdfsdf'),
+                  onPressed:() async {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                        builder: (context) => new WebviewScaffold(
+                          url: 'http://178.35.11.6/',
+                          allowFileURLs: true,
+                          withLocalUrl: true,
+                          withJavascript: true,
+                          //localUrlScope: 'assets/web/index.html',
+                          appBar: new AppBar(
+                            title: const Text('Widget webview'),
+                          ),
+                          withZoom: true,
+                          withLocalStorage: true,
+                          hidden: false,
+                          initialChild: Container(
+                            color: Colors.redAccent,
+                            child: const Center(
+                              child: Text('Waiting.....'),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 Divider(height: 1.0, color: Colors.grey),
               ],
