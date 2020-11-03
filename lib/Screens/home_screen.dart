@@ -337,19 +337,19 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-        ListTile(
-          title: Text('Способы оплаты',
-            style: TextStyle(
-                fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),),
-          onTap: (){
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                builder: (context) => new PaymentsMethodsScreen(),
-              ),
-            );
-          },
-        ),
+        // ListTile(
+        //   title: Text('Способы оплаты',
+        //     style: TextStyle(
+        //         fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),),
+        //   onTap: (){
+        //     Navigator.push(
+        //       context,
+        //       new MaterialPageRoute(
+        //         builder: (context) => new PaymentsMethodsScreen(),
+        //       ),
+        //     );
+        //   },
+        // ),
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
