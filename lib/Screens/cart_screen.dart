@@ -410,7 +410,7 @@ class _CartScreenState extends State<CartScreen> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 40),
                 child: Column(
                   children: <Widget>[
                     Row(
@@ -502,22 +502,6 @@ class _CartScreenState extends State<CartScreen> {
                       height: 10,
                       width: MediaQuery.of(context).size.width,
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 15, bottom: 15, left: 15),
-                        child: Text('Доставка оплачивается отдельно',
-                          style: TextStyle(
-                              decoration: TextDecoration.none,
-                              fontSize: 14.0,
-                              color: Color(0xFF000000)),),
-                      ),
-                    ),
-                    Container(
-                      color: Color(0xFFF5F5F5),
-                      height: 10,
-                      width: MediaQuery.of(context).size.width,
-                    ),
 //                    Container(
 //                      child: Column(
 //                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -555,7 +539,7 @@ class _CartScreenState extends State<CartScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding:
-                  EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 20),
+                  EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 15),
                   child: FlatButton(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -785,7 +769,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -847,7 +831,7 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 80),
+                  padding: EdgeInsets.only(top: 90),
                   child: Container(
                     decoration: BoxDecoration(color: Color(0xFFFAFAFA)),
                     child: Column(

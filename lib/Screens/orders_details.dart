@@ -296,7 +296,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             ],
           )));
     });
-
+    double own_delivery_price = totalPrice - ordersStoryModelItem.tariff.totalPrice;
     (ordersStoryModelItem.own_delivery != null && ordersStoryModelItem.own_delivery) ? result.add(Column(
       children: [
         Row(
@@ -314,7 +314,7 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(right: 15, bottom: 20),
-              child: Text('${totalPrice.toStringAsFixed(0)} \₽',
+              child: Text('${own_delivery_price.toStringAsFixed(0)} \₽',
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,
@@ -427,7 +427,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       'order_start',
       'on_place',
       'on_the_way',
-      'order_payment'
+      'order_payment',
+      'transferred_to_store'
     ];
     var not_cancel_state = [
       'cooking',
@@ -438,14 +439,15 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       'order_start',
       'on_place',
       'on_the_way',
-      'order_payment'
+      'order_payment',
+      'transferred_to_store'
     ];
     // TODO: implement build
     return Scaffold(
         body: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 10),
+              padding: EdgeInsets.only(top: 40, bottom: 10),
               child: Row(
                 children: <Widget>[
                   Flexible(

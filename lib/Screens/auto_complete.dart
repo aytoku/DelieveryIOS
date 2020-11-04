@@ -10,20 +10,24 @@ import 'device_id_screen.dart';
 
 class AutoComplete extends StatefulWidget {
   String hint;
+  TextEditingController controller = new TextEditingController();
+   VoidCallback onSelected;
 
-  AutoComplete(Key key, this.hint) : super(key: key);
+  AutoComplete(Key key, this.hint, {this.onSelected}) : super(key: key);
 
   @override
-  AutoCompleteDemoState createState() => AutoCompleteDemoState(hint);
+  AutoCompleteDemoState createState() => AutoCompleteDemoState(hint, controller, onSelected: onSelected);
 }
 
 class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveClientMixin{
   String hint;
   @override
   bool get wantKeepAlive => true;
+   VoidCallback onSelected;
 
-  AutoCompleteDemoState(this.hint);
-  TextEditingController controller = new TextEditingController();
+
+  AutoCompleteDemoState(this.hint, this.controller, {this.onSelected});
+  TextEditingController controller;
   FocusNode node = new FocusNode();
 
   TypeAheadField searchTextField;
@@ -118,8 +122,10 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
                 ),
               ),
               suggestionsCallback: (pattern) async {
+                print('autocomplite');
                 return await getUsers(pattern);
               },
+              keepSuggestionsOnSuggestionSelected: true,
               loadingBuilder: (BuildContext context) {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -143,6 +149,9 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
                 node.requestFocus();
                 print(controller.text.length);
                 controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+                if(onSelected != null){
+                  onSelected();
+                }
               },
             )
         ),
