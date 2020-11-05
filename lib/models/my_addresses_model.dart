@@ -27,7 +27,7 @@ class MyFavouriteAddressesModel{
 
   Future<MyFavouriteAddressesModel> ifNoBrainsSave() async{
     if(name == "")
-      name = "ахой";
+      name = "";
     if(uuid == null || uuid == "")
       return await save();
     else
