@@ -3,6 +3,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CreateModelTakeAway.dart';
 import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/InitialAddressModel.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_app/models/order.dart';
@@ -109,9 +110,6 @@ class PageState extends State<PageScreen> {
   int selectedPageId = 0;
   GlobalKey<TakeAwayState> takeAwayScreenKey = new GlobalKey<TakeAwayState>();
   GlobalKey<AddressScreenState> addressScreenKey = new GlobalKey<AddressScreenState>();
-
-  String addressName = '';
-  int deliveryPrice = 0;
 
   List<MyFavouriteAddressesModel> myAddressesModelList;
   MyFavouriteAddressesModel myAddressesModel;
@@ -425,7 +423,7 @@ class PageState extends State<PageScreen> {
                         showAlertDialog(context);
                         if(selectedPageId == 0 && addressScreenKey.currentState != null) {
                           CreateOrder createOrder = new CreateOrder(
-                            address: addressScreenKey.currentState.addressField.text,
+                            address: addressScreenKey.currentState.selectedAddress,
                             restaurantAddress: addressScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                             office: addressScreenKey.currentState.officeField
                                 .text,
@@ -508,12 +506,12 @@ class AddressScreenState extends State<AddressScreen>
   String floor;
   String comment;
   String delivery;
+  InitialAddressModel selectedAddress; // Последний выбранный адрес
   final Records restaurant;
   GlobalKey<DestinationPointsSelectorState> destinationPointsSelectorStateKey =
   GlobalKey<DestinationPointsSelectorState>();
 
   GlobalKey<AutoCompleteDemoState> destinationPointsKey;
-  bool _color;
 
   AddressScreenState(this.restaurant, this.myAddressesModel);
 
@@ -524,14 +522,19 @@ class AddressScreenState extends State<AddressScreen>
   void initState() {
     super.initState();
     print('fagoti 2');
-    _color = true;
+    // Инициализируем автокомплит
     destinationPointsKey = new GlobalKey();
-    autoComplete = new AutoComplete(destinationPointsKey, 'Введите адрес', onSelected:() {
-    addressField.text = destinationPointsKey.currentState
-        .searchTextField.textFieldConfiguration.controller
-        .text;
-    Navigator.pop(context);
-    },);
+    autoComplete = new AutoComplete(destinationPointsKey, 'Введите адрес',
+      onSelected:() { // И навешием событие на выбор адреса
+      // Переносим выбранный адрес в основной текстфилд
+      addressField.text = destinationPointsKey.currentState
+          .searchTextField.textFieldConfiguration.controller
+          .text;
+      // Заполняем последний выбранный адрес
+      selectedAddress = destinationPointsKey.currentState.selectedValue;
+      Navigator.pop(context);
+      }
+    );
   }
 
   bool status1 = false;
@@ -1421,7 +1424,7 @@ class DestinationPointsSelectorState extends State<DestinationPointsSelector> {
               contentPadding: EdgeInsets.only(right: 5),
               title: GestureDetector(
                 child: Text(
-                  element.unrestricted_value,
+                  element.unrestrictedValue,
                   style: TextStyle(color: Color(0xFF424242)),
                 ),
                 onTap: (){

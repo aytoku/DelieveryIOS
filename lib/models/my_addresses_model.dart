@@ -1,3 +1,5 @@
+import 'package:flutter_app/models/InitialAddressModel.dart';
+import 'package:flutter_app/models/RecommendationAddressModel.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
@@ -27,7 +29,7 @@ class MyFavouriteAddressesModel{
 
   Future<MyFavouriteAddressesModel> ifNoBrainsSave() async{
     if(name == "")
-      name = "";
+      name = " ";
     if(uuid == null || uuid == "")
       return await save();
     else
@@ -98,7 +100,7 @@ class MyFavouriteAddressesModel{
   }
 
   static Future<List<MyFavouriteAddressesModel>> getAddresses() async{
-    List<MyFavouriteAddressesModel> addressesList;
+    List<MyFavouriteAddressesModel> addressesList = List<MyFavouriteAddressesModel>();
     // Обновляем токен
     await CreateOrder.sendRefreshToken();
     // Получаем данные с сервера
@@ -154,48 +156,51 @@ class MyFavouriteAddressesModel{
   }
 }
 
-class FavouriteAddress {
-  FavouriteAddress({
-    this.unrestrictedValue,
-    this.value,
-    this.country,
-    this.region,
-    this.regionType,
-    this.type,
-    this.city,
-    this.cityType,
-    this.street,
-    this.streetType,
-    this.streetWithType,
-    this.house,
-    this.frontDoor,
-    this.outOfTown,
-    this.houseType,
-    this.accuracyLevel,
-    this.radius,
-    this.lat,
-    this.lon,
-  });
-
-  String unrestrictedValue;
-  String value;
-  String country;
-  String region;
-  String regionType;
+class FavouriteAddress extends InitialAddressModel {
+  // Поля класса
   String type;
-  String city;
-  String cityType;
-  String street;
-  String streetType;
-  String streetWithType;
-  String house;
   int frontDoor;
-  bool outOfTown;
-  String houseType;
-  int accuracyLevel;
-  int radius;
-  double lat;
-  double lon;
+
+  FavouriteAddress({
+    String unrestrictedValue,
+    String value,
+    String country,
+    String region,
+    String regionType,
+    this.type,
+    String city,
+    String cityType,
+    String street,
+    String streetType,
+    String streetWithType,
+    String house,
+    this.frontDoor,
+    bool outOfTown,
+    String houseType,
+    int accuracyLevel,
+    int radius,
+    double lat,
+    double lon,
+  }):super( // Передаем данные в родительский конструктор
+      unrestrictedValue: unrestrictedValue,
+      value: value,
+      country: country,
+      region: region,
+      regionType: regionType,
+      city: city,
+      cityType: cityType,
+      street: street,
+      streetType: streetType,
+      streetWithType: streetWithType,
+      house: house,
+      outOfTown: outOfTown,
+      houseType: houseType,
+      accuracyLevel: accuracyLevel,
+      radius: radius,
+      lat: lat,
+      lon: lon,
+      comment: ""
+  );
 
   factory FavouriteAddress.fromJson(Map<String, dynamic> json) => FavouriteAddress(
     unrestrictedValue: json["unrestricted_value"],
@@ -240,27 +245,36 @@ class FavouriteAddress {
     "lat": lat,
     "lon": lon,
   };
-  factory FavouriteAddress.fromDestinationPoint(DestinationPoints destinationPoints){
-    return new FavouriteAddress(
-        unrestrictedValue: destinationPoints.unrestricted_value,
-        value:destinationPoints.value,
-        country: destinationPoints.country,
-        region: destinationPoints.region,
-        regionType: destinationPoints.region_type,
-        type: destinationPoints.type,
-        city: destinationPoints.city,
-        cityType: destinationPoints.city_type,
-        street: destinationPoints.street,
-        streetType: destinationPoints.street_type,
-        streetWithType: destinationPoints.street_with_type,
-        house: destinationPoints.house,
-        frontDoor: destinationPoints.front_door,
-        outOfTown: destinationPoints.out_of_town,
-        houseType: destinationPoints.house_type,
-        accuracyLevel: destinationPoints.accuracy_level,
-        radius: destinationPoints.radius,
-        lat: destinationPoints.lat,
-        lon: destinationPoints.lon
-    );
+  factory FavouriteAddress.fromInitialAddressModelChild(var address){
+    // Из InitialAddressModel наследуются только DestinationPoints и FavouriteAddress
+    // (InitialAddressModel нигде не используется в чистом виде)
+
+    // Таким образом,
+    // Если мы имеем дело с DestinationPoints, то на ее основе строим FavouriteAddress
+    if (address is DestinationPoints) {
+      return FavouriteAddress(
+          unrestrictedValue: address.unrestrictedValue,
+          value: address.value,
+          country: address.country,
+          region: address.region,
+          regionType: address.regionType,
+          type: address.type,
+          city: address.city,
+          cityType: address.cityType,
+          street: address.street,
+          streetType: address.streetType,
+          streetWithType: address.streetWithType,
+          house: address.house,
+          frontDoor: address.front_door,
+          outOfTown: address.outOfTown,
+          houseType: address.house_type,
+          accuracyLevel: address.accuracy_level,
+          radius: address.radius,
+          lat: address.lat,
+          lon: address.lon
+      );
+    }
+    // Иначе нам прислали FavouriteAddress
+    return address;
   }
 }

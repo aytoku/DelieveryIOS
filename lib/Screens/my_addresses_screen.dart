@@ -14,7 +14,7 @@ class MyAddressesScreen extends StatefulWidget {
 
 class MyAddressesScreenState extends State<MyAddressesScreen> {
   List<MyFavouriteAddressesModel> myAddressesModelList;
-  GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
+  GlobalKey<AutoCompleteDemoState> autoCompleteKey = new GlobalKey();
   bool addressScreenButton = false;
 
   void _deleteButton(MyFavouriteAddressesModel myAddressesModel) {
@@ -83,7 +83,24 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                               bottom: 5,
                             ),
                             child: AutoComplete(
-                                destinationPointsKey, 'Введите адрес дома'),
+                                autoCompleteKey, 'Введите адрес дома',
+                                onSelected: () async {
+                                  if (await Internet.checkConnection()) {
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(builder: (context) {
+                                        myAddressesModel.tag = "house";
+                                        myAddressesModel.address = FavouriteAddress.fromInitialAddressModelChild(autoCompleteKey
+                                            .currentState.selectedValue);
+                                        return new AddMyAddressScreen(
+                                        myAddressesModel: myAddressesModel);
+                                      }),
+                                    );
+                                  } else {
+                                    noConnection(context);
+                                  }
+                                },
+                            ),
                           ),
 //              Align(
 //                alignment: Alignment.topRight,
@@ -114,44 +131,6 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.only(left: 10, bottom: 15),
-              child: FlatButton(
-                child: Text(
-                  "Далее",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
-                ),
-                color: Color(0xFFFE534F),
-                splashColor: Colors.redAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                padding:
-                EdgeInsets.only(left: 100, top: 20, right: 100, bottom: 20),
-                onPressed: () async {
-                  if (await Internet.checkConnection()) {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) {
-                        myAddressesModel.tag = "house";
-                        myAddressesModel.address = FavouriteAddress.fromDestinationPoint(destinationPointsKey
-                            .currentState.selectedValue);
-                        return new AddMyAddressScreen(
-                            myAddressesModel: myAddressesModel);
-                      }),
-                    );
-                  } else {
-                    noConnection(context);
-                  }
-                },
               ),
             ),
           )
@@ -307,7 +286,10 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                   padding: EdgeInsets.only(
                                       left: 0, top: 10, bottom: 10),
                                   child: Text(
-                                    myAddressesModelList[index].name,
+                                    (myAddressesModelList[index].name != " ") ?
+                                      myAddressesModelList[index].name
+                                    :
+                                      "-",
                                     style:
                                     TextStyle(fontWeight: FontWeight.bold),
                                   ),
