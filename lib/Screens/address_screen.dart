@@ -113,8 +113,8 @@ class PageState extends State<PageScreen> {
   String addressName = '';
   int deliveryPrice = 0;
 
-  List<MyAddressesModel> myAddressesModelList;
-  MyAddressesModel myAddressesModel;
+  List<MyFavouriteAddressesModel> myAddressesModelList;
+  MyFavouriteAddressesModel myAddressesModel;
 
   String image = 'assets/svg_images/dollar_bills.svg';
   String checkbox = 'assets/images/checkbox.png';
@@ -489,7 +489,7 @@ class PageState extends State<PageScreen> {
 }
 
 class AddressScreen extends StatefulWidget {
-  MyAddressesModel myAddressesModel;
+  MyFavouriteAddressesModel myAddressesModel;
 
   AddressScreen(
       {Key key, this.restaurant, this.myAddressesModel})
@@ -554,8 +554,8 @@ class AddressScreenState extends State<AddressScreen>
   String addressName = '';
   int deliveryPrice = 0;
 
-  List<MyAddressesModel> myAddressesModelList;
-  MyAddressesModel myAddressesModel;
+  List<MyFavouriteAddressesModel> myAddressesModelList;
+  MyFavouriteAddressesModel myAddressesModel;
 
   void _deleteButton(AutoComplete autoComplete) {
     showModalBottomSheet(

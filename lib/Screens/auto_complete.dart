@@ -24,6 +24,7 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
   @override
   bool get wantKeepAlive => true;
    VoidCallback onSelected;
+  DestinationPoints selectedValue;
 
 
   AutoCompleteDemoState(this.hint, this.controller, {this.onSelected});
@@ -39,33 +40,29 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
         necessaryAddressDataItems =
             (await loadNecessaryAddressData(name)).destinationPoints;
       } else {
-        // Вывод фаворитных адресов
-        List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
+        List<MyFavouriteAddressesModel> temp = await MyFavouriteAddressesModel.getAddresses();
         necessaryAddressDataItems = new List<DestinationPoints>();
-        // Бежим по фаворитным адресам
         for (int i = 0; i < temp.length; i++) {
           var element = temp[i];
-          // Получаем адрес с серва
           NecessaryAddressData necessaryAddressData =
-          await loadNecessaryAddressData(element.address);
-          // Если на серве есть такой адрес
-          if(necessaryAddressData.destinationPoints.length > 0){
-            necessaryAddressData.destinationPoints[0].comment = element.comment;
+          await loadNecessaryAddressData(element.address.unrestrictedValue);
+          if (necessaryAddressData.destinationPoints.length > 0) {
+            necessaryAddressData.destinationPoints[0].comment = temp[i].description;
             necessaryAddressData.destinationPoints[0].name = element.name;
             necessaryAddressDataItems
                 .add(necessaryAddressData.destinationPoints[0]);
-          }else{
+          } else {
             necessaryAddressDataItems.add(new DestinationPoints(
-                street: element.address, house: '', comment: temp[i].comment, name: element.name));
+                street: element.address.unrestrictedValue, house: '', comment: temp[i].description, name: temp[i].name));
           }
         }
-
-        // Вывод последних адресов
-        List<DestinationPoints> last_dp = await LastAddressesModel.getAddresses();
-        necessaryAddressDataItems.addAll(last_dp);
       }
+      // Вывод последних адресов
+      List<DestinationPoints> last_dp = await LastAddressesModel.getAddresses();
+      necessaryAddressDataItems.addAll(last_dp);
       print(necessaryAddressDataItems[0].unrestricted_value);
-    } catch (e) {
+    }
+    catch (e) {
       print("Error getting users.");
     } finally {
       return necessaryAddressDataItems;
@@ -149,6 +146,7 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
                 node.requestFocus();
                 print(controller.text.length);
                 controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
+                selectedValue = (suggestion as DestinationPoints);
                 if(onSelected != null){
                   onSelected();
                 }

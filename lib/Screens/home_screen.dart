@@ -822,7 +822,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) {
-    var processing = ['waiting_for_confirmation',
+    var processing = ['waiting_for_confirmation'
       ];
     var cooking_state = [
       'cooking',
@@ -832,7 +832,8 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
       'offer_rejected',
       'order_start',
       'on_place',
-      'transferred_to_store'
+      'transferred_to_store',
+      'order_accepted'
     ];
     var in_the_way = ['on_the_way'];
     var take = ['order_payment'];

@@ -13,10 +13,11 @@ class MyAddressesScreen extends StatefulWidget {
 }
 
 class MyAddressesScreenState extends State<MyAddressesScreen> {
-  List<MyAddressesModel> myAddressesModelList;
+  List<MyFavouriteAddressesModel> myAddressesModelList;
   GlobalKey<AutoCompleteDemoState> destinationPointsKey = new GlobalKey();
+  bool addressScreenButton = false;
 
-  void _deleteButton(MyAddressesModel myAddressesModel) {
+  void _deleteButton(MyFavouriteAddressesModel myAddressesModel) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -41,7 +42,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
         });
   }
 
-  _buildDeleteBottomNavigationMenu(MyAddressesModel myAddressesModel) {
+  _buildDeleteBottomNavigationMenu(MyFavouriteAddressesModel myAddressesModel) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Stack(
@@ -140,12 +141,9 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(builder: (context) {
-                        myAddressesModel.type = MyAddressesType.home;
-                        myAddressesModel.address = destinationPointsKey
-                            .currentState
-                            .searchTextField.textFieldConfiguration
-                            .controller
-                            .text;
+                        myAddressesModel.tag = "house";
+                        myAddressesModel.address = FavouriteAddress.fromDestinationPoint(destinationPointsKey
+                            .currentState.selectedValue);
                         return new AddMyAddressScreen(
                             myAddressesModel: myAddressesModel);
                       }),
@@ -167,15 +165,16 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
     // TODO: implement build
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        body: FutureBuilder<List<MyAddressesModel>>(
-          future: MyAddressesModel.getAddresses(),
+        body: FutureBuilder<List<MyFavouriteAddressesModel>>(
+          future: MyFavouriteAddressesModel.getAddresses(),
           builder: (BuildContext context,
-              AsyncSnapshot<List<MyAddressesModel>> snapshot) {
+              AsyncSnapshot<List<MyFavouriteAddressesModel>> snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               myAddressesModelList = snapshot.data;
-              if (myAddressesModelList.length == 0) {
+              if (myAddressesModelList.length == 0 || addressScreenButton) {
                 myAddressesModelList
-                    .add(new MyAddressesModel(type: MyAddressesType.empty));
+                    .add(new MyFavouriteAddressesModel(tag: null));
+                addressScreenButton = false;
               }
               return Column(
                 children: <Widget>[
@@ -223,10 +222,9 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                               )),
                           onTap: () async {
                             if (await Internet.checkConnection()) {
-                              myAddressesModelList.add(new MyAddressesModel(
-                                  type: MyAddressesType.empty));
-                              MyAddressesModel.saveData()
-                                  .then((value) => setState(() {}));
+                              setState(() {
+                                addressScreenButton = true;
+                              });
                             } else {
                               noConnection(context);
                             }
@@ -250,8 +248,8 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                     child: ListView(
                       children:
                       List.generate(myAddressesModelList.length, (index) {
-                        if (myAddressesModelList[index].type ==
-                            MyAddressesType.empty) {
+                        if (myAddressesModelList[index].tag ==
+                            null) {
                           return Column(
                             children: <Widget>[
                               GestureDetector(
@@ -322,7 +320,7 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                                     padding: EdgeInsets.only(
                                         left: 0, top: 10, bottom: 10),
                                     child: Text(
-                                        myAddressesModelList[index].address),
+                                        myAddressesModelList[index].address.unrestrictedValue),
                                   ),
                                   onTap: () async {
                                     if (await Internet.checkConnection()) {

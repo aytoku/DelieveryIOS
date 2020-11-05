@@ -428,7 +428,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       'on_place',
       'on_the_way',
       'order_payment',
-      'transferred_to_store'
+      'transferred_to_store',
+      'order_accepted'
     ];
     var not_cancel_state = [
       'cooking',
@@ -440,7 +441,8 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
       'on_place',
       'on_the_way',
       'order_payment',
-      'transferred_to_store'
+      'transferred_to_store',
+      'order_accepted'
     ];
     // TODO: implement build
     return Scaffold(
