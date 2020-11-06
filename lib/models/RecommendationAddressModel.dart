@@ -27,9 +27,12 @@ class RecommendationAddress {
     // Если что-то пошло не так, возвращаем пустой список
     if(jsonResponse == null)
       return addressesList;
-    // Иначе возвращаем заполненный
-    addressesList = jsonResponse.map<RecommendationAddressModel>((i) =>
-    (RecommendationAddressModel.fromJson(i))).toList();
+    // иначе возвращаем заполненный
+    addressesList = jsonResponse.map<RecommendationAddressModel>((i) {
+      RecommendationAddressModel item = RecommendationAddressModel.fromJson(i);
+      item.address.name = item.name; // Передаем имя в родительский класс (будет проще в плане полиморфизма)
+      return item;
+    }).toList();
     print("ваываыва");
     return addressesList;
   }
@@ -37,12 +40,12 @@ class RecommendationAddress {
 
 class RecommendationAddressModel {
   static const List<String> MyAddressesTags = ["work","house","study", null];
-  //FavouriteAddress address;
+  FavouriteAddress address;
   String name;
   String tag;
 
   RecommendationAddressModel( {
-    //this.address,
+    this.address,
     this.name,
     this.tag,
   });
@@ -50,14 +53,14 @@ class RecommendationAddressModel {
   Map<String, dynamic> toJson() => {
     "name": name,
     "tag": tag,
-    //"address": address.toJson(),
+    "address": address.toJson(),
   };
 
   factory RecommendationAddressModel.fromJson(Map<String, dynamic> parsedJson){
     return RecommendationAddressModel(
-      name: parsedJson["name"],
-      tag: parsedJson["tag"],
-      //address: FavouriteAddress.fromJson(parsedJson["address"])
+        name: parsedJson["name"],
+        tag: parsedJson["tag"],
+        address: FavouriteAddress.fromJson(parsedJson["address"])
     );
   }
 }

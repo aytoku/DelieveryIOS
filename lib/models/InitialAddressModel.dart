@@ -40,27 +40,27 @@ class InitialAddressModel{
   double lat;
   double lon;
   String comment;
-  String name;
+  String name; // Лишнее поле, для упрощения полиморфизма
 
   factory InitialAddressModel.fromJson(Map<String, dynamic> json) => InitialAddressModel(
-    unrestrictedValue: json["unrestricted_value"],
-    value: json["value"],
-    country: json["country"],
-    region: json["region"],
-    regionType: json["region_type"],
-    city: json["city"],
-    cityType: json["city_type"],
-    street: json["street"],
-    streetType: json["street_type"],
-    streetWithType: json["street_with_type"],
-    house: json["house"],
-    outOfTown: json["out_of_town"],
-    houseType: json["house_type"],
-    accuracyLevel: json["accuracy_level"],
-    radius: json["radius"],
-    lat: json["lat"].toDouble(),
-    lon: json["lon"].toDouble(),
-    comment: json["comment"]
+      unrestrictedValue: json["unrestricted_value"],
+      value: json["value"],
+      country: json["country"],
+      region: json["region"],
+      regionType: json["region_type"],
+      city: json["city"],
+      cityType: json["city_type"],
+      street: json["street"],
+      streetType: json["street_type"],
+      streetWithType: json["street_with_type"],
+      house: json["house"],
+      outOfTown: json["out_of_town"],
+      houseType: json["house_type"],
+      accuracyLevel: json["accuracy_level"],
+      radius: json["radius"],
+      lat: json["lat"].toDouble(),
+      lon: json["lon"].toDouble(),
+      comment: json["comment"]
   );
   Map<String, dynamic> toJson() => {
     "unrestricted_value": unrestrictedValue,
