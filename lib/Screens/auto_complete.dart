@@ -11,8 +11,7 @@ import 'device_id_screen.dart';
 class AutoComplete extends StatefulWidget {
   String hint;
   TextEditingController controller = new TextEditingController();
-   VoidCallback onSelected;
-
+  VoidCallback onSelected;
   AutoComplete(Key key, this.hint, {this.onSelected}) : super(key: key);
 
   @override
@@ -23,9 +22,7 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
   String hint;
   @override
   bool get wantKeepAlive => true;
-   VoidCallback onSelected;
-  DestinationPoints selectedValue;
-
+  VoidCallback onSelected;
 
   AutoCompleteDemoState(this.hint, this.controller, {this.onSelected});
   TextEditingController controller;
@@ -40,29 +37,33 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
         necessaryAddressDataItems =
             (await loadNecessaryAddressData(name)).destinationPoints;
       } else {
-        List<MyFavouriteAddressesModel> temp = await MyFavouriteAddressesModel.getAddresses();
+        // Вывод фаворитных адресов
+        List<MyAddressesModel> temp = await MyAddressesModel.getAddresses();
         necessaryAddressDataItems = new List<DestinationPoints>();
+        // Бежим по фаворитным адресам
         for (int i = 0; i < temp.length; i++) {
           var element = temp[i];
+          // Получаем адрес с серва
           NecessaryAddressData necessaryAddressData =
-          await loadNecessaryAddressData(element.address.unrestrictedValue);
-          if (necessaryAddressData.destinationPoints.length > 0) {
-            necessaryAddressData.destinationPoints[0].comment = temp[i].description;
+          await loadNecessaryAddressData(element.address);
+          // Если на серве есть такой адрес
+          if(necessaryAddressData.destinationPoints.length > 0){
+            necessaryAddressData.destinationPoints[0].comment = element.comment;
             necessaryAddressData.destinationPoints[0].name = element.name;
             necessaryAddressDataItems
                 .add(necessaryAddressData.destinationPoints[0]);
-          } else {
+          }else{
             necessaryAddressDataItems.add(new DestinationPoints(
-                street: element.address.unrestrictedValue, house: '', comment: temp[i].description, name: temp[i].name));
+                street: element.address, house: '', comment: temp[i].comment, name: element.name));
           }
         }
+
+        // Вывод последних адресов
+        List<DestinationPoints> last_dp = await LastAddressesModel.getAddresses();
+        necessaryAddressDataItems.addAll(last_dp);
       }
-      // Вывод последних адресов
-      List<DestinationPoints> last_dp = await LastAddressesModel.getAddresses();
-      necessaryAddressDataItems.addAll(last_dp);
       print(necessaryAddressDataItems[0].unrestricted_value);
-    }
-    catch (e) {
+    } catch (e) {
       print("Error getting users.");
     } finally {
       return necessaryAddressDataItems;
@@ -119,7 +120,6 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
                 ),
               ),
               suggestionsCallback: (pattern) async {
-                print('autocomplite');
                 return await getUsers(pattern);
               },
               keepSuggestionsOnSuggestionSelected: true,
@@ -146,7 +146,6 @@ class AutoCompleteDemoState extends State<AutoComplete> with AutomaticKeepAliveC
                 node.requestFocus();
                 print(controller.text.length);
                 controller.selection = TextSelection.fromPosition(TextPosition(offset: controller.text.length));
-                selectedValue = (suggestion as DestinationPoints);
                 if(onSelected != null){
                   onSelected();
                 }

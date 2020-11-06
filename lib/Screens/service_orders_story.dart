@@ -120,9 +120,9 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(12),
-          topRight: const Radius.circular(12),
-        )),
+              topLeft: const Radius.circular(12),
+              topRight: const Radius.circular(12),
+            )),
         context: context,
         builder: (context) {
           return Container(
@@ -143,9 +143,9 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(0),
-          topRight: const Radius.circular(0),
-        )),
+              topLeft: const Radius.circular(0),
+              topRight: const Radius.circular(0),
+            )),
         context: context,
         builder: (context) {
           return Container(
@@ -180,7 +180,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                       style: TextStyle(fontSize: 17),
                     ),
                   ),
-                  Row( 
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Padding(
@@ -353,7 +353,7 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                 return Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 30, bottom: 10),
+                      padding: EdgeInsets.only(top: 40, bottom: 10),
                       child: Stack(
                         children: <Widget>[
                           Align(

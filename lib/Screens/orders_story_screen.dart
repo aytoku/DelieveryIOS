@@ -111,9 +111,9 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(12),
-          topRight: const Radius.circular(12),
-        )),
+              topLeft: const Radius.circular(12),
+              topRight: const Radius.circular(12),
+            )),
         context: context,
         builder: (context) {
           return Container(
@@ -134,9 +134,9 @@ class OrdersStoryScreenState extends State<OrdersStoryScreen> {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(0),
-          topRight: const Radius.circular(0),
-        )),
+              topLeft: const Radius.circular(0),
+              topRight: const Radius.circular(0),
+            )),
         context: context,
         builder: (context) {
           return Container(

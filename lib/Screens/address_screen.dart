@@ -113,8 +113,8 @@ class PageState extends State<PageScreen> {
   String addressName = '';
   int deliveryPrice = 0;
 
-  List<MyFavouriteAddressesModel> myAddressesModelList;
-  MyFavouriteAddressesModel myAddressesModel;
+  List<MyAddressesModel> myAddressesModelList;
+  MyAddressesModel myAddressesModel;
 
   String image = 'assets/svg_images/dollar_bills.svg';
   String checkbox = 'assets/images/checkbox.png';
@@ -154,7 +154,7 @@ class PageState extends State<PageScreen> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 30, bottom: 10),
+                    padding: EdgeInsets.only(top: 40, bottom: 10),
                     child: Stack(
                       children: <Widget>[
                         Align(
@@ -353,7 +353,7 @@ class PageState extends State<PageScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: EdgeInsets.only(bottom: 20, left: 15, right: 15, top: 10),
+                padding: EdgeInsets.only(bottom: 25, left: 15, right: 15, top: 10),
                 child: FlatButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -489,7 +489,7 @@ class PageState extends State<PageScreen> {
 }
 
 class AddressScreen extends StatefulWidget {
-  MyFavouriteAddressesModel myAddressesModel;
+  MyAddressesModel myAddressesModel;
 
   AddressScreen(
       {Key key, this.restaurant, this.myAddressesModel})
@@ -527,10 +527,10 @@ class AddressScreenState extends State<AddressScreen>
     _color = true;
     destinationPointsKey = new GlobalKey();
     autoComplete = new AutoComplete(destinationPointsKey, 'Введите адрес', onSelected:() {
-    addressField.text = destinationPointsKey.currentState
-        .searchTextField.textFieldConfiguration.controller
-        .text;
-    Navigator.pop(context);
+      addressField.text = destinationPointsKey.currentState
+          .searchTextField.textFieldConfiguration.controller
+          .text;
+      Navigator.pop(context);
     },);
   }
 
@@ -554,8 +554,8 @@ class AddressScreenState extends State<AddressScreen>
   String addressName = '';
   int deliveryPrice = 0;
 
-  List<MyFavouriteAddressesModel> myAddressesModelList;
-  MyFavouriteAddressesModel myAddressesModel;
+  List<MyAddressesModel> myAddressesModelList;
+  MyAddressesModel myAddressesModel;
 
   void _deleteButton(AutoComplete autoComplete) {
     showModalBottomSheet(
