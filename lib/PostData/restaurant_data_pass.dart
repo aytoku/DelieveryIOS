@@ -9,7 +9,7 @@ Future<DeliveryResponseData> loadRestaurant(int page, int limit) async {
   var json_request = jsonEncode({
     "type": "restaurant",
     "page": page,
-    "limit": limit
+    "limit": limit,
   });
   var url = 'https://crm.apis.stage.faem.pro/api/v2/stores';
   var response = await http.post(url, body: json_request, headers: <String, String>{
