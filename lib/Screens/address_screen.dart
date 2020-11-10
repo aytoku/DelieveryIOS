@@ -9,6 +9,7 @@ import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'auto_complete.dart';
 import 'auto_complete.dart';
 import 'auto_complete.dart';
@@ -30,6 +31,7 @@ class PageScreen extends StatefulWidget {
 
 class PageState extends State<PageScreen> {
   final Records restaurant;
+  bool _color = false;
 
   PageState(this.restaurant);
 
@@ -45,6 +47,112 @@ class PageState extends State<PageScreen> {
   @override
   void initState() {
     super.initState();
+    final flutterWebViewPlugin = new FlutterWebviewPlugin();
+
+    flutterWebViewPlugin.onStateChanged.listen((WebViewStateChanged event) {
+      
+    });
+    flutterWebViewPlugin.onUrlChanged.listen((String url) {
+
+      print(url);
+    });
+  }
+
+
+   _payment() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
+            )),
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 120,
+            child: _buildPaymentBottomNavigationMenu(),
+            decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(20),
+                  topRight: const Radius.circular(20),
+                )),
+          );
+        });
+  }
+
+  _buildPaymentBottomNavigationMenu() {
+    return Container(
+      height: 120,
+      child: Column(
+        children: [
+          InkWell(
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SvgPicture.asset(cash_image),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text(
+                      cash,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: (selectedPaymentId == 1) ? SvgPicture.asset('assets/svg_images/pay_circle.svg') : SvgPicture.asset('assets/svg_images/accessed_pay_circle.svg'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+              onTap: ()=>_selectItem("Наличными")
+          ),
+          InkWell(
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SvgPicture.asset(card_image),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text(
+                      card,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: (selectedPaymentId == 0) ? SvgPicture.asset('assets/svg_images/pay_circle.svg') : SvgPicture.asset('assets/svg_images/accessed_pay_circle.svg'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            onTap: ()=>_selectItem("Картой")
+          ),
+        ],
+      ),
+    );
   }
 
   showAlertDialog(BuildContext context) {
@@ -106,6 +214,16 @@ class PageState extends State<PageScreen> {
     );
   }
 
+  void _selectItem(String name) {
+    Navigator.pop(context);
+    setState(() {
+      if(name.toLowerCase() == "наличными")
+        selectedPaymentId = 0;
+      else
+        selectedPaymentId = 1;
+    });
+  }
+
 
   int selectedPageId = 0;
   GlobalKey<TakeAwayState> takeAwayScreenKey = new GlobalKey<TakeAwayState>();
@@ -114,9 +232,23 @@ class PageState extends State<PageScreen> {
   List<MyFavouriteAddressesModel> myAddressesModelList;
   MyFavouriteAddressesModel myAddressesModel;
 
-  String image = 'assets/svg_images/dollar_bills.svg';
-  String checkbox = 'assets/images/checkbox.png';
-  String title = 'Наличными';
+  String cash_image = 'assets/svg_images/dollar_bills.svg';
+  String card_image = 'assets/svg_images/visa.svg';
+  String cash = 'Наличными';
+  String card = 'Картой';
+  int selectedPaymentId = 0;
+
+  _cardPayment(double totalPrice){
+    Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (context) => WebviewScaffold(
+              url: 'https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice',
+              withZoom: true,
+              withLocalStorage: true,
+              hidden: true,
+              )),
+            );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -310,43 +442,39 @@ class PageState extends State<PageScreen> {
                 ),
               ],
             ),
-            Row(
-              children: <Widget>[
-                GestureDetector(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20, bottom: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          child: Row(
-                            children: <Widget>[
-                              SvgPicture.asset(image),
-                              Padding(
-                                padding: EdgeInsets.only(left: 15),
-                                child: Text(
-                                  title,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black),
-                                ),
-                              ),
-                            ],
+            GestureDetector(
+              child: Padding(
+                padding: EdgeInsets.only(left: 20, bottom: 5),
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      (selectedPaymentId == 1) ? SvgPicture.asset(card_image) : SvgPicture.asset(cash_image),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Text(
+                          (selectedPaymentId == 1) ? card : cash,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black),
+                        ),
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 15),
+                            child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
                           ),
                         ),
-//                            Align(
-//                              alignment: Alignment.centerRight,
-//                              child: Padding(
-//                                padding: EdgeInsets.only(left: 200),
-//                                child: SvgPicture.asset('assets/svg_images/arrow_right.svg'),
-//                              ),
-//                            )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                )
-              ],
+                ),
+              ),
+              onTap: () async {
+                _payment();
+              },
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -436,10 +564,15 @@ class PageState extends State<PageScreen> {
                                 .text,
                             cartDataModel: currentUser.cartDataModel,
                             restaurant: restaurant,
-                            payment_type: 'cash',
+                            payment_type: (selectedPaymentId == 1) ? 'card' : 'cash',
                             door_to_door: addressScreenKey.currentState.status1,
                           );
+                          if(selectedPaymentId == 1){
+                            _cardPayment(totalPrice);
+                          }
+                          print('Payment');
                           await createOrder.sendData();
+                          //return;
                         } else if (takeAwayScreenKey.currentState != null) {
                           CreateOrderTakeAway createOrderTakeAway =
                           new CreateOrderTakeAway(
@@ -451,7 +584,7 @@ class PageState extends State<PageScreen> {
                           await createOrderTakeAway.sendData();
                         }
                         else{
-                          print('All go po pantsu');
+                          print('All go');
                         }
                         currentUser.cartDataModel.cart.clear();
                         currentUser.cartDataModel.saveData();
@@ -466,15 +599,6 @@ class PageState extends State<PageScreen> {
                     } else {
                       noConnection(context);
                     }
-//                        final snackBar = SnackBar(
-//                          content: Text('Yay! A SnackBar!'),
-//                          action: SnackBarAction(
-//                            label: 'Undo',
-//                            onPressed: () {
-//                              // Some code to undo the change.
-//                            },
-//                          ),
-//                        );
                   },
                 ),
               ),
@@ -560,7 +684,7 @@ class AddressScreenState extends State<AddressScreen>
   List<MyFavouriteAddressesModel> myAddressesModelList;
   MyFavouriteAddressesModel myAddressesModel;
 
-  void _deleteButton(AutoComplete autoComplete) {
+  void _autocomplete(AutoComplete autoComplete) {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -574,7 +698,7 @@ class AddressScreenState extends State<AddressScreen>
           return Container(
               height: MediaQuery.of(context).size.height * 0.8,
               child: Container(
-                child: _buildDeleteBottomNavigationMenu(autoComplete),
+                child: _buildAutocompleteBottomNavigationMenu(autoComplete),
                 decoration: BoxDecoration(
                     color: Theme.of(context).canvasColor,
                     borderRadius: BorderRadius.only(
@@ -585,7 +709,7 @@ class AddressScreenState extends State<AddressScreen>
         });
   }
 
-  _buildDeleteBottomNavigationMenu(AutoComplete autoComplete) {
+  _buildAutocompleteBottomNavigationMenu(AutoComplete autoComplete) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Stack(
@@ -704,7 +828,7 @@ class AddressScreenState extends State<AddressScreen>
                           autoComplete.controller
                               .text = addressField.text;
                         }
-                        _deleteButton(autoComplete);
+                        _autocomplete(autoComplete);
                       },
                       focusNode: focusNode,
                       decoration: new InputDecoration(
@@ -1004,19 +1128,13 @@ class AddressScreenState extends State<AddressScreen>
             style: TextStyle(color: Colors.black),
           ),
           trailing: SvgPicture.asset('assets/svg_images/circle.svg'),
-          onTap: () => _selectItem("Наличными"),
+          //onTap: () => _selectItem("Наличными"),
         ),
       ],
     );
   }
 
-  void _selectItem(String name) {
-    Navigator.pop(context);
-//    setState(() {
-//      title = name;
-//      //image = image_name;
-//    });
-  }
+
 
   Widget _buildTextFormField(String hint, {int maxLine = 1}) {
     return TextFormField(

@@ -25,6 +25,8 @@ import 'auth_screen.dart';
 import 'infromation_screen.dart';
 import 'my_addresses_screen.dart';
 import 'orders_story_screen.dart';
+import 'payments_methods_screen.dart';
+import 'payments_methods_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: homeScreenKey);
@@ -344,17 +346,23 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-//              ListTile(
-//                title: Text('Способы оплаты'),
-//                onTap: (){
-//                  Navigator.push(
-//                    context,
-//                    new MaterialPageRoute(
-//                      builder: (context) => new PaymentsMethodsScreen(),
-//                    ),
-//                  );
-//                },
-//              ),
+             // ListTile(
+             //   title: Text('Способы оплаты',
+             //   style: TextStyle(
+             //       fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45)),
+             //   onTap: () async {
+             //     if (await Internet.checkConnection()) {
+             //       Navigator.push(
+             //         context,
+             //         new MaterialPageRoute(
+             //           builder: (context) => new PaymentsMethodsScreen(),
+             //         ),
+             //       );
+             //     } else {
+             //       noConnection(context);
+             //     }
+             //   },
+             // ),
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
