@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
@@ -9,10 +11,9 @@ import 'package:flutter_app/models/my_addresses_model.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'auto_complete.dart';
-import 'auto_complete.dart';
-import 'auto_complete.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import '../models/CreateModelTakeAway.dart';
+import '../models/CreateOrderModel.dart';
 import 'auto_complete.dart';
 import 'home_screen.dart';
 
@@ -32,6 +33,8 @@ class PageScreen extends StatefulWidget {
 class PageState extends State<PageScreen> {
   final Records restaurant;
   bool _color = false;
+  CreateOrder createOrder;
+  CreateOrderTakeAway createOrderTakeAway;
 
   PageState(this.restaurant);
 
@@ -47,17 +50,43 @@ class PageState extends State<PageScreen> {
   @override
   void initState() {
     super.initState();
-    final flutterWebViewPlugin = new FlutterWebviewPlugin();
-
-    flutterWebViewPlugin.onStateChanged.listen((WebViewStateChanged event) {
-      
-    });
-    flutterWebViewPlugin.onUrlChanged.listen((String url) {
-
-      print(url);
-    });
   }
 
+
+  showPaymentAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 0),
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            child: Container(
+                height: 100,
+                width: 320,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, top: 20, bottom: 20),
+                      child: Text(
+                        'Ошибка при оплате',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
+                    ),
+                    Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
 
    _payment() {
     showModalBottomSheet(
@@ -240,14 +269,67 @@ class PageState extends State<PageScreen> {
 
   _cardPayment(double totalPrice){
     Navigator.of(context).push(
-        MaterialPageRoute(
-            builder: (context) => WebviewScaffold(
-              url: 'https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice',
-              withZoom: true,
-              withLocalStorage: true,
-              hidden: true,
-              )),
-            );
+      MaterialPageRoute(
+          builder: (context) => WebView(
+            initialUrl: "https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice",
+            javascriptMode: JavascriptMode.unrestricted,
+            onWebViewCreated: (WebViewController webController){
+              Timer _timer;
+
+              // Врубаем таймер
+              const oneSec = const Duration(seconds: 1);
+              _timer = new Timer.periodic(
+                oneSec, (Timer timer) async {
+                  try{
+
+                    // Получем текущий урл
+                    String url = await webController.currentUrl();
+                    print(url);
+
+                    if(url == 'https://delivery-stage.faem.ru/payment-widget.html?status=success'){
+                      if(selectedPageId == 0)
+                        await createOrder.sendData();
+                      else
+                        await createOrderTakeAway.sendData();
+                      currentUser.cartDataModel.cart.clear();
+                      currentUser.cartDataModel.saveData();
+                      homeScreenKey = new GlobalKey<HomeScreenState>();
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false);
+                      _timer.cancel();
+                    }else if(url == 'https://delivery-stage.faem.ru/payment-widget.html?status=fail'){
+                      Navigator.pop(context);
+                      // Выводим ошибку
+                      showPaymentAlertDialog(context);
+                      // Задержка окна
+                      await Future.delayed(Duration(seconds: 2), () {
+                        Navigator.of(context).pop(true);
+                      });
+                      _timer.cancel();
+                    }
+
+                  }
+                  catch(e){
+                    _timer.cancel();
+                  }
+                },
+              );
+            },
+          ))
+    );
+
+
+    // Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //         builder: (context) => WebviewScaffold(
+    //           url: 'https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice',
+    //           withZoom: true,
+    //           withLocalStorage: true,
+    //           hidden: true,
+    //           )),
+    //         );
   }
 
   @override
@@ -548,9 +630,11 @@ class PageState extends State<PageScreen> {
                         Center(
                           child: CircularProgressIndicator(),
                         );
-                        showAlertDialog(context);
+                        if(selectedPaymentId != 1){
+                          showAlertDialog(context);
+                        }
                         if(selectedPageId == 0 && addressScreenKey.currentState != null) {
-                          CreateOrder createOrder = new CreateOrder(
+                           createOrder = new CreateOrder(
                             address: addressScreenKey.currentState.selectedAddress,
                             restaurantAddress: addressScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                             office: addressScreenKey.currentState.officeField
@@ -569,18 +653,21 @@ class PageState extends State<PageScreen> {
                           );
                           if(selectedPaymentId == 1){
                             _cardPayment(totalPrice);
+                            return;
                           }
                           print('Payment');
                           await createOrder.sendData();
-                          //return;
                         } else if (takeAwayScreenKey.currentState != null) {
-                          CreateOrderTakeAway createOrderTakeAway =
+                          createOrderTakeAway =
                           new CreateOrderTakeAway(
                               comment: (takeAwayScreenKey.currentState.status1) ? "Поем в заведении" : takeAwayScreenKey.currentState.comment,
                               cartDataModel: currentUser.cartDataModel,
                               restaurantAddress: takeAwayScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                               without_delivery: true,
                               restaurant: restaurant);
+                          if(selectedPaymentId == 1){
+                            _cardPayment(totalPrice);
+                          }
                           await createOrderTakeAway.sendData();
                         }
                         else{
