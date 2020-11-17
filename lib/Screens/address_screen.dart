@@ -88,7 +88,7 @@ class PageState extends State<PageScreen> {
     );
   }
 
-   _payment() {
+  _payment() {
     showModalBottomSheet(
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
@@ -118,66 +118,66 @@ class PageState extends State<PageScreen> {
       child: Column(
         children: [
           InkWell(
-            child: Padding(
-              padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SvgPicture.asset(cash_image),
-                  Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Text(
-                      cash,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: (selectedPaymentId == 1) ? SvgPicture.asset('assets/svg_images/pay_circle.svg') : SvgPicture.asset('assets/svg_images/accessed_pay_circle.svg'),
+              child: Padding(
+                padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SvgPicture.asset(cash_image),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        cash,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
                     ),
-                  )
-                ],
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 15),
+                          child: (selectedPaymentId == 1) ? SvgPicture.asset('assets/svg_images/pay_circle.svg') : SvgPicture.asset('assets/svg_images/accessed_pay_circle.svg'),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
               onTap: ()=>_selectItem("Наличными")
           ),
           InkWell(
-            child: Padding(
-              padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SvgPicture.asset(card_image),
-                  Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Text(
-                      card,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: (selectedPaymentId == 0) ? SvgPicture.asset('assets/svg_images/pay_circle.svg') : SvgPicture.asset('assets/svg_images/accessed_pay_circle.svg'),
+              child: Padding(
+                padding: EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SvgPicture.asset(card_image),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        card,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
                     ),
-                  )
-                ],
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 15),
+                          child: (selectedPaymentId == 0) ? SvgPicture.asset('assets/svg_images/pay_circle.svg') : SvgPicture.asset('assets/svg_images/accessed_pay_circle.svg'),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            onTap: ()=>_selectItem("Картой")
+              onTap: ()=>_selectItem("Картой")
           ),
         ],
       ),
@@ -269,17 +269,17 @@ class PageState extends State<PageScreen> {
 
   _cardPayment(double totalPrice){
     Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (context) => WebView(
-            initialUrl: "https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice",
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webController){
-              Timer _timer;
+        MaterialPageRoute(
+            builder: (context) => WebView(
+              initialUrl: "https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice",
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webController){
+                Timer _timer;
 
-              // Врубаем таймер
-              const oneSec = const Duration(seconds: 1);
-              _timer = new Timer.periodic(
-                oneSec, (Timer timer) async {
+                // Врубаем таймер
+                const oneSec = const Duration(seconds: 1);
+                _timer = new Timer.periodic(
+                  oneSec, (Timer timer) async {
                   try{
 
                     // Получем текущий урл
@@ -287,6 +287,7 @@ class PageState extends State<PageScreen> {
                     print(url);
 
                     if(url == 'https://delivery-stage.faem.ru/payment-widget.html?status=success'){
+                      _timer.cancel();
                       if(selectedPageId == 0)
                         await createOrder.sendData();
                       else
@@ -315,21 +316,10 @@ class PageState extends State<PageScreen> {
                     _timer.cancel();
                   }
                 },
-              );
-            },
-          ))
+                );
+              },
+            ))
     );
-
-
-    // Navigator.of(context).push(
-    //     MaterialPageRoute(
-    //         builder: (context) => WebviewScaffold(
-    //           url: 'https://delivery-stage.faem.ru/payment-widget.html?amount=$totalPrice',
-    //           withZoom: true,
-    //           withLocalStorage: true,
-    //           hidden: true,
-    //           )),
-    //         );
   }
 
   @override
@@ -634,7 +624,7 @@ class PageState extends State<PageScreen> {
                           showAlertDialog(context);
                         }
                         if(selectedPageId == 0 && addressScreenKey.currentState != null) {
-                           createOrder = new CreateOrder(
+                          createOrder = new CreateOrder(
                             address: addressScreenKey.currentState.selectedAddress,
                             restaurantAddress: addressScreenKey.currentState.destinationPointsSelectorStateKey.currentState.selectedDestinationPoint,
                             office: addressScreenKey.currentState.officeField
@@ -667,6 +657,7 @@ class PageState extends State<PageScreen> {
                               restaurant: restaurant);
                           if(selectedPaymentId == 1){
                             _cardPayment(totalPrice);
+                            return;
                           }
                           await createOrderTakeAway.sendData();
                         }
