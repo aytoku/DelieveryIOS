@@ -277,7 +277,7 @@ class PageState extends State<PageScreen> {
                 Timer _timer;
 
                 // Врубаем таймер
-                const oneSec = const Duration(seconds: 1);
+                const oneSec = const Duration(seconds: 1); 
                 _timer = new Timer.periodic(
                   oneSec, (Timer timer) async {
                   try{
