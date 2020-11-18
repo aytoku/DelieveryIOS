@@ -539,7 +539,7 @@ class _CartScreenState extends State<CartScreen> {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding:
-                  EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 15),
+                  EdgeInsets.only(top: 15, right: 15, left: 15, bottom: 20),
                   child: FlatButton(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

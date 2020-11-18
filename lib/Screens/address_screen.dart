@@ -277,7 +277,7 @@ class PageState extends State<PageScreen> {
                 Timer _timer;
 
                 // Врубаем таймер
-                const oneSec = const Duration(seconds: 1); 
+                const oneSec = const Duration(seconds: 1);
                 _timer = new Timer.periodic(
                   oneSec, (Timer timer) async {
                   try{
@@ -356,7 +356,7 @@ class PageState extends State<PageScreen> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 30, bottom: 10),
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05, bottom: 10),
                     child: Stack(
                       children: <Widget>[
                         Align(
