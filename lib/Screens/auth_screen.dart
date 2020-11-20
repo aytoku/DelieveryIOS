@@ -216,17 +216,6 @@ class _AuthScreenState extends State<AuthScreen> {
           ],
         ));
   }
-
-  String validateMobile(String value) {
-    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
-    RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
-      return 'Укажите норер';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Указан неверный номер';
-    }
-    return null;
-  }
 }
 
 class Button extends StatefulWidget {
@@ -246,12 +235,21 @@ class ButtonState extends State<Button> {
 
   ButtonState(this.color);
 
+  String validateMobile(String value) {
+    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
+    RegExp regExp = new RegExp(pattern);
+    if (value.length == 0) {
+      return 'Укажите норер';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Указан неверный номер';
+    }
+    return null;
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-//    if(){
-//
-//    }
     return FlatButton(
       child: Text('Далее',
           style: TextStyle(
@@ -313,16 +311,5 @@ class ButtonState extends State<Button> {
         }
       },
     );
-  }
-
-  String validateMobile(String value) {
-    String pattern = r'(^(?:[+]?7)[0-9]{10}$)';
-    RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
-      return 'Укажите норер';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Указан неверный номер';
-    }
-    return null;
   }
 }

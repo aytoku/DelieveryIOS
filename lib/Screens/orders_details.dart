@@ -538,54 +538,10 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                                   color: Color(0xFFFE534F),
                                   fontWeight: FontWeight.bold),
                             ),
-//                          TextSpan(
-//                              text: 'Заберу с собой',
-//                              style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0))
-//                          )
                           ]),
                     ),
                   ),
                 ),
-//              Align(
-//                alignment: Alignment.centerRight,
-//                child: Container(
-//                  child: Row(
-//                    children: <Widget>[
-//                      Flexible(
-//                        child: Container(
-//                          child: Padding(
-//                            padding: EdgeInsets.only(left: 170, top: 15),
-//                            child: Text('Статус заказа: ' + ordersStoryModelItem.state_title,
-//                              style: TextStyle(fontSize: 14, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
-//                              textAlign: TextAlign.start,
-//                              maxLines: 2,
-//                            ),
-//                          ),
-//                        ),
-//                      )
-////                      Flexible(
-////                        child: Container(
-////                          child: Padding(
-////                            padding: EdgeInsets.only(top: 15, left: 5, right: 5),
-////                            child: Text(ordersStoryModelItem.state_title, style: TextStyle(fontSize: 14, color: Color(0xFFFE534F), fontWeight: FontWeight.bold),
-////                              //overflow: TextOverflow.ellipsis,
-////                              maxLines: 2,
-////                              textAlign: TextAlign.start,
-////                            ),
-////                          ),
-////                        ),
-////                      )
-//                    ],
-//                  ),
-//                )
-//              ),
-//              Align(
-//                alignment: Alignment.centerRight,
-//                child: Padding(
-//                  padding: EdgeInsets.only(right: 105, top: 35),
-//                  child: Text('Заберу с собой', style: TextStyle(fontSize: 12, color: Color(0xFFB0B0B0)),),
-//                ),
-//              ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -624,110 +580,90 @@ class OrdersDetailsScreenState extends State<OrdersDetailsScreen> {
                 children: _buildListItems(),
               ),
             ),
-            Stack(
-              children: <Widget>[
-//              Padding(
-//                  padding: EdgeInsets.only(left: 20, bottom: 20),
-//                  child: GestureDetector(
-//                    child: Container(
-//                        height: 50,
-//                        width: 100,
-//                        decoration: BoxDecoration(
-//                          color: Color(0xF3F3F3F3),
-//                          borderRadius: BorderRadius.circular(50.0),
-//                        ),
-//                        child: Center(
-//                          child: Text('Чек', style: TextStyle(color: Color(0x69696969), fontSize: 15),),
-//                        )
-//                    ),
-//                  )
-//              ),
-                Center(
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 20, bottom: 20, right: 0),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: (!state_array.contains(ordersStoryModelItem.state)) ? GestureDetector(
-                          child: Container(
-                              height: 50,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFFE534F),
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Повторить заказ',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
-                              Records restaurant = ordersStoryModelItem.store;
-                              currentUser.cartDataModel.cart.clear();
-                              ordersStoryModelItem.products
-                                  .forEach((FoodRecordsStory element) {
-                                FoodRecords foodItem =
-                                FoodRecords.fromFoodRecordsStory(element);
-                                Order order = new Order(
-                                    restaurant: restaurant,
-                                    food: foodItem,
-                                    date: DateTime.now().toString(),
-                                    quantity: element.number,
-                                    isSelected: false);
-                                currentUser.cartDataModel.cart.add(order);
-                              });
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(builder: (context) {
-                                  return new CartScreen(restaurant: restaurant);
-                                }),
-                              );
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                        ) : (!not_cancel_state.contains(ordersStoryModelItem.state)) ?  GestureDetector(
-                          child: Container(
-                              height: 50,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFFE534F),
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Отменить',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
-                          onTap: () async {
-                            if (await Internet.checkConnection()) {
+            Center(
+              child: Padding(
+                  padding: EdgeInsets.only(top: 20, bottom: 20, right: 0),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: (!state_array.contains(ordersStoryModelItem.state)) ? GestureDetector(
+                      child: Container(
+                          height: 50,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFE534F),
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Повторить заказ',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                      onTap: () async {
+                        if (await Internet.checkConnection()) {
+                          Records restaurant = ordersStoryModelItem.store;
+                          currentUser.cartDataModel.cart.clear();
+                          ordersStoryModelItem.products
+                              .forEach((FoodRecordsStory element) {
+                            FoodRecords foodItem =
+                            FoodRecords.fromFoodRecordsStory(element);
+                            Order order = new Order(
+                                restaurant: restaurant,
+                                food: foodItem,
+                                date: DateTime.now().toString(),
+                                quantity: element.number,
+                                isSelected: false);
+                            currentUser.cartDataModel.cart.add(order);
+                          });
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(builder: (context) {
+                              return new CartScreen(restaurant: restaurant);
+                            }),
+                          );
+                        } else {
+                          noConnection(context);
+                        }
+                      },
+                    ) : (!not_cancel_state.contains(ordersStoryModelItem.state)) ?  GestureDetector(
+                      child: Container(
+                          height: 50,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFFE534F),
+                            borderRadius: BorderRadius.circular(50.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Отменить',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          )),
+                      onTap: () async {
+                        if (await Internet.checkConnection()) {
 //                          if(not_cancel_state.contains(ordersStoryModelItem.state)){
 //                            showNoCancelAlertDialog(context);
 //                            return;
 //                          }
-                              showAlertDialog(context);
-                              await loadOrderCancel(ordersStoryModelItem.uuid);
-                              homeScreenKey = new GlobalKey();
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
-                                      (Route<dynamic> route) => false);
-                            } else {
-                              noConnection(context);
-                            }
-                          },
-                        ): Container(),
-                      )),
-                )
-              ],
+                          showAlertDialog(context);
+                          await loadOrderCancel(ordersStoryModelItem.uuid);
+                          homeScreenKey = new GlobalKey();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()),
+                                  (Route<dynamic> route) => false);
+                        } else {
+                          noConnection(context);
+                        }
+                      },
+                    ): Container(),
+                  )),
             )
           ],
         ));

@@ -499,20 +499,6 @@ class RestaurantScreenState extends State<RestaurantScreen> {
               crossAxisSpacing: 8.0,
             )
           ),
-          // Expanded(
-          //     child:  GridView.count(
-          //       padding: EdgeInsets.only(left: 10.0, right: 10, bottom: 0),
-          //       crossAxisCount: 2,
-          //       mainAxisSpacing: 8.0,
-          //       crossAxisSpacing: 10.0,
-          //       childAspectRatio: 0.65,
-          //       controller: foodScrollController,
-          //       children: List.generate(food_menu_items.length, (index) {
-          //         // Выводим итем хавки
-          //         return food_menu_items[index];
-          //       }),
-          //     )
-          // ),
           BasketButton(
               key: basketButtonStateKey, restaurant: restaurant),
         ],
@@ -613,7 +599,7 @@ class MenuItemTitleState extends State<MenuItemTitle> with AutomaticKeepAliveCli
 
   @override
   Widget build(BuildContext context) {
-    return Text(title,
+    return Text(title[0].toUpperCase() + title.substring(1),
       style: TextStyle(
           color: Color(0xFF424242),
           fontSize: 21,
@@ -1264,7 +1250,7 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
                 padding: EdgeInsets.only(left: 15, right: 15),
                 child: Center(
                   child: Text(
-                    value,
+                    value[0].toUpperCase() + value.substring(1),
                     style: TextStyle(
                         color: (value != categoryList.currentCategory)
                             ? Color(0xFF424242)
@@ -1597,19 +1583,6 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                   ]),
                 ),
               )),
-//          Expanded(
-//            child: ListView(
-//              scrollDirection: Axis.vertical,
-//              children: List.generate(food_records_items.length, (index){
-//                return Row(
-//                  children: <Widget>[
-//                    (food_records_items[index].variants != null) ? Text(food_records_items[index].variants[index].name) : Container(),
-//                  ],
-//                );
-//              },
-//              ),
-//            ),
-//          ),
           Container(
             margin: EdgeInsets.only(right: 0.0, top: 10, bottom: 12),
             child: Column(

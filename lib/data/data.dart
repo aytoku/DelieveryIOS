@@ -7,7 +7,6 @@ import 'package:flutter_app/Screens/tickets_chat_screen.dart';
 import 'package:flutter_app/models/Auth.dart';
 import 'package:flutter_app/models/AuthCode.dart';
 import 'package:flutter_app/models/RestaurantDataItems.dart';
-import 'package:flutter_app/models/addCardScreen.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -39,9 +38,6 @@ var DeliveryStates = [
   'order_payment'
 ];
 
-final addCart = AddCart(
-  imageUrl: 'assets/images/restaurant1.jpg',
-  name: 'Sandwich Street',);
 
 // User
 final currentUser = User(

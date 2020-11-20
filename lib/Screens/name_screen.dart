@@ -94,26 +94,6 @@ class NameScreenState extends State<NameScreen> {
                                       border: InputBorder.none,
                                       counterText: '',
                                     ),
-//                                    onChanged: (String value) async {
-//                                      //necessaryDataForAuth.name = value;
-//                                      if (value.length > 0 &&
-//                                          buttonStateKey.currentState.color !=
-//                                              Color(0xFFFE534F)) {
-//                                        buttonStateKey.currentState
-//                                            .setState(() {
-//                                          buttonStateKey.currentState.color =
-//                                              Color(0xFFFE534F);
-//                                        });
-//                                      } else if (value.length == 0 &&
-//                                          buttonStateKey.currentState.color !=
-//                                              Color(0xFFF3F3F3)) {
-//                                        buttonStateKey.currentState
-//                                            .setState(() {
-//                                          buttonStateKey.currentState.color =
-//                                              Color(0xFFF3F3F3);
-//                                        });
-//                                      }
-//                                    },
                                   ),
                                 )),
                           ),
@@ -144,8 +124,6 @@ class NameScreenState extends State<NameScreen> {
                                   necessaryDataForAuth.name = nameFieldController.text;
                                   currentUser.isLoggedIn = true;
                                   await NecessaryDataForAuth.saveData();
-//                                  await new FirebaseNotifications()
-//                                      .setUpFirebase();
                                   print(necessaryDataForAuth.name);
                                   homeScreenKey =
                                       new GlobalKey<HomeScreenState>();
@@ -188,36 +166,10 @@ class ButtonState extends State<Button> {
 
   ButtonState(this.color, {this.onTap});
 
-  noConnection(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.of(context).pop(true);
-        });
-        return Center(
-          child: Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-            child: Container(
-              height: 50,
-              width: 100,
-              child: Center(
-                child: Text("Нет подключения к интернету"),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-//    if(){
-//
-//    }
     return FlatButton(
       child: Text('Далее',
           style: TextStyle(

@@ -78,7 +78,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     super.dispose();
   }
 
-  _buildNearlyRestaurant() {
+  _buildRestaurantsList() {
     DateTime now = DateTime.now();
     int currentTime = now.hour*60+now.minute;
     print((currentTime/60).toString() + 'KANTENT');
@@ -262,9 +262,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) {
-//                    if(currentUser.cartDataModel.cart.length > 0 && currentUser.cartDataModel.cart[0].restaurant.uuid != restaurant.uuid){
-//                      currentUser.cartDataModel.cart.clear();
-//                    }
                   return RestaurantScreen(restaurant: restaurant);
                 }),
               );
@@ -346,23 +343,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             },
           ),
         ),
-             // ListTile(
-             //   title: Text('Способы оплаты',
-             //   style: TextStyle(
-             //       fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45)),
-             //   onTap: () async {
-             //     if (await Internet.checkConnection()) {
-             //       Navigator.push(
-             //         context,
-             //         new MaterialPageRoute(
-             //           builder: (context) => new PaymentsMethodsScreen(),
-             //         ),
-             //       );
-             //     } else {
-             //       noConnection(context);
-             //     }
-             //   },
-             // ),
         ListTile(
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -417,21 +397,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                     style: TextStyle(
                         fontSize: 17, color: Color(0xFF424242), letterSpacing: 0.45),
                   ),
-//                FutureBuilder(
-//                  future: TicketsList.hasNewMessage(),
-//                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                    if(snapshot.connectionState == ConnectionState.done && snapshot.data != null && snapshot.data){
-//                      return Align(
-//                        alignment: Alignment.topRight,
-//                        child: Padding(
-//                          padding: EdgeInsets.only(right: 90, bottom: 2),
-//                          child: SvgPicture.asset('assets/svg_images/chat_circle.svg'),
-//                        ),
-//                      );
-//                    }
-//                    return Container(height: 0);
-//                  },
-//                ),
                 ],
               )
           ),
@@ -448,17 +413,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
             }
           },
         ),
-//              ListTile(
-//                title: Text('Настройки'),
-//                onTap: (){
-//                  Navigator.push(
-//                    context,
-//                    new MaterialPageRoute(
-//                      builder: (context) => new SettingsScreen(),
-//                    ),
-//                  );
-//                },
-//              ),
       ]);
     } else {
       allSideBarItems.insert(
@@ -545,18 +499,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   },
                   child: Column(
                     children: <Widget>[
-//                      GestureDetector(
-//                        child: Container(
-//                          color: Colors.red,
-//                          height: 60,
-//                          width: 100,
-//                          child: Text('asdasd'),
-//                        ),
-//                        onTap: ()async {
-//                          await getOrder('b24d27f6-2c70-468c-a234-2509a96deccd');
-//                          //launch("tel://+79187072154");
-//                        },
-//                      ),
                       Expanded(
                         child: ListView(
                           padding: EdgeInsets.zero,
@@ -585,31 +527,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                       ),
                                     ),
                                   ),
-//                          Flexible(
-//                            flex: 5,
-//                            child: Padding(
-//                              padding: EdgeInsets.only(left: 50,),
-//                              child: GestureDetector(
-//                                  child: Text(
-//                                    'Указать адрес доставки',
-//                                    style: TextStyle(
-//                                        color: Colors.redAccent,
-//                                        decoration: TextDecoration.underline,
-//                                        fontSize: 14
-//                                    ),
-//                                  )
-//                              ),
-//                            ),
-//                          ),
-//                          Flexible(
-//                            flex: 2,
-//                            child: Padding(
-//                              padding: EdgeInsets.only(left: 50),
-//                              child: GestureDetector(
-//                                child: SvgPicture.asset('assets/svg_images/search.svg')
-//                              ),
-//                            ),
-//                          ),
                                 ],
                               ),
                             ),
@@ -661,7 +578,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 ),
                               ],
                             ),
-                            _buildNearlyRestaurant()
+                            _buildRestaurantsList()
                           ],
                         ),
                       ),
@@ -845,7 +762,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
     ];
     var in_the_way = ['on_the_way'];
     var take = ['order_payment'];
-    //return Text('Ваш заказ из ' + (ordersStoryModelItem.store != null ? ordersStoryModelItem.store.name : 'Пусто'),);
+
     if (!OrderChecking.state_array.contains(ordersStoryModelItem.state)) {
       return Container();
     }
@@ -1424,37 +1341,6 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                                                 ),
                                               ),
                                             ),
-//                            decoration: InputDecoration(
-//                              suffix: GestureDetector(
-//                                child: SvgPicture.asset(
-//                                    'assets/svg_images/send_message.svg'),
-//                                onTap: () async {
-//                                  if (await Internet.checkConnection()) {
-//                                    var message = await Chat.sendMessage(
-//                                        order_uuid, messageField.text, 'driver');
-//                                    chatMessagesStates.forEach((key, value) {
-//                                      print(
-//                                          key + ' ' + value.currentState.toString());
-//                                    });
-//                                    messageField.clear();
-//                                    setState(() {
-//                                      GlobalKey<ChatMessageScreenState>
-//                                      chatMessageScreenStateKey =
-//                                      new GlobalKey<ChatMessageScreenState>();
-//                                      chatMessagesStates[message.uuid] =
-//                                          chatMessageScreenStateKey;
-//                                      chatMessageList.insert(
-//                                          0,
-//                                          new ChatMessageScreen(
-//                                              key: chatMessageScreenStateKey,
-//                                              chatMessage: message));
-//                                    });
-//                                  } else {
-//                                    noConnection(context);
-//                                  }
-//                                },
-//                              ),
-//                            ),
                                           ),
                                         )
                                     )
@@ -1499,46 +1385,6 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                               ],
                             ),
                           ),
-//                  Padding(
-//                    padding: EdgeInsets.only(top: 60, bottom: 20, right: 15, left: 15),
-//                    child: Container(
-//                      height: 40,
-//                      child: TextField(
-//                        controller: messageField,
-//                        decoration: InputDecoration(
-//                          suffix: GestureDetector(
-//                            child: SvgPicture.asset(
-//                                'assets/svg_images/send_message.svg'),
-//                            onTap: () async {
-//                              if (await Internet.checkConnection()) {
-//                                var message = await Chat.sendMessage(
-//                                    order_uuid, messageField.text, 'driver');
-//                                chatMessagesStates.forEach((key, value) {
-//                                  print(
-//                                      key + ' ' + value.currentState.toString());
-//                                });
-//                                messageField.clear();
-//                                setState(() {
-//                                  GlobalKey<ChatMessageScreenState>
-//                                  chatMessageScreenStateKey =
-//                                  new GlobalKey<ChatMessageScreenState>();
-//                                  chatMessagesStates[message.uuid] =
-//                                      chatMessageScreenStateKey;
-//                                  chatMessageList.insert(
-//                                      0,
-//                                      new ChatMessageScreen(
-//                                          key: chatMessageScreenStateKey,
-//                                          chatMessage: message));
-//                                });
-//                              } else {
-//                                noConnection(context);
-//                              }
-//                            },
-//                          ),
-//                        ),
-//                      ),
-//                    ),
-//                  )
                         ],
                       )
                     ],
@@ -1572,18 +1418,6 @@ class ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
             chatMessageList.add(new ChatMessageScreen(
                 chatMessage: element, key: chatMessageScreenStateKey));
           });
-//          GlobalKey<ChatMessageScreenState> chatMessageScreenStateKey =
-//              new GlobalKey<ChatMessageScreenState>();
-          //chatMessagesStates['123'] = chatMessageScreenStateKey;
-//          chatMessageList.add(new ChatMessageScreen(
-//              key: chatMessageScreenStateKey,
-//              chatMessage: new ChatMessage(
-//                  message: 'halo',
-//                  ack: false,
-//                  uuid: '123',
-//                  from: 'driver',
-//                  to: 'client')
-//          ));
           return buildChat();
         } else {
           return Center(

@@ -35,20 +35,3 @@ class DeviceIdScreen extends StatelessWidget {
     );
   }
 }
-
-class ara extends StatelessWidget {
-  Widget build(BuildContext context) {
-    print('ZAEBALI');
-    return GestureDetector(
-      child: Text('sdfsdf'),
-      onTap: () {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-            builder: (context) => new DeviceIdScreen(),
-          ),
-        );
-      },
-    );
-  }
-}

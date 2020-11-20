@@ -466,71 +466,11 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                       ],
                     ),
-//                    Padding(
-//                      padding: EdgeInsets.only(top: 10, bottom: 5),
-//                      child: Container(
-//                        color: Color(0xFFF5F5F5),
-//                        height: 10,
-//                        width: MediaQuery.of(context).size.width,
-//                      ),
-//                    ),
-//                    Padding(
-//                        padding: EdgeInsets.only(left: 15, top: 10, bottom: 10, right: 15),
-//                        child: Row(
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            Text(
-//                              "Доставка еды",
-//                              style: TextStyle(
-//                                  fontWeight: FontWeight.bold,
-//                                  color: Color(0xFF000000),
-//                                  fontSize: 14),
-//                            ),
-//                            Padding(
-//                              padding: EdgeInsets.only(),
-//                              child: Text(
-//                                "134 Р",
-//                                style: TextStyle(
-//                                    color: Color(0xFFB0B0B0), fontSize: 14),
-//                              ),
-//                            ),
-//                          ],
-//                        )
-//                    ),
                     Container(
                       color: Color(0xFFF5F5F5),
                       height: 10,
                       width: MediaQuery.of(context).size.width,
                     ),
-//                    Container(
-//                      child: Column(
-//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                        children: <Widget>[
-////                          Row(
-////                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-////                            children: <Widget>[
-////                              Padding(
-////                                padding: EdgeInsets.only(
-////                                    left: 15, top: 5, bottom: 5),
-////                                child: Text(
-////                                  "Закажите еще на 1000 Р. для бесплатной\nдоставки",
-////                                  style: TextStyle(
-////                                      color: Color(0xFF000000), fontSize: 12),
-////                                ),
-////                              ),
-////                              Padding(
-////                                padding: EdgeInsets.only(right: 15, bottom: 10),
-////                                child: Text(
-////                                  "134 Р",
-////                                  style: TextStyle(
-////                                      color: Color(0xFFB0B0B0), fontSize: 14),
-////                                ),
-////                              ),
-////                            ],
-////                          ),
-//                        ],
-//                      ),
-//                    ),
                   ],
                 ),
               ),
