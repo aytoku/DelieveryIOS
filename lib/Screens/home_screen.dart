@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/GetData/centrifugo.dart';
 import 'package:flutter_app/GetData/getImage.dart';
 import 'package:flutter_app/GetData/getOrder.dart';
 import 'package:flutter_app/GetData/getTicketByFilter.dart';
@@ -17,7 +19,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/ChatHistoryModel.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_app/models/QuickMessagesModel.dart';
-import 'package:flutter_app/models/TicketModel.dart';
+import 'package:flutter_app/models/centrifugo.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,8 +27,6 @@ import 'auth_screen.dart';
 import 'infromation_screen.dart';
 import 'my_addresses_screen.dart';
 import 'orders_story_screen.dart';
-import 'payments_methods_screen.dart';
-import 'payments_methods_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen() : super(key: homeScreenKey);
@@ -46,6 +46,9 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonState>();
   bool _color;
   int records_count = -1;
+  Amplitude analytics;
+  String _message = '';
+  final String apiKey = 'e0a9f43456e45fc41f68e3d8a149d18d';
 
   @override
   void initState() {
@@ -56,6 +59,21 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitDown,
     ]);
     _color = true;
+    analytics = Amplitude.getInstance(instanceName: "Faem Eda");
+    analytics.setServerUrl("https://api2.amplitude.com");
+    analytics.init(apiKey);
+    analytics.enableCoppaControl();
+    analytics.setUserId("faem_eda_id");
+    analytics.trackingSessionEvents(true);
+    analytics.logEvent('App_started', eventProperties: {
+      'timestamp': DateTime.now(),
+    });
+    Map<String, dynamic> userProps = {
+      'phone': currentUser.phone,
+    };
+
+    analytics.setUserProperties(userProps);
+    analytics.uploadEvents();
   }
 
   @override
@@ -530,6 +548,13 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 ],
                               ),
                             ),
+//                            FlatButton(
+//                                onPressed: () async {
+//                                  print(authCodeData.client_uuid);
+//                                  await Centrifugo.connectToServer();
+//                                },
+//                                child: Text('VAH')
+//                            ),
                             FutureBuilder<List<OrderChecking>>(
                               future: OrderChecking.getActiveOrder(),
                               builder: (BuildContext context,

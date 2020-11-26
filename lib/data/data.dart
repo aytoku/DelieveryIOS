@@ -9,6 +9,7 @@ import 'package:flutter_app/models/AuthCode.dart';
 import 'package:flutter_app/models/RestaurantDataItems.dart';
 import 'package:flutter_app/models/user.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:centrifuge/centrifuge.dart' as centrifuge;
 
 Map<String,GlobalKey<OrderCheckingState>> orderCheckingStates = new Map<String,GlobalKey<OrderCheckingState>>();
 Map<String,GlobalKey<ChatMessageScreenState>> chatMessagesStates = new Map<String,GlobalKey<ChatMessageScreenState>>();

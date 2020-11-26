@@ -23,11 +23,9 @@ class _CartScreenState extends State<CartScreen> {
   String price;
   String discount;
   final Records restaurant;
-  GlobalKey<FormState> _foodItemFormKey = GlobalKey();
   GlobalKey<ScaffoldState> _scaffoldStateKey = GlobalKey();
   double total;
   bool delete = false;
-  //int deliveryPrice = 134;
 
   _CartScreenState(this.restaurant);
 
@@ -168,16 +166,13 @@ class _CartScreenState extends State<CartScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 0),
-                            child: Text(
-                              order.food.name,
-                              style: TextStyle(
-                                  decoration: TextDecoration.none,
-                                  fontSize: 14.0,
-                                  color: Color(0xFF000000)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            order.food.name,
+                            style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 14.0,
+                                color: Color(0xFF000000)),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           (order.food.variants != null)
                               ? Text(
@@ -194,19 +189,15 @@ class _CartScreenState extends State<CartScreen> {
                                 order.food.toppings.length,
                                     (index) => Align(
                                   alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding:
-                                    EdgeInsets.only(bottom: 0),
-                                    child: Text(
-                                      order.food.toppings[index]
-                                          .name,
-                                      style: TextStyle(
-                                          decoration:
-                                          TextDecoration.none,
-                                          fontSize: 10.0,
-                                          color: Color(0xFF000000)),
-                                      textAlign: TextAlign.start,
-                                    ),
+                                  child: Text(
+                                    order.food.toppings[index]
+                                        .name,
+                                    style: TextStyle(
+                                        decoration:
+                                        TextDecoration.none,
+                                        fontSize: 10.0,
+                                        color: Color(0xFF000000)),
+                                    textAlign: TextAlign.start,
                                   ),
                                 )),
                           )
@@ -223,16 +214,13 @@ class _CartScreenState extends State<CartScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(top: 0),
-                            child: Text(
-                              order.food.name,
-                              style: TextStyle(
-                                  decoration: TextDecoration.none,
-                                  fontSize: 14.0,
-                                  color: Color(0xFF000000)),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            order.food.name,
+                            style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 14.0,
+                                color: Color(0xFF000000)),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           (order.food.variants != null)
                               ? Text(
@@ -249,19 +237,15 @@ class _CartScreenState extends State<CartScreen> {
                                 order.food.toppings.length,
                                     (index) => Align(
                                   alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding:
-                                    EdgeInsets.only(bottom: 0),
-                                    child: Text(
-                                      order.food.toppings[index]
-                                          .name,
-                                      style: TextStyle(
-                                          decoration:
-                                          TextDecoration.none,
-                                          fontSize: 10.0,
-                                          color: Color(0xFF000000)),
-                                      textAlign: TextAlign.start,
-                                    ),
+                                  child: Text(
+                                    order.food.toppings[index]
+                                        .name,
+                                    style: TextStyle(
+                                        decoration:
+                                        TextDecoration.none,
+                                        fontSize: 10.0,
+                                        color: Color(0xFF000000)),
+                                    textAlign: TextAlign.start,
                                   ),
                                 )),
                           )
@@ -275,7 +259,7 @@ class _CartScreenState extends State<CartScreen> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: EdgeInsets.only(right: 15, top: 0),
+                    padding: EdgeInsets.only(right: 15),
                     child: Text('${(order.food.variants != null && order.food.variants.length > 0 && order.food.variants[0].price != null) ?
                     (order.quantity * (order.food.price + order.food.variants[0].price) + toppingsCost).toStringAsFixed(0) :
                     (order.quantity * order.food.price + toppingsCost).toStringAsFixed(0)} \₽',
@@ -402,7 +386,6 @@ class _CartScreenState extends State<CartScreen> {
           }
         }
     );
-    Order bloc;
     return new Scaffold(
       key: _scaffoldStateKey,
       body: Container(
@@ -410,69 +393,53 @@ class _CartScreenState extends State<CartScreen> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Column(
+                padding: const EdgeInsets.only(top: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Flexible(
-                          flex: 0,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0),
-                            child: InkWell(
-                                onTap: () => Navigator.pop(context),
-                                child: Container(
-                                    height: 40,
-                                    width: 60,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 12, bottom: 12, right: 25),
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/arrow_left.svg'),
-                                    ))),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 0,
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 20),
-                            child: Text(
-                              restaurant.name,
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF3F3F3F)),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 0,
-                          child: Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(5))),
-                                  child: GestureDetector(
-                                    child: SvgPicture.asset(
-                                        'assets/svg_images/delete.svg'),
-                                    onTap: () {
-                                      showAlertDialog(context);
-                                    },
-                                  ))),
-                        ),
-                      ],
+                    InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                            height: 40,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 25),
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            ))),
+                    Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Text(
+                        restaurant.name,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF3F3F3F)),
+                      ),
                     ),
-                    Container(
-                      color: Color(0xFFF5F5F5),
-                      height: 10,
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                    Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(5))),
+                            child: GestureDetector(
+                              child: SvgPicture.asset(
+                                  'assets/svg_images/delete.svg'),
+                              onTap: () {
+                                showAlertDialog(context);
+                              },
+                            ))),
                   ],
                 ),
+              ),
+              Container(
+                color: Color(0xFFF5F5F5),
+                height: 10,
+                width: MediaQuery.of(context).size.width,
               ),
               _buildList(),
               Align(
@@ -648,31 +615,28 @@ class CounterState extends State<Counter> {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(right: 0),
-            child: InkWell(
-                onTap: () {
-                  setState(() {
-                    _incrementCounter_plus();
-                  });
-                },
-                child: Container(
-                  width: 20,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '+',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
+          InkWell(
+              onTap: () {
+                setState(() {
+                  _incrementCounter_plus();
+                });
+              },
+              child: Container(
+                width: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Center(
+                  child: Text(
+                    '+',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
                     ),
                   ),
-                )
-            ),
-          )
+                ),
+              )
+          ),
         ]),
       ),
     );
@@ -713,57 +677,48 @@ class EmptyCartScreenState extends State<EmptyCartScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Flexible(
-                        flex: 0,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: InkWell(
-                            onTap: () {
-                              homeScreenKey = new GlobalKey<HomeScreenState>();
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                                      (Route<dynamic> route) => false);
-                            },
-                            child: Padding(
-                                padding: EdgeInsets.only(right: 0),
-                                child: Container(
-                                    width: 40,
-                                    height: 60,
-                                    child: Center(
-                                      child: SvgPicture.asset(
-                                          'assets/svg_images/arrow_left.svg'),
-                                    ))),
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: InkWell(
+                          onTap: () {
+                            homeScreenKey = new GlobalKey<HomeScreenState>();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (context) => HomeScreen()),
+                                    (Route<dynamic> route) => false);
+                          },
+                          child: Padding(
+                              padding: EdgeInsets.only(right: 0),
+                              child: Container(
+                                  width: 40,
+                                  height: 60,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  ))),
                         ),
                       ),
-                      Flexible(
-                        flex: 0,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 0),
-                          child: Text(
-                            'Корзина',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF000000)),
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 0),
+                        child: Text(
+                          'Корзина',
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF000000)),
                         ),
                       ),
-                      Flexible(
-                        flex: 0,
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 10),
-                            child: Container(
-                                height: 30,
-                                width: 30,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                                child: GestureDetector(
-                                  child: SvgPicture.asset(
-                                      'assets/svg_images/delete.svg'),
-                                ))),
-                      ),
+                      Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(5))),
+                              child: GestureDetector(
+                                child: SvgPicture.asset(
+                                    'assets/svg_images/delete.svg'),
+                              ))),
                     ],
                   ),
                 ),

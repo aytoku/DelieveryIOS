@@ -6,6 +6,7 @@ import 'package:flutter_app/PostData/auth_code_data_pass.dart';
 import 'package:flutter_app/PostData/auth_data_pass.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/Auth.dart';
+import 'package:flutter_app/models/centrifugo.dart';
 import 'package:flutter_app/models/firebase_notification_handler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
@@ -339,7 +340,8 @@ class _CodeScreenState extends State<CodeScreen> {
                                       necessaryDataForAuth.refresh_token =
                                           authCodeData.refresh_token;
                                       NecessaryDataForAuth.saveData();
-                                      await new FirebaseNotifications().setUpFirebase();
+//                                      await new FirebaseNotifications().setUpFirebase();
+                                      await Centrifugo.connectToServer();
                                       if(necessaryDataForAuth.name == null){
                                         Navigator.push(
                                           context,

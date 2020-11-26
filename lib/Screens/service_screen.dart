@@ -220,7 +220,6 @@ class ServiceScreenState extends State<ServiceScreen> {
                   ],
                 ),
               ),
-//              Text(DateFormat.yMMMd().format(snapshot.data.records[index].createdAtUnix * 1000)),
               Flexible(
                 flex: 1,
                 child: Column(

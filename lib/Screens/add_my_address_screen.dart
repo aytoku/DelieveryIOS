@@ -35,58 +35,55 @@ class AddMyAddressScreenState extends State<AddMyAddressScreen> {
       resizeToAvoidBottomPadding: false,
       body: Stack(
         children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                InkWell(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                          padding: EdgeInsets.only(top: 30, bottom: 25),
-                          child: Container(
-                              height: 40,
-                              width: 60,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 12, bottom: 12, right: 10),
-                                child:SvgPicture.asset(
-                                    'assets/svg_images/arrow_left.svg'),
-                              )))),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                (myAddressesModel.uuid != null && myAddressesModel.uuid != "") ?
-                GestureDetector(
-                  child: Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 40, right: 15, bottom: 25),
-                        child: Text(
-                          'Удалить',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF424242)),
-                        ),
-                      )),
-                  onTap: () async {
-                    if (await Internet.checkConnection()) {
-                      await myAddressesModel.delete();
-                      Navigator.pushAndRemoveUntil(context,
-                          new MaterialPageRoute(builder: (context) => new MyAddressesScreen()),
-                              (route) => route.isFirst);
-                    } else {
-                      noConnection(context);
-                    }
-                  },
-                )
-                    :
-                Container(height: 0,width: 0)
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              InkWell(
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 30, bottom: 25),
+                        child: Container(
+                            height: 40,
+                            width: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 12, bottom: 12, right: 10),
+                              child:SvgPicture.asset(
+                                  'assets/svg_images/arrow_left.svg'),
+                            )))),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              (myAddressesModel.uuid != null && myAddressesModel.uuid != "") ?
+              GestureDetector(
+                child: Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 40, right: 15, bottom: 25),
+                      child: Text(
+                        'Удалить',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF424242)),
+                      ),
+                    )),
+                onTap: () async {
+                  if (await Internet.checkConnection()) {
+                    await myAddressesModel.delete();
+                    Navigator.pushAndRemoveUntil(context,
+                        new MaterialPageRoute(builder: (context) => new MyAddressesScreen()),
+                            (route) => route.isFirst);
+                  } else {
+                    noConnection(context);
+                  }
+                },
+              )
+                  :
+              Container(height: 0,width: 0)
+            ],
           ),
           Align(
               alignment: Alignment.topLeft,

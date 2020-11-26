@@ -136,17 +136,16 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                           Align(
                             alignment: Alignment.topLeft,
                             child: InkWell(
-                              child: Padding(
-                                  padding: EdgeInsets.only(left: 0, top: 0),
-                                  child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 10),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg'),
-                                      ))),
+                              child: Container(
+                                  height: 40,
+                                  width: 60,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 12, bottom: 12, right: 10),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  )
+                              ),
                               onTap: () {
                                 Navigator.pop(context);
                               },

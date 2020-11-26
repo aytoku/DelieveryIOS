@@ -104,13 +104,10 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                           ),
                         ],
                       )),
-                  Padding(
-                    padding: EdgeInsets.only(top: 0),
-                    child: Divider(
-                      color: Color(0xFFEDEDED),
-                      height: 1,
-                      thickness: 1,
-                    ),
+                  Divider(
+                    color: Color(0xFFEDEDED),
+                    height: 1,
+                    thickness: 1,
                   ),
                 ],
               ),
@@ -147,17 +144,17 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                         InkWell(
                           child: Align(
                               alignment: Alignment.topLeft,
-                              child: Padding(
-                                  padding: EdgeInsets.only(top: 0, bottom: 0),
-                                  child: Container(
-                                      height: 40,
-                                      width: 60,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 10),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/arrow_left.svg'),
-                                      )))),
+                              child: Container(
+                                  height: 40,
+                                  width: 60,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 12, bottom: 12, right: 10),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/arrow_left.svg'),
+                                  )
+                              )
+                          ),
                           onTap: () {
                             homeScreenKey = new GlobalKey<HomeScreenState>();
                             Navigator.of(context).pushAndRemoveUntil(
@@ -169,18 +166,17 @@ class MyAddressesScreenState extends State<MyAddressesScreen> {
                         InkWell(
                           child: Align(
                               alignment: Alignment.topRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(right: 0, top: 0),
-                                child: Container(
-                                    height: 40,
-                                    width: 60,
-                                    child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 12, bottom: 12, right: 15),
-                                        child: SvgPicture.asset(
-                                            'assets/svg_images/plus.svg')
-                                    )),
-                              )),
+                              child: Container(
+                                  height: 40,
+                                  width: 60,
+                                  child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 12, bottom: 12, right: 15),
+                                      child: SvgPicture.asset(
+                                          'assets/svg_images/plus.svg')
+                                  )
+                              ),
+                          ),
                           onTap: () async {
                             if (await Internet.checkConnection()) {
                               setState(() {

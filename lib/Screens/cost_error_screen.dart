@@ -117,12 +117,9 @@ class CostErrorScreenState extends State<CostErrorScreen> {
                           children: <Widget>[
                             Flexible(
                               flex: 1,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 0, top: 0),
-                                child: Text(
-                                  'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе',
-                                  style: TextStyle(color: Color(0xFF424242), fontSize: 14),
-                                ),
+                              child: Text(
+                                'Вы можете написать подробный комментарий\nо доставке или сообщить какую-либо\nинформацию о заказе',
+                                style: TextStyle(color: Color(0xFF424242), fontSize: 14),
                               ),
                             ),
                             Flexible(
