@@ -5,6 +5,7 @@ import 'package:flutter_app/PostData/restaurant_items_data_pass.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/ResponseData.dart';
 import 'package:flutter_app/models/RestaurantDataItems.dart';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:flutter_app/models/food.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -256,6 +257,10 @@ class RestaurantScreenState extends State<RestaurantScreen> {
   @override
   void initState() {
     super.initState();
+
+    AmplitudeAnalytics.analytics.logEvent('open_restaurant', eventProperties: {
+      'uuid': restaurant.uuid,
+    });
     // Инициализируем список категорий
     categoryList = new CategoryList(key: new GlobalKey<CategoryListState>(), restaurant: restaurant, parent: this);
     int offset = 21;
@@ -1479,6 +1484,10 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
     GlobalKey<PriceFieldState> priceFieldKey =
     new GlobalKey<PriceFieldState>();
 
+    AmplitudeAnalytics.analytics.logEvent('open_product', eventProperties: {
+      'uuid': restaurantDataItems.uuid
+    });
+
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -1715,6 +1724,9 @@ class MenuItemState extends State<MenuItem> with AutomaticKeepAliveClientMixin{
                                   cartItemsQuantityKey.currentState.refresh();
                                   parent.counterKey.currentState.refresh();
                                 }
+                                AmplitudeAnalytics.analytics.logEvent('add_to_cart', eventProperties: {
+                                  'uuid': restaurantDataItems.uuid
+                                });
                               } else {
                                 noConnection(context);
                               }

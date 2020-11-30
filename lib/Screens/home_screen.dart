@@ -44,10 +44,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   String category;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonState>();
-  bool _color;
   int records_count = -1;
   Amplitude analytics;
-  String _message = '';
   final String apiKey = 'e0a9f43456e45fc41f68e3d8a149d18d';
 
   @override
@@ -58,22 +56,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    _color = true;
-    analytics = Amplitude.getInstance(instanceName: "Faem Eda");
-    analytics.setServerUrl("https://api2.amplitude.com");
-    analytics.init(apiKey);
-    analytics.enableCoppaControl();
-    analytics.setUserId("faem_eda_id");
-    analytics.trackingSessionEvents(true);
-    analytics.logEvent('App_started', eventProperties: {
-      'timestamp': DateTime.now(),
-    });
-    Map<String, dynamic> userProps = {
-      'phone': currentUser.phone,
-    };
-
-    analytics.setUserProperties(userProps);
-    analytics.uploadEvents();
   }
 
   @override
@@ -794,6 +776,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
     print('ALO RABOTAI SUKA' + '' + ordersStoryModelItem.own_delivery.toString());
     print(ordersStoryModelItem.state);
     return Container(
+      width: 320,
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         decoration: BoxDecoration(
             boxShadow: [
@@ -810,6 +793,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
           children: <Widget>[
             Expanded(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Align(
                     alignment: Alignment.centerLeft,
@@ -877,6 +861,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
               child: Padding(
                 padding: EdgeInsets.only(left: 5, right: 10, bottom: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(right: 5),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/ResponseData.dart';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:flutter_app/models/order.dart';
 import 'package:flutter_svg/svg.dart';
 import 'address_screen.dart';
@@ -65,6 +66,9 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
               onDismissed: (direction) {
+                AmplitudeAnalytics.analytics.logEvent('remove_from_cart ', eventProperties: {
+                  'uuid': currentUser.cartDataModel.cart[index].food.uuid
+                });
                 setState(() {
                   currentUser.cartDataModel.cart.removeAt(index);
                   currentUser.cartDataModel.saveData();
@@ -327,6 +331,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       onTap: () {
                         setState(() {
+                          AmplitudeAnalytics.analytics.logEvent('remove_from_cart_all');
                           currentUser.cartDataModel.cart.clear();
                           currentUser.cartDataModel.saveData();
                         });

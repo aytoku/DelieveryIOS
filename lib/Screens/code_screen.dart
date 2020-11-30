@@ -6,6 +6,7 @@ import 'package:flutter_app/PostData/auth_code_data_pass.dart';
 import 'package:flutter_app/PostData/auth_data_pass.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/Auth.dart';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:flutter_app/models/centrifugo.dart';
 import 'package:flutter_app/models/firebase_notification_handler.dart';
 import 'package:flutter_svg/svg.dart';
@@ -335,6 +336,8 @@ class _CodeScreenState extends State<CodeScreen> {
                                         necessaryDataForAuth.device_id,
                                         int.parse(temp));
                                     if (authCodeData != null) {
+                                      await AmplitudeAnalytics.analytics.setUserId(currentUser.phone);
+                                      AmplitudeAnalytics.analytics.logEvent('login');
                                       necessaryDataForAuth.phone_number =
                                           currentUser.phone;
                                       necessaryDataForAuth.refresh_token =

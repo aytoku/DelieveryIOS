@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Config/config.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:async';
 import 'home_screen.dart';
@@ -16,6 +17,11 @@ class NameScreen extends StatefulWidget {
 class NameScreenState extends State<NameScreen> {
   GlobalKey<ButtonState> buttonStateKey = new GlobalKey<ButtonState>();
   TextEditingController nameFieldController = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

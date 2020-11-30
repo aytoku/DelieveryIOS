@@ -23,7 +23,7 @@ class NecessaryDataForAuth{
   });
 
   static Future<NecessaryDataForAuth> getData() async{
-
+  //    await Future.delayed(Duration(seconds: 4), () {});
     print('Dima OPPAI 3');
     if(_necessaryDataForAuth != null)
       return _necessaryDataForAuth;

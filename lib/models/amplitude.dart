@@ -1,42 +1,22 @@
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:amplitude_flutter/identify.dart';
+import 'package:flutter_app/data/data.dart';
 
-class YourClass {
-  Future<void> exampleForAmplitude() async {
-    // Create the instance
-    final Amplitude analytics = Amplitude.getInstance(instanceName: "project");
+class AmplitudeAnalytics{
 
-    // Initialize SDK
-    //analytics.init(widget.apiKey);
+  static Amplitude analytics;
+  static String apiKey = 'e0a9f43456e45fc41f68e3d8a149d18d';
 
-    // Enable COPPA privacy guard. This is useful when you choose not to report sensitive user information.
+  static  Future<Amplitude> initialize(String user_id) async {
+
+
+    analytics = Amplitude.getInstance(instanceName: "Faem Eda");
+    analytics.setServerUrl("https://api2.amplitude.com");
+    analytics.init(apiKey);
     analytics.enableCoppaControl();
-
-    // Set user Id
-    analytics.setUserId("test_user");
-
-    // Turn on automatic session events
+    await analytics.setUserId(user_id);
     analytics.trackingSessionEvents(true);
 
-    // Log an event
-    analytics.logEvent('MyApp startup', eventProperties: {
-      'friend_num': 10,
-      'is_heavy_user': true
-    });
-
-    // Identify
-    final Identify identify1 = Identify()
-      ..set('identify_test',
-          'identify sent at ${DateTime.now().millisecondsSinceEpoch}')
-      ..add('identify_count', 1);
-    analytics.identify(identify1);
-
-    // Set group
-    analytics.setGroup('orgId', 15);
-
-    // Group identify
-    final Identify identify2 = Identify()
-      ..set('identify_count', 1);
-    analytics.groupIdentify('orgId', '15', identify2);
+    return analytics;
   }
 }

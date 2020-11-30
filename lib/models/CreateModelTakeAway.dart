@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -45,6 +46,7 @@ class CreateOrderTakeAway {
 
   Future sendData() async {
     await sendRefreshToken();
+    AmplitudeAnalytics.analytics.logEvent('make_order');
     print(authCodeData.token);
     var url = 'https://client.apis.stage.faem.pro/api/v2/orders';
     var response = await http.post(url, body: jsonEncode({

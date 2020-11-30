@@ -48,7 +48,6 @@ class Centrifugo{
   }
 
   static Future<void> OrderCheckingUpdater(String order_uuid, String order_state) async {
-    print('vnature' + homeScreenKey.currentState.toString());
     if(homeScreenKey.currentState != null && homeScreenKey.currentState.orderList != null
         && !DeliveryStates.contains(order_state)){
       homeScreenKey.currentState.orderList.removeWhere((element) => element.ordersStoryModelItem.uuid == order_uuid);
@@ -81,19 +80,15 @@ class Centrifugo{
     //ios fix
     print(message);
     if(!message.containsKey('data') && (message.containsKey('payload') || message.containsKey('tag'))){
-      print('arturia saber');
       message['data'] = new Map<String, dynamic>();
       if(message.containsKey('payload')){
         message['data']['payload'] = message['payload'];
-        print('arturia lancer');
       }
       if(message.containsKey('tag')){
         message['data']['tag'] = message['tag'];
-        print('arturia kartyojnik');
       }
       if(message.containsKey('notification_message')){
         message['data']['notification_message'] = message['notification_message'];
-        print('arturia gopnik');
       }
     }
     print(message);
@@ -107,7 +102,6 @@ class Centrifugo{
             var payload = data['payload'];
             String order_state = payload['state'];
             String order_uuid = payload['order_uuid'];
-            print('containwsadsfsdfgsdfg');
             OrderCheckingUpdater(order_uuid, order_state);
             break;
 
@@ -137,7 +131,6 @@ class Centrifugo{
                   // ignore: invalid_use_of_protected_member
                   if(chatMessagesStates[element].currentState != null) {
                     chatMessagesStates[element].currentState.setState(() {
-                      print('uznovaemi ' + element);
                       chatMessagesStates[element].currentState.chatMessage.ack = true;
                     });
                   } else {

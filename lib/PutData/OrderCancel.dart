@@ -1,11 +1,13 @@
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/CreateOrderModel.dart';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 
 Future<void> loadOrderCancel(String client_order_uuid) async {
   await CreateOrder.sendRefreshToken();
+  AmplitudeAnalytics.analytics.logEvent('cancel_order');
   var url = 'https://client.apis.stage.faem.pro/api/v2/orders/cancel/' + client_order_uuid;
   var response = await http.put(url, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',

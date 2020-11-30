@@ -170,6 +170,17 @@ class ServiceOrdersStoryScreenState extends State<ServiceOrdersStoryScreen> {
                       ),
                     ),
                     Divider(height: 1.0, color: Color(0xFFF5F5F5)),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 15, left: 16, bottom: 10),
+                        child: Text('По какому заказу ваше обращение?',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFB9B9B9))),
+                      ),
+                    ),
                     Expanded(
                       child: ListView(
                         children: <Widget>[

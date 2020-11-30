@@ -5,6 +5,7 @@ import 'package:flutter_app/Internet/check_internet.dart';
 import 'package:flutter_app/Screens/code_screen.dart';
 import 'package:flutter_app/Screens/home_screen.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/models/amplitude.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -295,6 +296,7 @@ class ButtonState extends State<Button> {
               else {
                 necessaryDataForAuth.refresh_token = refresh_token_oppai;
                 currentUser.isLoggedIn = true;
+                await AmplitudeAnalytics.analytics.setUserId(necessaryDataForAuth.phone_number);
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (context) => HomeScreen()),
