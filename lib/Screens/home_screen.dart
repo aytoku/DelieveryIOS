@@ -901,7 +901,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 5),
+                      padding: (ordersStoryModelItem.without_delivery) ? EdgeInsets.only(left: 20) : EdgeInsets.only(right: 5),
                       child: Container(
                         height: 70,
                         width: 70,
@@ -1067,7 +1067,7 @@ class OrderCheckingState extends State<OrderChecking> with AutomaticKeepAliveCli
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       child: Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 30, right: 10),
+                        padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
                         child: (in_the_way.contains(ordersStoryModelItem.state)) ? Container(
                           width: 130,
                           decoration: BoxDecoration(
