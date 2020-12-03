@@ -394,13 +394,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+            padding: const EdgeInsets.only(top: 0.0, bottom: 0),
+            child: Divider(color: Color(0xFFEEEEEE), height: 0,),
           ),
           _buildFoodCategoryList(),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+            padding: const EdgeInsets.only(top: 0.0, bottom: 0),
+            child: Divider(color: Color(0xFFEEEEEE), height: 0,),
           ),
           Align(
             alignment: Alignment.center,
@@ -480,13 +480,13 @@ class RestaurantScreenState extends State<RestaurantScreen> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+            padding: const EdgeInsets.only(top: 0.0, bottom: 0),
+            child: Divider(color: Color(0xFFEEEEEE), height: 0,),
           ),
           _buildFoodCategoryList(),
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, bottom: 10),
-            child: Divider(color: Color(0xFFEEEEEE), height: 1,),
+            padding: const EdgeInsets.only(top: 0.0, bottom: 0),
+            child: Divider(color: Color(0xFFEEEEEE), height: 0,),
           ),
           Expanded(
             child: new StaggeredGridView.countBuilder(
@@ -1176,7 +1176,7 @@ class CategoryListState extends State<CategoryList> {
     });
 
     return  Container(
-      height: 50,
+      height: 55,
       child: ListView(
           scrollDirection: Axis.horizontal,
           children: categoryItems
@@ -1244,7 +1244,7 @@ class CategoryListItemState extends State<CategoryListItem> with AutomaticKeepAl
     return GestureDetector(
       child: Padding(
           padding:
-          EdgeInsets.only(left: 11, top: 5, bottom: 5),
+          EdgeInsets.only(left: 11, top: 8, bottom: 8),
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(30)),

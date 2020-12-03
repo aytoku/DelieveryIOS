@@ -8,6 +8,7 @@ import 'package:flutter_app/GetData/getImage.dart';
 import 'package:flutter_app/GetData/getOrder.dart';
 import 'package:flutter_app/GetData/getTicketByFilter.dart';
 import 'package:flutter_app/Internet/check_internet.dart';
+import 'package:flutter_app/PostData/RestarurantCategories.dart';
 import 'package:flutter_app/PostData/chat.dart';
 import 'package:flutter_app/GetData/orders_story_data.dart';
 import 'package:flutter_app/PostData/restaurant_data_pass.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/models/ChatHistoryModel.dart';
 import 'package:flutter_app/models/OrderStoryModel.dart';
 import 'package:flutter_app/models/QuickMessagesModel.dart';
+import 'package:flutter_app/models/RestaurantCategoriesModel.dart';
 import 'package:flutter_app/models/centrifugo.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_app/models/ResponseData.dart';
@@ -41,12 +43,13 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
   int limit = 12;
   bool isLoading = true;
   List<Records> records_items = new List<Records>();
-  String category;
+  String category_uuid = '';
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GlobalKey<BasketButtonState> basketButtonStateKey = new GlobalKey<BasketButtonState>();
   int records_count = -1;
   Amplitude analytics;
   final String apiKey = 'e0a9f43456e45fc41f68e3d8a149d18d';
+  RestaurantCategories restaurantCategories;
 
   @override
   void initState() {
@@ -449,6 +452,119 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
     return allSideBarItems;
   }
 
+  List<Widget> _buildRestaurantCategoriesList(List<Record> categories){
+    List<Widget> result = new List<Widget>();
+    result.add(GestureDetector(
+      child: Padding(
+          padding:
+          EdgeInsets.only(left: 10, right: 5, top: 8, bottom: 8),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                color: ('' != category_uuid)
+                    ? Color(0xFFF6F6F6)
+                    : Color(0xFFFE534F)),
+            child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15),
+                child: Center(
+                  child: Text(
+                    "Все",
+                    style: TextStyle(
+                        color: ('' !=
+                            category_uuid)
+                            ? Color(0xFF424242)
+                            : Colors.white,
+                        fontSize: 15),
+                  ),
+                )),
+          )),
+      onTap: () async {
+        if (await Internet.checkConnection()) {
+          setState(() {
+            isLoading = true;
+            page = 1;
+            category_uuid = '';
+          });
+        } else {
+          noConnection(context);
+        }
+      },
+    ));
+    categories.forEach((element) {
+      result.add(GestureDetector(
+        child: Padding(
+            padding:
+            EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 8),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  color: (element.uuid != category_uuid)
+                      ? Color(0xFFF6F6F6)
+                      : Color(0xFFFE534F)),
+              child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: Center(
+                    child: Text(
+                      element.name[0].toUpperCase() + element.name.substring(1),
+                      style: TextStyle(
+                          color: (element.uuid !=
+                              category_uuid)
+                              ? Color(0xFF424242)
+                              : Colors.white,
+                          fontSize: 15),
+                    ),
+                  )),
+            )),
+        onTap: () async {
+          if (await Internet.checkConnection()) {
+            setState(() {
+              isLoading = true;
+              page = 1;
+              category_uuid = (element.uuid == category_uuid) ? '' : element.uuid;
+            });
+          } else {
+            noConnection(context);
+          }
+        },
+      ));
+    });
+    return result;
+  }
+
+  _buildRestaurantCategories(){
+    if(restaurantCategories != null){
+      return Container(
+        height: 55,
+        child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: _buildRestaurantCategoriesList(restaurantCategories.records)
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: 0.0),
+      child: Container(
+        height: 55,
+        child: FutureBuilder<RestaurantCategories>(
+          future: loadRestaurantCategories(1, 12),
+          initialData: null,
+          builder: (BuildContext context, AsyncSnapshot<RestaurantCategories> snapshot){
+            if(snapshot.hasData){
+              if(snapshot.connectionState == ConnectionState.done){
+                restaurantCategories = snapshot.data;
+                return ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: _buildRestaurantCategoriesList(restaurantCategories.records)
+                );
+              }
+            }
+            return Container(height: 0);
+          },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -463,7 +579,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
           ),
         ),
         body: FutureBuilder<DeliveryResponseData>(
-            future: loadRestaurant(page, limit),
+            future: loadRestaurant(page, limit, category_uuid),
             initialData: null,
             builder: (BuildContext context,
                 AsyncSnapshot<DeliveryResponseData> snapshot) {
@@ -473,13 +589,15 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   records_count = snapshot.data.records_count;
                   this.records_items.clear();
                 }
-                if (snapshot.data.records_count == 0) {
-                  return Center(
-                    child: Text('Нет товаров данной категории'),
-                  );
-                }
+//                if (snapshot.data.records_count == 0) {
+//                  return Center(
+//                    child: Text('Нет товаров данной категории'),
+//                  );
+//                }
                 if (snapshot.connectionState == ConnectionState.done) {
-                  records_items.addAll(snapshot.data.records);
+                  if(snapshot.data.records != null){
+                    records_items.addAll(snapshot.data.records);
+                  }
                   isLoading = false;
                 }
                 return NotificationListener<ScrollNotification>(
@@ -499,37 +617,42 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                   },
                   child: Column(
                     children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 5, top: 30),
+                          child: InkWell(
+                            child: Container(
+                                height: 40,
+                                width: 60,
+                                child: Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 20, bottom: 4, left: 5),
+                                    child: SvgPicture.asset(
+                                        'assets/svg_images/menu.svg')
+                                )),
+                            onTap: () {
+                              _scaffoldKey.currentState.openDrawer();
+                            },
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0,
+                        color: Color(0xFFEEEEEE),
+                      ),
+                      Container(
+                        child: _buildRestaurantCategories(),
+                      ),
+                      Divider(
+                        height: 0,
+                        color: Color(0xFFEEEEEE),
+                      ),
                       Expanded(
                         child: ListView(
                           padding: EdgeInsets.zero,
                           children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(top: 30, bottom: 0, left: 0),
-                              child: Row(
-                                children: <Widget>[
-                                  Flexible(
-                                    flex: 0,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(left: 0),
-                                      child: InkWell(
-                                        child: Container(
-                                            height: 40,
-                                            width: 60,
-                                            child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 20, bottom: 4, left: 10),
-                                                child: SvgPicture.asset(
-                                                    'assets/svg_images/menu.svg')
-                                            )),
-                                        onTap: () {
-                                          _scaffoldKey.currentState.openDrawer();
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
 //                            FlatButton(
 //                                onPressed: () async {
 //                                  print(authCodeData.client_uuid);
@@ -566,6 +689,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 }
                               },
                             ),
+
                             SizedBox(
                               height: 10,
                             ),
@@ -585,7 +709,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver{
                                 ),
                               ],
                             ),
-                            _buildRestaurantsList()
+                            (records_items.isEmpty && !isLoading) ?  Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 150),
+                                child: Text('Нет товаров данной категории'),
+                              ),
+                            ) : _buildRestaurantsList()
                           ],
                         ),
                       ),
